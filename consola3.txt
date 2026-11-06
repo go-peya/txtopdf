@@ -1,3 +1,56 @@
+PS C:\Users\sant1> Write-Host "`n=== 1. API KEYS ==="
+
+=== 1. API KEYS ===
+PS C:\Users\sant1> omniroute keys list
+  📋 Loaded env from C:\Users\sant1\.omniroute\.env
+  📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
+  ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
+
+API Keys
+
+  cloudflare-ai        cfut_H***3793          ● enabled
+  gemini               AQ.Ab8***K-BQ          ● enabled
+  groq                 gsk_eD***81tG          ● enabled
+  openrouter           sk-or-***d7ed          ● enabled
+
+4 key(s).
+PS C:\Users\sant1>
+
+
+},
+        "cfp/qwen/qwq-32b": {
+          "name": "QwQ 32B (Qwen)",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          }
+        },
+        "cfp/deepseek-ai/deepseek-r1-distill-qwen-32b": {
+          "name": "DeepSeek R1 Distill Qwen 32B",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          }
+        },
+        "cfp/google/gemma-4-26b-a4b-it": {
+          "name": "Gemma 4 26B A4B (Google)",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          }
+        },
+        "cfp/mistralai/mistral-small-3.1-24b-instruct": {
+          "name": "Mistral Small 3.1 24B",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 128000,
             "output": 8192
           }
         },
@@ -8986,44 +9039,12 @@
 }
 
 PS C:\Users\sant1>
-PS C:\Users\sant1> Write-Host "`n=== AYUDA DE CONFIGURACION ==="
+PS C:\Users\sant1> Write-Host "`n=== 3. VARIABLES DE AUTENTICACION ==="
 
-=== AYUDA DE CONFIGURACION ===
-PS C:\Users\sant1> omniroute setup-opencode --help
-  📋 Loaded env from C:\Users\sant1\.omniroute\.env
-  📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
-  ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
-Usage: omniroute setup-opencode [options]
-
-Generate the OmniRoute openai-compatible provider in the active OpenCode config from the live model catalog (local or
-remote VPS)
-
-Options:
-  --port <port>            Local OmniRoute port (ignored when --remote is set) (default: "20128")
-  --remote <url>           Remote OmniRoute URL, e.g. http://192.168.0.15:20128
-  --api-key <key>          OmniRoute API key (defaults to OMNIROUTE_API_KEY env var)
-  --model <id>             Set the default top-level model (omniroute/<id>)
-  --only <patterns>        Comma-separated substrings — keep only matching model IDs
-  --dry-run                Print what would be written without touching the filesystem
-  --allow-container-write  Write even when the target is inside a container and not mounted from the host
-  -h, --help               display help for command
-PS C:\Users\sant1>
-PS C:\Users\sant1> Write-Host "`n=== POLITICA DE AUTENTICACION ==="
-
-=== POLITICA DE AUTENTICACION ===
-PS C:\Users\sant1> omniroute keys policy
-  📋 Loaded env from C:\Users\sant1\.omniroute\.env
-  📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
-  ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
-Usage: omniroute keys policy [options] [command]
-
-Key Policy
-
-Options:
-  -h, --help          display help for command
-
-Commands:
-  show <id>           Show rate/cost policy for a key
-  set [options] <id>  Set rate/cost policy for a key
-  help [command]      display help for command
+=== 3. VARIABLES DE AUTENTICACION ===
+PS C:\Users\sant1> Get-ChildItem Env: |
+>>     Where-Object {
+>>         $_.Name -match 'OMNIROUTE|MANAGEMENT'
+>>     } |
+>>     Select-Object -ExpandProperty Name
 PS C:\Users\sant1>
