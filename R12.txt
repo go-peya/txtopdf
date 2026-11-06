@@ -1,0 +1,481 @@
+PS C:\Users\sant1> Write-Host "`n=== CONTEXTOS ACTIVOS ==="
+
+=== CONTEXTOS ACTIVOS ===
+PS C:\Users\sant1>
+PS C:\Users\sant1> omniroute connect --help
+  📋 Loaded env from C:\Users\sant1\.omniroute\.env
+  📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
+  ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
+Usage: omniroute connect [options] <host>
+
+Connect to a remote OmniRoute server and enter remote mode
+
+Options:
+  --port <port>    Server port when the host has none (default: "20128")
+  --key <token>    Use a pre-generated scoped access token (skips the password prompt)
+  --name <name>    Context name to save (default: derived from host)
+  --scope <scope>  Requested scope for the password flow (read|write|admin)
+  -h, --help       display help for command
+PS C:\Users\sant1>
+PS C:\Users\sant1> Write-Host "`n=== CONFIGURACION DE API ==="
+
+=== CONFIGURACION DE API ===
+PS C:\Users\sant1>
+PS C:\Users\sant1> Get-Content "$env:APPDATA\npm\node_modules\omniroute\bin\cli\api.mjs" |
+>>     Select-Object -First 220
+import { setTimeout as sleep } from "node:timers/promises";
+import { getCliToken, CLI_TOKEN_HEADER } from "./utils/cliToken.mjs";
+import { resolveActiveContext, resolveActiveContextAsync } from "./contexts.mjs";
+
+export const RETRY_DEFAULTS = Object.freeze({
+  maxAttempts: 3,
+  baseMs: 500,
+  maxMs: 8000,
+  jitter: true,
+  retryableStatuses: [408, 425, 429, 502, 503, 504],
+  retryableErrorCodes: [
+    "ECONNRESET",
+    "ECONNREFUSED",
+    "ETIMEDOUT",
+    "ENOTFOUND",
+    "EAI_AGAIN",
+    "EPIPE",
+  ],
+});
+
+const NON_RETRYABLE_ON_MUTATION = new Set([409, 422, 429]);
+const MUTATING_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
+
+export function getBaseUrl(opts = {}) {
+  if (opts.baseUrl) return stripTrailingSlash(opts.baseUrl);
+  const envUrl = process.env.OMNIROUTE_BASE_URL;
+  if (envUrl) return stripTrailingSlash(envUrl);
+
+  // Resolve from the active context (canonical store + legacy profile fallback).
+  // This is what makes "remote mode" work: `omniroute contexts use <remote>`
+  // routes every command at the remote server's baseUrl.
+  try {
+    const ctx = resolveActiveContext(opts.context ?? process.env.OMNIROUTE_CONTEXT);
+    if (ctx?.baseUrl) return stripTrailingSlash(ctx.baseUrl);
+  } catch {
+    // Config read failures are not fatal â€” fall through to default.
+  }
+
+  const port = process.env.PORT || "20128";
+  return `http://localhost:${port}`;
+}
+
+function stripTrailingSlash(value) {
+  const s = String(value);
+  let end = s.length;
+  while (end > 0 && s.charCodeAt(end - 1) === 47) end--;
+  return end === s.length ? s : s.slice(0, end);
+}
+
+function resolveUrl(path, opts) {
+  if (/^https?:\/\//i.test(path)) return path;
+  return `${getBaseUrl(opts)}${path.startsWith("/") ? path : `/${path}`}`;
+}
+
+/** The machine-derived token is valid only for the local loopback server. */
+export function isLoopbackUrl(value) {
+  try {
+    const hostname = new URL(value).hostname.replace(/^\[|\]$/g, "").toLowerCase();
+    if (hostname === "localhost" || hostname === "::1") return true;
+    if (/^127(?:\.[0-9]{1,3}){3}$/.test(hostname)) return true;
+    if (/^::ffff:(?:127\.|7f[0-9a-f]{2}:)/i.test(hostname)) return true;
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+export async function buildHeaders(opts) {
+  const headers = new Headers(opts.headers || {});
+  if (!headers.has("accept")) headers.set("accept", "application/json");
+  if (opts.body && !headers.has("content-type") && typeof opts.body !== "string") {
+    headers.set("content-type", "application/json");
+  }
+  // Auth precedence: explicit key â†’ active-context credential â†’ ambient env key.
+  //
+  // The active context's scoped token MUST win over the ambient OMNIROUTE_API_KEY:
+  // `omniroute connect <remote>` saves the context's token, but users keep
+  // OMNIROUTE_API_KEY in their shell. The global `--api-key` option is bound to
+  // that env var (.env("OMNIROUTE_API_KEY")), so commands that spread
+  // `optsWithGlobals()` into apiFetch carry opts.apiKey === the env value. If that
+  // echoed value outranked the context, every remote management command would send
+  // the local inference key and fail with "Invalid management token" â€” defeating
+  // remote mode. So an opts.apiKey that merely mirrors the ambient env var is
+  // treated as ambient (a fallback), NOT as an explicit override; only a DISTINCT
+  // key â€” a real `--api-key <x>` flag or a command-supplied token like
+  // `connect --key` â€” counts as explicit and wins. Within a context the scoped
+  // accessToken wins over the legacy apiKey.
+  const ambientKey = process.env.OMNIROUTE_API_KEY || null;
+  const explicitKey = opts.apiKey && opts.apiKey !== ambientKey ? opts.apiKey : null;
+  let auth = explicitKey;
+  if (!auth) {
+    try {
+      const ctx = await resolveActiveContextAsync(opts.context ?? process.env.OMNIROUTE_CONTEXT);
+      auth = ctx?.accessToken || ctx?.apiKey || null;
+    } catch {
+      // No context credential available â€” fall through to the ambient fallback.
+    }
+  }
+  if (!auth) auth = opts.apiKey || ambientKey || null;
+  if (auth && !headers.has("authorization")) {
+    headers.set("authorization", `Bearer ${auth}`);
+  }
+  // Inject the machine-derived credential only for an explicit local loopback
+  // destination. Remote contexts and absolute remote URLs use scoped access
+  // tokens and must never receive this machine-bound local credential.
+  const destinationUrl = opts.destinationUrl ?? getBaseUrl(opts);
+  if (!isLoopbackUrl(destinationUrl)) {
+    headers.delete(CLI_TOKEN_HEADER);
+  } else {
+    const cliToken = opts.cliToken ?? process.env.OMNIROUTE_CLI_TOKEN ?? (await getCliToken());
+    if (cliToken && !headers.has(CLI_TOKEN_HEADER)) {
+      headers.set(CLI_TOKEN_HEADER, cliToken);
+    }
+  }
+  if (opts.idempotencyKey && !headers.has("idempotency-key")) {
+    headers.set("idempotency-key", opts.idempotencyKey);
+  }
+  return headers;
+}
+
+function serializeBody(body, headers) {
+  if (body == null) return undefined;
+  if (typeof body === "string") return body;
+  if (body instanceof Buffer) return body;
+  if (body instanceof URLSearchParams) return body;
+  if (typeof body.pipe === "function") return body; // stream
+  if (headers.get("content-type")?.includes("application/json")) return JSON.stringify(body);
+  return JSON.stringify(body);
+}
+
+export function computeBackoff(attempt, retryAfterHeader, defaults = RETRY_DEFAULTS) {
+  if (retryAfterHeader != null) {
+    const secs = Number.parseFloat(String(retryAfterHeader));
+    if (Number.isFinite(secs) && secs >= 0) {
+      return Math.min(secs * 1000, defaults.maxMs);
+    }
+  }
+  const exp = Math.min(defaults.baseMs * 2 ** (attempt - 1), defaults.maxMs);
+  if (!defaults.jitter) return exp;
+  const jitter = exp * 0.25 * (Math.random() * 2 - 1);
+  return Math.max(0, exp + jitter);
+}
+
+export function shouldRetryStatus(status, method, opts = {}) {
+  if (opts.retry === false) return false;
+  const list = opts.retryableStatuses || RETRY_DEFAULTS.retryableStatuses;
+  if (!list.includes(status)) return false;
+  if (MUTATING_METHODS.has(method) && NON_RETRYABLE_ON_MUTATION.has(status)) {
+    return status === 429 ? Boolean(opts.retryMutationsOn429) : false;
+  }
+  return true;
+}
+
+export function shouldRetryError(err, opts = {}) {
+  if (opts.retry === false) return false;
+  const codes = opts.retryableErrorCodes || RETRY_DEFAULTS.retryableErrorCodes;
+  if (err?.code && codes.includes(err.code)) return true;
+  if (err?.name === "AbortError" || /timeout|abort/i.test(err?.message || "")) return true;
+  return false;
+}
+
+/**
+ * True when a non-2xx status means "this server does not serve this route"
+ * rather than "your request was wrong".
+ *
+ * Commands that keep a local SQLite fallback must not treat these as fatal:
+ * a CLI newer (or older) than the server it is talking to will hit routes that
+ * simply are not mounted, and aborting there strands the user with an
+ * unactionable `HTTP 404` even though the local path would have worked.
+ * Genuine client errors (400/401/403/409/422 â€¦) stay fatal â€” retrying them
+ * locally would paper over a real problem.
+ */
+export function isRouteUnavailableStatus(status) {
+  return status === 404 || status === 405 || status === 501;
+}
+
+export function statusToExitCode(status) {
+  if (status >= 200 && status < 300) return 0;
+  if (status === 408) return 124;
+  if (status === 401 || status === 403) return 4;
+  if (status === 429) return 5;
+  if (status === 400 || status === 404 || status === 422) return 2;
+  if (status >= 500) return 1;
+  return 1;
+}
+
+export class ApiError extends Error {
+  constructor(message, { status, code, exitCode } = {}) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+    this.code = code;
+    this.exitCode = exitCode ?? (status != null ? statusToExitCode(status) : 1);
+  }
+}
+
+async function readResponseBody(res) {
+  const ct = res.headers.get("content-type") || "";
+  try {
+    if (ct.includes("application/json")) return await res.json();
+    return await res.text();
+  } catch {
+    return null;
+  }
+}
+
+function fetchOnce(url, init, timeoutMs) {
+  if (!timeoutMs) return fetch(url, init);
+  const ac = new AbortController();
+  const t = setTimeout(() => ac.abort(), timeoutMs);
+  const merged = { ...init, signal: ac.signal };
+  return fetch(url, merged).finally(() => clearTimeout(t));
+}
+
+export async function apiFetch(path, opts = {}) {
+  const method = String(opts.method || "GET").toUpperCase();
+  const url = resolveUrl(path, opts);
+  const headers = await buildHeaders({ ...opts, destinationUrl: url });
+  const body = serializeBody(opts.body, headers);
+  // Undici preserves custom headers across cross-origin redirects. A local server
+PS C:\Users\sant1>
+PS C:\Users\sant1> Write-Host "`n=== CONTEXTOS ==="
+
+=== CONTEXTOS ===
+PS C:\Users\sant1>
+PS C:\Users\sant1> Get-Content "$env:APPDATA\npm\node_modules\omniroute\bin\cli\contexts.mjs" |
+>>     Select-Object -First 220
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
+import { resolveDataDir } from "./data-dir.mjs";
+import { writePrivateFileAtomic } from "./private-file.mjs";
+
+const CONFIG_VERSION = 1;
+const KEYCHAIN_SERVICE = "omniroute-cli";
+const KEYCHAIN_DISABLED = /^(1|true|yes|on)$/i.test(
+  String(process.env.OMNIROUTE_CONTEXT_KEYCHAIN_DISABLED || "")
+);
+
+// `keytar` is optional and native. Keeping it behind a small interface lets
+// headless installs use the same CLI without requiring libsecret/Keychain at
+// install time, while tests can inject a deterministic fake backend.
+let keychainBackend = null;
+let keychainOperational = true;
+let warnedPlaintextFallback = false;
+const credentialCache = new Map();
+
+function isKeychainBackend(value) {
+  return (
+    value &&
+    typeof value.getPassword === "function" &&
+    typeof value.setPassword === "function" &&
+    typeof value.deletePassword === "function"
+  );
+}
+
+async function loadKeychainBackend() {
+  if (KEYCHAIN_DISABLED) return null;
+  try {
+    const imported = await import("keytar");
+    const candidate = isKeychainBackend(imported?.default) ? imported.default : imported;
+    return isKeychainBackend(candidate) ? candidate : null;
+  } catch {
+    // Native keychain modules are optional and commonly unavailable in
+    // containers. The secure file fallback is handled explicitly below.
+    return null;
+  }
+}
+
+function parseCredential(value) {
+  if (!value || typeof value !== "string") return null;
+  try {
+    const parsed = JSON.parse(value);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return null;
+    const result = {};
+    if (typeof parsed.accessToken === "string" && parsed.accessToken) {
+      result.accessToken = parsed.accessToken;
+    }
+    if (typeof parsed.apiKey === "string" && parsed.apiKey) result.apiKey = parsed.apiKey;
+    return result.accessToken || result.apiKey ? result : null;
+  } catch {
+    // Older/externally managed entries may contain one raw token.
+    return { accessToken: value };
+  }
+}
+
+function credentialForContext(context) {
+  const ref = context && typeof context.credentialRef === "string" ? context.credentialRef : "";
+  return ref ? credentialCache.get(ref) || null : null;
+}
+
+function applyCachedCredential(context) {
+  const cached = credentialForContext(context);
+  if (!cached) return { ...context };
+  return { ...context, ...cached };
+}
+
+async function hydrateCredentialCache(cfg) {
+  if (!keychainBackend || !keychainOperational) return;
+  const contexts = cfg?.contexts || cfg?.profiles || {};
+  for (const context of Object.values(contexts)) {
+    const ref = context && typeof context === "object" ? context.credentialRef : null;
+    if (!ref || credentialCache.has(ref)) continue;
+    try {
+      const parsed = parseCredential(await keychainBackend.getPassword(KEYCHAIN_SERVICE, ref));
+      if (parsed) credentialCache.set(ref, parsed);
+    } catch {
+      keychainOperational = false;
+      break;
+    }
+  }
+}
+
+function warnPlaintextFallback() {
+  if (warnedPlaintextFallback) return;
+  warnedPlaintextFallback = true;
+  process.stderr.write(
+    "Warning: OS keychain unavailable; context credentials use config.json mode 0600 fallback.\n"
+  );
+}
+
+function readConfigFile() {
+  try {
+    if (!existsSync(configPath())) return defaultConfig();
+    const parsed = JSON.parse(readFileSync(configPath(), "utf8"));
+    return parsed && typeof parsed === "object" ? parsed : defaultConfig();
+  } catch {
+    return defaultConfig();
+  }
+}
+
+// Resolve keychain state before importing commands can call the synchronous
+// compatibility helpers below. Credentials themselves stay in memory; only a
+// stable reference is persisted in config.json when keytar is available.
+keychainBackend = await loadKeychainBackend();
+await hydrateCredentialCache(readConfigFile());
+
+export function configPath() {
+  return join(resolveDataDir(), "config.json");
+}
+
+function defaultConfig() {
+  return {
+    version: CONFIG_VERSION,
+    currentContext: "default",
+    contexts: {
+      default: { baseUrl: `http://localhost:${process.env.PORT || "20128"}`, apiKey: null },
+    },
+  };
+}
+
+export function loadContexts() {
+  return readConfigFile();
+}
+
+/**
+ * Load contexts for an explicit export operation.
+ *
+ * The persisted file intentionally contains only `credentialRef` for
+ * keychain-backed contexts. Secret-bearing exports therefore have to hydrate
+ * every referenced credential first. Fail closed when any reference cannot be
+ * resolved so `--include-secrets` never produces a silently incomplete backup.
+ */
+export async function loadContextsForExport({ includeSecrets = false } = {}) {
+  const cfg = readConfigFile();
+  if (!includeSecrets) return cfg;
+
+  await hydrateCredentialCache(cfg);
+  const out = JSON.parse(JSON.stringify(cfg));
+  const contexts = out.contexts || out.profiles || {};
+  const unresolved = [];
+  for (const [name, context] of Object.entries(contexts)) {
+    if (!context || typeof context !== "object" || !context.credentialRef) continue;
+    const credential = credentialForContext(context);
+    if (!credential) {
+      unresolved.push(name);
+      continue;
+    }
+    Object.assign(context, credential);
+  }
+  if (unresolved.length > 0) {
+    throw new Error(`Cannot include keychain credentials for context(s): ${unresolved.join(", ")}`);
+  }
+  return out;
+}
+
+/**
+ * Synchronous compatibility writer. New credential-bearing code should use
+ * `saveContextsSecure()` so tokens are moved to the OS keychain when possible.
+ */
+export function saveContexts(cfg) {
+  const path = configPath();
+  writePrivateFileAtomic(path, JSON.stringify(cfg, null, 2));
+}
+
+/** Stable keychain reference; the reference itself is safe to persist in JSON. */
+export function contextCredentialRef(name) {
+  return `${KEYCHAIN_SERVICE}:context:${encodeURIComponent(String(name))}`;
+}
+
+/** Expose a non-secret capability status for diagnostics and tests. */
+export function getContextKeychainStatus() {
+  return {
+    available: Boolean(keychainBackend && keychainOperational),
+    disabled: KEYCHAIN_DISABLED,
+    fallback: !keychainBackend || !keychainOperational,
+  };
+}
+
+/**
+ * Store context credentials through keytar and write only a credentialRef to
+ * config.json. If keytar cannot be used, preserve the credential in the
+ * mode-0600 file and emit one explicit warning instead of breaking headless
+ * installs.
+ */
+export async function saveContextsSecure(cfg) {
+  const source = cfg && typeof cfg === "object" ? cfg : defaultConfig();
+  const next = JSON.parse(JSON.stringify(source));
+  next.version = next.version || CONFIG_VERSION;
+  if (!next.contexts && next.profiles) {
+    next.contexts = next.profiles;
+    delete next.profiles;
+  }
+  next.contexts = next.contexts || {};
+
+  for (const [name, raw] of Object.entries(next.contexts)) {
+    const context = raw && typeof raw === "object" ? raw : {};
+    const accessToken = typeof context.accessToken === "string" ? context.accessToken : "";
+    const apiKey = typeof context.apiKey === "string" ? context.apiKey : "";
+    const hasCredential = Boolean(accessToken || apiKey);
+
+    if (hasCredential && keychainBackend && keychainOperational) {
+      const ref =
+        typeof context.credentialRef === "string" && context.credentialRef
+          ? context.credentialRef
+          : contextCredentialRef(name);
+      try {
+        await keychainBackend.setPassword(
+          KEYCHAIN_SERVICE,
+          ref,
+          JSON.stringify({
+            ...(accessToken ? { accessToken } : {}),
+            ...(apiKey ? { apiKey } : {}),
+          })
+        );
+        credentialCache.set(ref, {
+          ...(accessToken ? { accessToken } : {}),
+          ...(apiKey ? { apiKey } : {}),
+PS C:\Users\sant1>
+PS C:\Users\sant1> Write-Host "`n=== DOCUMENTACION DE AUTENTICACION ==="
+
+=== DOCUMENTACION DE AUTENTICACION ===
+PS C:\Users\sant1>
+PS C:\Users\sant1> Get-ChildItem "$env:APPDATA\npm\node_modules\omniroute\docs" `
+>>     -Recurse -File -Filter "*CLI_TOKEN*" |
+>>     Select-Object FullName
+PS C:\Users\sant1>
