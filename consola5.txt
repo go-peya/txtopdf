@@ -1,21 +1,165 @@
-PS C:\Users\sant1> Write-Host "`n=== 1. API KEYS ==="
-
-=== 1. API KEYS ===
-PS C:\Users\sant1> omniroute keys list
-  📋 Loaded env from C:\Users\sant1\.omniroute\.env
-  📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
-  ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
-
-API Keys
-
-  cloudflare-ai        cfut_H***3793          ● enabled
-  gemini               AQ.Ab8***K-BQ          ● enabled
-  groq                 gsk_eD***81tG          ● enabled
-  openrouter           sk-or-***d7ed          ● enabled
-
-4 key(s).
-PS C:\Users\sant1>
-
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/gpt5.2": {
+          "name": "GPT-5.2",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/gpt5.4": {
+          "name": "GPT-5.4",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/gpt5.4-mini": {
+          "name": "aug/GPT-5.4 Mini",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/gpt5.5": {
+          "name": "GPT-5.5",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/gpt5.6-luna": {
+          "name": "aug/GPT-5.6 Luna",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/gpt5.6-sol": {
+          "name": "GPT-5.6 Sol",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/gpt5.6-terra": {
+          "name": "GPT-5.6 Terra",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/glm-5.2": {
+          "name": "aug/GLM 5.2",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 1000000,
+            "output": 131072,
+            "input": 1000000
+          }
+        },
+        "aug/kimi-k2.6": {
+          "name": "Kimi K2.6",
+          "attachment": true,
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 131000,
+            "output": 262144,
+            "input": 131000
+          }
+        },
+        "aug/kimi-k2.7": {
+          "name": "Kimi K2.7 Code",
+          "attachment": true,
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 131000,
+            "output": 262144,
+            "input": 131000
+          }
+        },
+        "aug/prism-a": {
+          "name": "Prism (Claude + Gemini)",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/prism-b": {
+          "name": "Prism (GPT + Kimi)",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "zc/glm-5.3-flash": {
+          "name": "GLM 5.3 Flash",
+          "attachment": true,
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 1000000,
+            "output": 131072,
+            "input": 1000000
+          }
+        },
+        "zc/glm-5.3": {
+          "name": "GLM 5.3",
+          "attachment": true,
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 1000000,
+            "output": 131072,
+            "input": 1000000
+          }
+        },
+        "zc/glm-5.3-max": {
+          "name": "GLM 5.3 Max",
+          "attachment": true,
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 1000000,
+            "output": 131072,
+            "input": 1000000
+          }
+        },
         "zc/glm-5.2": {
           "name": "zc/GLM 5.2",
           "reasoning": true,
@@ -8639,419 +8783,143 @@ PS C:\Users\sant1>
 }
 
 PS C:\Users\sant1>
+PS C:\Users\sant1> Write-Host "`n=== 2. SIMULACION DE ENRUTAMIENTO ==="
+
+=== 2. SIMULACION DE ENRUTAMIENTO ===
 PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1> omniroute setup-opencode --help
+PS C:\Users\sant1> omniroute simulate "Analiza un proyecto Node.js y propone una arquitectura"
   📋 Loaded env from C:\Users\sant1\.omniroute\.env
   📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
   ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
-Usage: omniroute setup-opencode [options]
+No matching combo found. Configure one with: omniroute combo create
+PS C:\Users\sant1>
+PS C:\Users\sant1> Write-Host "`n=== 3. REGISTRO DE USO ==="
 
-Generate the OmniRoute openai-compatible provider in the active OpenCode config from the live model catalog (local or
-remote VPS)
-
-Options:
-  --port <port>            Local OmniRoute port (ignored when --remote is set) (default: "20128")
-  --remote <url>           Remote OmniRoute URL, e.g. http://192.168.0.15:20128
-  --api-key <key>          OmniRoute API key (defaults to OMNIROUTE_API_KEY env var)
-  --model <id>             Set the default top-level model (omniroute/<id>)
-  --only <patterns>        Comma-separated substrings — keep only matching model IDs
-  --dry-run                Print what would be written without touching the filesystem
-  --allow-container-write  Write even when the target is inside a container and not mounted from the host
-  -h, --help               display help for command
-PS C:\Users\sant1> omniroute keys policy --help
+=== 3. REGISTRO DE USO ===
+PS C:\Users\sant1>
+PS C:\Users\sant1> omniroute usage logs
   📋 Loaded env from C:\Users\sant1\.omniroute\.env
   📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
   ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
-Usage: omniroute keys policy [options] [command]
+-----------------------+--------------------+------------+------------------+-----------------------------+----------+--------+-----------+---------
+| Time                 | API Key          | Method   | Provider       | Model                     | Tokens | Cost | Latency | Status |
+-----------------------+--------------------+------------+------------------+-----------------------------+----------+--------+-----------+---------
+| 2026-11-06 14:26:27  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 14:26:27  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 14:26:27  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 14:26:27  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 14:01:25  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 14:01:25  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 13:26:28  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 13:26:27  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 13:26:27  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 13:26:26  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 08:20:07  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 08:20:07  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 08:20:07  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 08:20:07  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 05:02:04  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 05:02:04  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 05:02:04  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 05:02:04  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 04:06:22  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 04:06:22  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 04:06:22  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 04:06:20  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 04:06:19  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 04:06:19  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 04:06:17  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 04:06:17  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 04:06:16  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 04:06:15  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 04:06:14  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 04:06:14  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 04:02:03  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 04:02:03  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 04:02:03  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 04:02:03  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 03:55:34  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 03:55:26  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 03:55:21  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 03:55:14  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 03:02:02  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 03:02:02  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 03:02:02  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 03:02:02  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 02:02:01  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 02:02:01  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 02:02:01  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 02:02:01  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 01:39:01  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 01:39:01  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 01:39:01  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 01:39:01  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 00:37:07  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 00:37:07  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 00:37:07  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
+| 2026-11-06 00:37:07  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
+| 2026-11-05 20:59:49  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
+| 2026-11-05 20:59:49  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-05 20:59:49  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
+| 2026-11-05 20:59:49  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
+| 2026-11-05 20:33:38  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 200    |
+| 2026-11-05 20:33:15  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 200    |
+| 2026-11-05 20:33:11  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 200    |
+| 2026-11-05 20:33:08  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 200    |
+| 2026-11-05 20:32:51  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-05 20:31:21  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 401    |
+| 2026-11-05 20:30:19  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
+| 2026-11-05 20:26:10  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:26:10  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:26:07  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:26:04  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:26:01  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:25:58  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:25:28  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:25:28  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:25:25  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:25:22  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:25:19  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:25:16  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:58  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:58  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:55  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:51  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:48  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:46  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:38  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:38  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:35  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:32  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:28  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:26  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:21  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:21  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:18  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:15  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:12  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:10  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:10  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:09  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:09  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:06  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+| 2026-11-05 20:24:06  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
+-----------------------+--------------------+------------+------------------+-----------------------------+----------+--------+-----------+---------
+PS C:\Users\sant1>
+PS C:\Users\sant1> Write-Host "`n=== 4. COSTOS ==="
 
-Key Policy
-
-Options:
-  -h, --help          display help for command
-
-Commands:
-  show <id>           Show rate/cost policy for a key
-  set [options] <id>  Set rate/cost policy for a key
-  help [command]      display help for command
+=== 4. COSTOS ===
 PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1> Write-Host "`n=== 1. API KEYS ==="
-
-=== 1. API KEYS ===
-PS C:\Users\sant1> omniroute keys list
+PS C:\Users\sant1> omniroute cost
   📋 Loaded env from C:\Users\sant1\.omniroute\.env
   📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
   ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
+---------------------------------+--------+-------------+--------------+--------------+-------------
+| Group                          | Reqs | Tokens In | Tokens Out | Cost (USD) | % of Total |
+---------------------------------+--------+-------------+--------------+--------------+-------------
+| Cloudflare Workers AI          | 46   | 51.5K     | 2.2K       | $0.0000    | 0.0%       |
+---------------------------------+--------+-------------+--------------+--------------+-------------
 
-API Keys
-
-  cloudflare-ai        cfut_H***3793          ● enabled
-  gemini               AQ.Ab8***K-BQ          ● enabled
-  groq                 gsk_eD***81tG          ● enabled
-  openrouter           sk-or-***d7ed          ● enabled
-
-4 key(s).
-PS C:\Users\sant1>
-PS C:\Users\sant1> Write-Host "`n=== 2. CONFIGURACION OPENROUTE ==="
-
-=== 2. CONFIGURACION OPENROUTE ===
-PS C:\Users\sant1> omniroute config list
-  📋 Loaded env from C:\Users\sant1\.omniroute\.env
-  📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
-  ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
-(node:31688) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-
-CLI Tool Configuration Status
-
-  Claude Code    ✗ Not installed
-    config:  C:\Users\sant1\.claude\settings.json
-  Codex CLI      ✗ Not installed
-    config:  C:\Users\sant1\.codex\config.toml
-  ZCode (GLM Coding Plan) ✗ Not installed
-    config:  C:\Users\sant1\.zcode
-  Factory Droid  ✗ Not installed
-    config:  C:\Users\sant1\.factory\settings.json
-  OpenClaw       ✗ Not installed
-    config:  C:\Users\sant1\.openclaw\openclaw.json
-  Cursor         ✗ Not configured
-    version: 2026.11.05-86047df
-    config:  C:\Users\sant1\.cursor\cli-config.json
-  Cline          ✗ Not installed
-    config:  C:\Users\sant1\.cline\data\globalState.json
-  Kilo Code      ✗ Not installed
-    config:  C:\Users\sant1\.local\share\kilo\auth.json
-  Continue       ✗ Not installed
-    config:  C:\Users\sant1\.continue\config.yaml
-  Antigravity    ✗ Not installed
-    config:
-  GitHub Copilot ✗ Not installed
-    config:
-  OpenCode       ✓ Configured
-    version: 1.19.0
-    config:  C:\Users\sant1\.config\opencode\opencode.jsonc
-  Hermes         ✗ Not installed
-    config:  C:\Users\sant1\.hermes\config.yaml
-  Hermes Agent   ✗ Not installed
-    config:  C:\Users\sant1\.hermes\config.yaml
-  Kiro AI        ✗ Not installed
-    config:
-  Qwen Code      ✗ Not installed
-    config:  C:\Users\sant1\.qwen\settings.json
-  Custom CLI     ✗ Not installed
-    config:
-  Aider          ✗ Not installed
-    config:  C:\Users\sant1\.aider.conf.yml
-  ForgeCode      ✗ Not installed
-    config:  C:\Users\sant1\.forge\config.toml
-  Grok Build     ✗ Not installed
-    config:  C:\Users\sant1\.grok\config.toml
-  Cursor Agent CLI ✗ Not installed
-    config:
-  Roo Code       ✗ Not installed
-    config:
-  jcode          ✗ Not installed
-    config:  C:\Users\sant1\.jcode\config.toml
-  Prime Agent    ✗ Not installed
-    config:  C:\Users\sant1\.prime-agent\config.json
-  DeepSeek TUI   ✗ Not installed
-    config:  C:\Users\sant1\.config\deepseek-tui\config.toml
-  CodeWhale      ✗ Not installed
-    config:  C:\Users\sant1\.codewhale\config.toml
-  Smelt          ✗ Not installed
-    config:  C:\Users\sant1\.smelt\config.json
-  Pi             ✗ Not installed
-    config:  C:\Users\sant1\.pi\config.json
-  Crush          ✗ Not installed
-    config:  C:\Users\sant1\.config\crush\crush.json
-  Zed            ✗ Not installed
-    config:
-  Goose          ✗ Not installed
-    config:  C:\Users\sant1\.config\goose\config.yaml
-  Open Interpreter ✗ Not installed
-    config:
-  Oh My Pi       ✗ Not installed
-    config:  C:\Users\sant1\.omp\agent\models.yml
-  Letta CLI      ✗ Not installed
-    config:  C:\Users\sant1\.letta\lc-local-backend\providers\auth.json
-  Warp AI        ✗ Not installed
-    config:
-  Agent Deck     ✗ Not installed
-    config:
-  5dive          ✗ Not installed
-    config:  \var\lib\5dive\auth-profiles
-  amp            ✗ Not installed
-    config:
-  devin          ✗ Not installed
-    config:  C:\Users\sant1\AppData\Roaming\devin\config.json
-  gemini         ✗ Not configured
-    version: 0.46.0
-    config:  C:\Users\sant1\.gemini\settings.json
-  qoder          ✗ Not installed
-    config:  C:\Users\sant1\.qoder\settings.json
-  windsurf       ✗ Not installed
-    config:
-PS C:\Users\sant1>
-PS C:\Users\sant1> Write-Host "`n=== 3. ESTADO DEL SERVIDOR ==="
-
-=== 3. ESTADO DEL SERVIDOR ===
-PS C:\Users\sant1> omniroute health
-  📋 Loaded env from C:\Users\sant1\.omniroute\.env
-  📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
-  ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
-
-Health
-
-Status: healthy
-Uptime: 43537.3022576
-  Version: 3.8.52
-Requests (24h): 4
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1> Write-Host "`n=== 1. API KEYS ==="
-
-=== 1. API KEYS ===
-PS C:\Users\sant1> omniroute keys list
-  📋 Loaded env from C:\Users\sant1\.omniroute\.env
-  📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
-  ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
-
-API Keys
-
-  cloudflare-ai        cfut_H***3793          ● enabled
-  gemini               AQ.Ab8***K-BQ          ● enabled
-  groq                 gsk_eD***81tG          ● enabled
-  openrouter           sk-or-***d7ed          ● enabled
-
-4 key(s).
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1>
-PS C:\Users\sant1> Write-Host "`n=== 2. CONFIGURACION OPENROUTE ==="
-
-=== 2. CONFIGURACION OPENROUTE ===
-PS C:\Users\sant1> omniroute config list
-  📋 Loaded env from C:\Users\sant1\.omniroute\.env
-  📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
-  ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
-(node:47080) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-
-CLI Tool Configuration Status
-
-  Claude Code    ✗ Not installed
-    config:  C:\Users\sant1\.claude\settings.json
-  Codex CLI      ✗ Not installed
-    config:  C:\Users\sant1\.codex\config.toml
-  ZCode (GLM Coding Plan) ✗ Not installed
-    config:  C:\Users\sant1\.zcode
-  Factory Droid  ✗ Not installed
-    config:  C:\Users\sant1\.factory\settings.json
-  OpenClaw       ✗ Not installed
-    config:  C:\Users\sant1\.openclaw\openclaw.json
-  Cursor         ✗ Not configured
-    version: 2026.11.05-86047df
-    config:  C:\Users\sant1\.cursor\cli-config.json
-  Cline          ✗ Not installed
-    config:  C:\Users\sant1\.cline\data\globalState.json
-  Kilo Code      ✗ Not installed
-    config:  C:\Users\sant1\.local\share\kilo\auth.json
-  Continue       ✗ Not installed
-    config:  C:\Users\sant1\.continue\config.yaml
-  Antigravity    ✗ Not installed
-    config:
-  GitHub Copilot ✗ Not installed
-    config:
-  OpenCode       ✓ Configured
-    version: 1.19.0
-    config:  C:\Users\sant1\.config\opencode\opencode.jsonc
-  Hermes         ✗ Not installed
-    config:  C:\Users\sant1\.hermes\config.yaml
-  Hermes Agent   ✗ Not installed
-    config:  C:\Users\sant1\.hermes\config.yaml
-  Kiro AI        ✗ Not installed
-    config:
-  Qwen Code      ✗ Not installed
-    config:  C:\Users\sant1\.qwen\settings.json
-  Custom CLI     ✗ Not installed
-    config:
-  Aider          ✗ Not installed
-    config:  C:\Users\sant1\.aider.conf.yml
-  ForgeCode      ✗ Not installed
-    config:  C:\Users\sant1\.forge\config.toml
-  Grok Build     ✗ Not installed
-    config:  C:\Users\sant1\.grok\config.toml
-  Cursor Agent CLI ✗ Not installed
-    config:
-  Roo Code       ✗ Not installed
-    config:
-  jcode          ✗ Not installed
-    config:  C:\Users\sant1\.jcode\config.toml
-  Prime Agent    ✗ Not installed
-    config:  C:\Users\sant1\.prime-agent\config.json
-  DeepSeek TUI   ✗ Not installed
-    config:  C:\Users\sant1\.config\deepseek-tui\config.toml
-  CodeWhale      ✗ Not installed
-    config:  C:\Users\sant1\.codewhale\config.toml
-  Smelt          ✗ Not installed
-    config:  C:\Users\sant1\.smelt\config.json
-  Pi             ✗ Not installed
-    config:  C:\Users\sant1\.pi\config.json
-  Crush          ✗ Not installed
-    config:  C:\Users\sant1\.config\crush\crush.json
-  Zed            ✗ Not installed
-    config:
-  Goose          ✗ Not installed
-    config:  C:\Users\sant1\.config\goose\config.yaml
-  Open Interpreter ✗ Not installed
-    config:
-  Oh My Pi       ✗ Not installed
-    config:  C:\Users\sant1\.omp\agent\models.yml
-  Letta CLI      ✗ Not installed
-    config:  C:\Users\sant1\.letta\lc-local-backend\providers\auth.json
-  Warp AI        ✗ Not installed
-    config:
-  Agent Deck     ✗ Not installed
-    config:
-  5dive          ✗ Not installed
-    config:  \var\lib\5dive\auth-profiles
-  amp            ✗ Not installed
-    config:
-  devin          ✗ Not installed
-    config:  C:\Users\sant1\AppData\Roaming\devin\config.json
-  gemini         ✗ Not configured
-    version: 0.46.0
-    config:  C:\Users\sant1\.gemini\settings.json
-  qoder          ✗ Not installed
-    config:  C:\Users\sant1\.qoder\settings.json
-  windsurf       ✗ Not installed
-    config:
-PS C:\Users\sant1>
-
-PS C:\Users\sant1> Write-Host "`n=== 3. ESTADO DEL SERVIDOR ==="
-
-=== 3. ESTADO DEL SERVIDOR ===
-PS C:\Users\sant1> omniroute health
-  📋 Loaded env from C:\Users\sant1\.omniroute\.env
-  📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
-  ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
-
-Health
-
-Status: healthy
-Uptime: 45718.1533397
-  Version: 3.8.52
-Requests (24h): 4
+Total: $0.0000 across 1 provider(s)
 PS C:\Users\sant1>
 
