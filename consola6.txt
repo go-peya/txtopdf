@@ -1,3 +1,317 @@
+PS C:\Users\sant1> Write-Host "`n=== AYUDA DE COMBOS ==="
+
+=== AYUDA DE COMBOS ===
+PS C:\Users\sant1> omniroute combo --help
+  📋 Loaded env from C:\Users\sant1\.omniroute\.env
+  📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
+  ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
+Usage: omniroute combo [options] [command]
+
+Combos
+
+Options:
+  -h, --help               display help for command
+
+Commands:
+  list [options]           List configured routing combos
+  switch <name>            Activate a routing combo
+  create [options] <name>  Create a new routing combo
+  delete [options] <name>  Delete a routing combo
+  suggest [options]        Suggest the best combo for a task using AI scoring
+  help [command]           display help for command
+PS C:\Users\sant1>
+
+PS C:\Users\sant1> Write-Host "`n=== AYUDA DE COMBOS ==="
+
+=== AYUDA DE COMBOS ===
+PS C:\Users\sant1> omniroute combo --help
+  📋 Loaded env from C:\Users\sant1\.omniroute\.env
+  📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
+  ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
+Usage: omniroute combo [options] [command]
+
+Combos
+
+Options:
+  -h, --help               display help for command
+
+Commands:
+  list [options]           List configured routing combos
+  switch <name>            Activate a routing combo
+  create [options] <name>  Create a new routing combo
+  delete [options] <name>  Delete a routing combo
+  suggest [options]        Suggest the best combo for a task using AI scoring
+  help [command]           display help for command
+PS C:\Users\sant1>
+PS C:\Users\sant1>
+PS C:\Users\sant1>
+PS C:\Users\sant1> Write-Host "`n=== AYUDA DE SIMULACION ==="
+
+=== AYUDA DE SIMULACION ===
+PS C:\Users\sant1> omniroute simulate --help
+  📋 Loaded env from C:\Users\sant1\.omniroute\.env
+  📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
+  ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
+Usage: omniroute simulate [options] [prompt]
+
+Dry-run routing simulation — show which providers would be selected without calling upstream
+
+Options:
+  --file <path>               Load full request body from JSON file
+  -m, --model <id>            Model ID (default: auto) (default: "auto")
+  --combo <name>              Force a specific combo by name
+  --reasoning-effort <level>  Reasoning effort level (low|medium|high)
+  --thinking-budget <n>       Extended thinking token budget
+  --explain                   Print fallback tree and cost range to stderr
+  -h, --help                  display help for command
+PS C:\Users\sant1>
+
+        },
+        "cfp/qwen/qwen3-30b-a3b-fp8": {
+          "name": "Qwen3 30B A3B (Qwen)",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          }
+        },
+        "cfp/qwen/qwq-32b": {
+          "name": "QwQ 32B (Qwen)",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          }
+        },
+        "cfp/deepseek-ai/deepseek-r1-distill-qwen-32b": {
+          "name": "DeepSeek R1 Distill Qwen 32B",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          }
+        },
+        "cfp/google/gemma-4-26b-a4b-it": {
+          "name": "Gemma 4 26B A4B (Google)",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          }
+        },
+        "cfp/mistralai/mistral-small-3.1-24b-instruct": {
+          "name": "Mistral Small 3.1 24B",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          }
+        },
+        "cfp/ibm-granite/granite-4.0-h-micro": {
+          "name": "Granite 4.0 H Micro (IBM)",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          }
+        },
+        "cfp/aisingapore/gemma-sea-lion-v4-27b-it": {
+          "name": "Gemma SEA-LION V4 27B (AI Singapore)",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          }
+        },
+        "veoaifree-web/veo": {
+          "name": "VEO 3.1",
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          }
+        },
+        "veoaifree-web/seedance": {
+          "name": "Seedance",
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          }
+        },
+        "veo-free/veo": {
+          "name": "veo-free/VEO 3.1",
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          }
+        },
+        "veo-free/seedance": {
+          "name": "veo-free/Seedance",
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          }
+        },
+        "aug/sonnet4.6": {
+          "name": "Sonnet 4.6",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/fable-5": {
+          "name": "Claude Fable 5",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/haiku4.5": {
+          "name": "Haiku 4.5",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/sonnet4.5": {
+          "name": "Sonnet 4.5",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/sonnet4.6-500k": {
+          "name": "Sonnet 4.6 (500K)",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 500000,
+            "output": 8192,
+            "input": 500000
+          }
+        },
+        "aug/sonnet5-high": {
+          "name": "Claude Sonnet 5",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/sonnet5-500k": {
+          "name": "Claude Sonnet 5 (500K)",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 500000,
+            "output": 8192,
+            "input": 500000
+          }
+        },
+        "aug/opus4.5": {
+          "name": "Opus 4.5",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/opus4.6": {
+          "name": "Opus 4.6",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/opus4.6-500k": {
+          "name": "Opus 4.6 (500K)",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 500000,
+            "output": 8192,
+            "input": 500000
+          }
+        },
+        "aug/opus4.7": {
+          "name": "Opus 4.7",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/opus4.7-500k": {
+          "name": "Opus 4.7 (500K)",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 500000,
+            "output": 8192,
+            "input": 500000
+          }
+        },
+        "aug/opus4.8": {
+          "name": "Opus 4.8",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/gemini-3.1-pro-preview": {
+          "name": "Gemini 3.1 Pro",
+          "attachment": true,
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 1000000,
+            "output": 65535,
+            "input": 1000000
+          }
+        },
+        "aug/gpt5": {
+          "name": "GPT-5",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192,
+            "input": 200000
+          }
+        },
+        "aug/gpt5.1": {
+          "name": "GPT-5.1",
+          "reasoning": true,
           "tool_call": true,
           "limit": {
             "context": 200000,
@@ -8783,143 +9097,3 @@
 }
 
 PS C:\Users\sant1>
-PS C:\Users\sant1> Write-Host "`n=== 2. SIMULACION DE ENRUTAMIENTO ==="
-
-=== 2. SIMULACION DE ENRUTAMIENTO ===
-PS C:\Users\sant1>
-PS C:\Users\sant1> omniroute simulate "Analiza un proyecto Node.js y propone una arquitectura"
-  📋 Loaded env from C:\Users\sant1\.omniroute\.env
-  📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
-  ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
-No matching combo found. Configure one with: omniroute combo create
-PS C:\Users\sant1>
-PS C:\Users\sant1> Write-Host "`n=== 3. REGISTRO DE USO ==="
-
-=== 3. REGISTRO DE USO ===
-PS C:\Users\sant1>
-PS C:\Users\sant1> omniroute usage logs
-  📋 Loaded env from C:\Users\sant1\.omniroute\.env
-  📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
-  ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
------------------------+--------------------+------------+------------------+-----------------------------+----------+--------+-----------+---------
-| Time                 | API Key          | Method   | Provider       | Model                     | Tokens | Cost | Latency | Status |
------------------------+--------------------+------------+------------------+-----------------------------+----------+--------+-----------+---------
-| 2026-11-06 14:26:27  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 14:26:27  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 14:26:27  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 14:26:27  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 14:01:25  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 14:01:25  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 13:26:28  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 13:26:27  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 13:26:27  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 13:26:26  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 08:20:07  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 08:20:07  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 08:20:07  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 08:20:07  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 05:02:04  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 05:02:04  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 05:02:04  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 05:02:04  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 04:06:22  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 04:06:22  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 04:06:22  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 04:06:20  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 04:06:19  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 04:06:19  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 04:06:17  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 04:06:17  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 04:06:16  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 04:06:15  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 04:06:14  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 04:06:14  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 04:02:03  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 04:02:03  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 04:02:03  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 04:02:03  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 03:55:34  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 03:55:26  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 03:55:21  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 03:55:14  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 03:02:02  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 03:02:02  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 03:02:02  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 03:02:02  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 02:02:01  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 02:02:01  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 02:02:01  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 02:02:01  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 01:39:01  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 01:39:01  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 01:39:01  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 01:39:01  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 00:37:07  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 00:37:07  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 00:37:07  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
-| 2026-11-06 00:37:07  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
-| 2026-11-05 20:59:49  |                  | POST     | gemini         | connection-test           | 0      |      |         | 200    |
-| 2026-11-05 20:59:49  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-05 20:59:49  |                  | POST     | openrouter     | connection-test           | 0      |      |         | 200    |
-| 2026-11-05 20:59:49  |                  | POST     | groq           | connection-test           | 0      |      |         | 200    |
-| 2026-11-05 20:33:38  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 200    |
-| 2026-11-05 20:33:15  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 200    |
-| 2026-11-05 20:33:11  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 200    |
-| 2026-11-05 20:33:08  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 200    |
-| 2026-11-05 20:32:51  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-05 20:31:21  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 401    |
-| 2026-11-05 20:30:19  |                  | POST     | cloudflare-ai  | connection-test           | 0      |      |         | 200    |
-| 2026-11-05 20:26:10  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:26:10  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:26:07  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:26:04  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:26:01  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:25:58  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:25:28  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:25:28  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:25:25  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:25:22  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:25:19  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:25:16  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:58  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:58  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:55  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:51  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:48  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:46  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:38  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:38  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:35  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:32  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:28  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:26  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:21  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:21  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:18  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:15  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:12  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:10  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:10  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:09  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:09  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:06  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
-| 2026-11-05 20:24:06  |                  | POST     | cloudflare-ai  | @cf/zai-org/glm-4.7-flash | 0      |      |         | 502    |
------------------------+--------------------+------------+------------------+-----------------------------+----------+--------+-----------+---------
-PS C:\Users\sant1>
-PS C:\Users\sant1> Write-Host "`n=== 4. COSTOS ==="
-
-=== 4. COSTOS ===
-PS C:\Users\sant1>
-PS C:\Users\sant1> omniroute cost
-  📋 Loaded env from C:\Users\sant1\.omniroute\.env
-  📋 Loaded env from C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env
-  ⚠ STORAGE_ENCRYPTION_KEY in C:\Users\sant1\AppData\Roaming\npm\node_modules\omniroute\.env is ignored, C:\Users\sant1\.omniroute\.env set it first
----------------------------------+--------+-------------+--------------+--------------+-------------
-| Group                          | Reqs | Tokens In | Tokens Out | Cost (USD) | % of Total |
----------------------------------+--------+-------------+--------------+--------------+-------------
-| Cloudflare Workers AI          | 46   | 51.5K     | 2.2K       | $0.0000    | 0.0%       |
----------------------------------+--------+-------------+--------------+--------------+-------------
-
-Total: $0.0000 across 1 provider(s)
-PS C:\Users\sant1>
-
