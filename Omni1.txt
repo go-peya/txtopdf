@@ -1,0 +1,34 @@
+PS C:\Users\sant1> $cfg = "$HOME\.config\opencode\opencode.jsonc"
+PS C:\Users\sant1>
+PS C:\Users\sant1> Select-String -Path $cfg -Pattern '"model"\s*:|"baseURL"|"apiKey"|auto/best-coding|auto/best-reasoning' -Context 0,2
+
+> .config\opencode\opencode.jsonc:8:        "baseURL": "http://localhost:20128/v1",
+> .config\opencode\opencode.jsonc:9:        "apiKey": "{env:OMNIROUTE_API_KEY}"
+  .config\opencode\opencode.jsonc:10:      },
+  .config\opencode\opencode.jsonc:11:      "models": {
+> .config\opencode\opencode.jsonc:12:        "auto/best-coding": {
+  .config\opencode\opencode.jsonc:13:          "name": "Auto Best Coding",
+  .config\opencode\opencode.jsonc:14:          "attachment": true,
+> .config\opencode\opencode.jsonc:24:        "auto/best-reasoning": {
+  .config\opencode\opencode.jsonc:25:          "name": "Auto Best Reasoning",
+  .config\opencode\opencode.jsonc:26:          "attachment": true,
+> .config\opencode\opencode.jsonc:72:        "auto/best-coding-fast": {
+  .config\opencode\opencode.jsonc:73:          "name": "Auto Best Coding Fast",
+  .config\opencode\opencode.jsonc:74:          "attachment": true,
+> .config\opencode\opencode.jsonc:10832:  "model": "omniroute/auto"
+  .config\opencode\opencode.jsonc:10833:}
+
+
+PS C:\Users\sant1> $secure = Read-Host "OmniRoute API Key" -AsSecureString
+OmniRoute API Key: ***********************************
+PS C:\Users\sant1> $env:OMNIROUTE_API_KEY = [System.Net.NetworkCredential]::new("", $secure).Password
+PS C:\Users\sant1> Invoke-RestMethod `
+>>   -Uri "http://localhost:20128/v1/models" `
+>>   -Headers @{ Authorization = "Bearer $env:OMNIROUTE_API_KEY" }
+
+object data
+------ ----
+list   {@{id=auto/best-coding; object=model; created=1794006568; owned_by=combo; permission=System.Object[]; root=au...
+
+
+PS C:\Users\sant1>
