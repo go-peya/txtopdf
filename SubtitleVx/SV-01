@@ -1,0 +1,176 @@
+B2 (Memoria) se ha cerrado con veredicto de meseta estable (pendientes $\le$ 10 MiB/min en commit privado y WASM); no hay evidencia de fuga sostenida en la ventana medida (8,32 min). El pico de 1,5 GB de B1 se confirma como un artefacto de teardown/serialización.
+El foco técnico se desplaza ahora de memoria a backlog/latencia, ya que el único criterio B2 que falló fue el de backlog (352 ms), aunque su métrica actual no es fiable por no medir audio pendiente real.
+1. Informe de cierre B2
+- Evidencia verificada: El commit privado global creció solo +0,01 MiB/min en el último tercio de la prueba T3. El heap WASM permaneció constante en 396,63 MiB.
+- Conclusión: Meseta confirmada. El sistema operativo realizó un trim del WorkingSet (caída de 563 MiB) mientras la memoria comprometida (commit) permaneció plana, lo que confirma presión de memoria pero no fuga lógica.
+- Decisión: A (Estabilizado). No se requiere corrección de memoria ni ejecución de T4-30m para avanzar.
+2. Resultados reproducibles
+- Métrica primaria: Pendiente del último tercio (OLS) = +0,01 MiB/min (umbral < 10).
+- Métricas secundarias: Renderer privado +1,10 MiB/min; JS heap +0,13 MiB/min.
+- Configuración: node run-b2.mjs --kind=soak --items=T3-10m (SubtitlvVxLab).
+3. Validaciones
+Criterio
+Pendiente Memoria
+Integridad Harness
+Backlog 0
+Teardown 0
+RSS literal (§20.2)
+4. Roadmap actualizado
+- Tarea completada: B2 — Diagnóstico de memoria (Cerrado por meseta).
+- Tarea actual: B3 — Latencia y Backlog real.
+- Próximo paso: Instrumentar el registro de audio pendiente real en bench-b2.js para distinguir entre latencia de inferencia y retraso de cola.
+5. Continuidad
+- Rutas clave: 
+- Informe completo: SubtitleVxLab/audit/iteraciones/iter31-b2-mem-2026-11-02/INFORME-B2-MEMORIA-2026-11-02.md
+- Métricas robustas: SubtitleVxLab/audit/iteraciones/iter31-b2-mem-2026-11-02/robust-metrics.json
+- Estado Git: Intacto (9cadff8a...). Producto y dist/ sin modificaciones.
+- Punto de reanudación: Implementar en el laboratorio la medición de backlog real antes de intentar optimizaciones en el motor STT.
+Cierre: Memoria estabilizada. Se mantiene remote-ci=NOT_RUN. El producto permanece íntegro y listo para el análisis de latencia B3.
+
+---
+
+# SubtitleVx - Informe B2: memoria de Moonshine en sesiones largas (2026-11-02)
+
+## 1. Resultado
+
+B2 queda **completado con veredicto de meseta**: en la ventana medida no hay fuga sostenida de memoria atribuible a la inferencia. El crecimiento se concentra en la carga del modelo y el calentamiento; después el consumo se estabiliza y el WorkingSet puede bajar por recorte del sistema operativo, no por liberación lógica.
+
+Corrida principal nueva: soak `T3-10m`, 499,1 s de audio, 8,32 min de ventana, 4.992 pasadas, 0 errores. El commit privado (PageFileUsage) crece **+0,07 MiB/min** en toda la ventana y **+0,01 MiB/min** en el último tercio. El renderer de inferencia crece **+0,70 MiB/min** en toda la ventana y **+1,10 MiB/min** en el último tercio. El heap WASM se mantiene en **396,63 MiB** y el heap JS pasa de 92,32 a 93,41 MiB. Todas las pendientes relevantes están por debajo del umbral provisional de 10 MiB/min.
+
+El WorkingSet total del último tercio da **-158,33 MiB/min**, pero es un artefacto de recorte: entre 5,61 y 8,32 min cae de 927,27 a 302,75 MiB mientras el commit privado pasa de 1.034,74 a 1.031,74 MiB (solo -3,00 MiB) y el privado del renderer sube +3,66 MiB. Es decir, el sistema operativo retiró páginas del WorkingSet; la memoria comprometida siguió ahí. La máquina reportó solo ~451 MiB (~473 MB) libres al cierre, consistente con presión de memoria y trim.
+
+El pico de B1 de 1.576,4 MiB **no se reprodujo**. El pico de esta corrida fue 1.036,2 MiB de WorkingSet (delta +642,0 MiB sobre baseline) y 1.076,1 MiB de commit privado en el pico del feed. El delta queda por debajo de 1 GB, aunque el footprint absoluto sigue siendo alto (~1,0-1,05 GiB). No se ejecutó `T4-30m`: T3 ya muestra meseta y las corridas previas de ciclos/recarga no aportan un mecanismo de crecimiento nuevo.
+
+## 2. Veredicto y criterios
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Hay calentamiento? | Sí: baseline 394,3 MiB de WorkingSet; post-warmup 992,6 MiB. La mayor parte es carga de modelo/WASM y warmup. |
+| ¿Hay meseta? | Sí: pico estable del feed 1.031,95 MiB a 1,49 min; delta sobre post-warmup +39,4 MiB. |
+| ¿Hay fuga sostenida? | No en 8,32 min: commit privado +0,01 MiB/min en el último tercio; renderer privado +1,10 MiB/min; WASM 0,00; JS +0,13. |
+| ¿El WorkingSet negativo es liberación? | No: cae 563,9 MiB mientras el commit privado solo baja 3,0 MiB; es trim del SO. |
+| ¿Hace falta T4-30m? | No con la evidencia actual. T3, T3 previo y ciclos no muestran crecimiento lineal. |
+| ¿Se tocó el producto? | No. `SubtitleVx` sigue en HEAD `9cadff8a8c4974b25f32a7462cc1a650ac567434`, con las 58 entradas dirty/untracked preexistentes intactas. El `dist` no se reconstruyó. |
+
+Umbral usado: 10 MiB/min en el último tercio. La métrica primaria en esta corrida es **PageFileUsage (commit privado)**, porque el WorkingSet fue recortado por el SO. El WASM se reporta como capacidad reservada (`HEAPU8.byteLength`), no como bytes lógicos vivos.
+
+## 3. Evidencia de la corrida
+
+| Elemento | Valor |
+|---|---|
+| Comando | `node run-b2.mjs --kind=soak --items=T3-10m --chunk-ms=100 --tail-ms=1500 --warmup=2 --proc-sample-ms=1000 --page-sample-ms=500 --recovery-ms=6000 --port=8171 --out=.\results\soak-t3-20261102-1` |
+| Directorio | `C:\SubtitleFull\SubtitleVxLab\bench\b2\results\soak-t3-20261102-1` |
+| Copia de evidencia | `audit\iteraciones\iter31-b2-mem-2026-11-02\run-soak-t3-20261102-1\` |
+| Audio | `T3-10m.wav`, 499,145 s, SHA-256 `b9e9b8afb6640f4747c0e9d1fe1b9efc829b9363b2030aaa4f1e211efc1c9711` |
+| Modelo | `moonshine-ai/moonshine-streaming-tiny-en` / `quantized_26_08_21`; 45.233.659 B; 8 archivos con SHA-256 |
+| Runtime | `@moonshine-ai/moonshine-wasm@0.1.5 (SubtitleVx dynamic0)` |
+| `dist` | manifest `5c153021b6975d73f595cc01e5f366aa44f4288604298c2247fedc92ebb1a52a`; `moonshine.mjs` `4e05fee2ecfda16bd272409ddcce990529803894469c6338974ce5d225da185d`; `moonshine.wasm` `5975a22e5d237f915f5c733e44e701aef54a16af78195044f3ef7bb559c43c27` |
+| Chrome for Testing | `153.0.8010.36`; SHA-256 `7fb90b3b1f14ffae3d5e9be32204ff09e47ec3dba4721cb5e55b0a34c766d9d0` |
+| Host | Windows 11; Node v22.15.0; i9-14900HX; 16,9 GB RAM; 32 hilos; ~451 MiB (~473 MB) libres al cierre |
+| Calidad diagnóstica | WER 0,5411 (T3 mixto EN/ES; no es un gate de calidad EN) |
+| Estabilidad de ejecución | 4.992 pasadas; backlog máximo reportado 352 ms; p95 de pasada 724 ms; 71 stalls >2 s; 0 errores; 0 peticiones externas |
+
+Los 71 stalls >2 s y el backlog de 352 ms se registran como limitación de esta corrida; no se usan para el veredicto de memoria. El harness actual calcula backlog con tiempo de pasada y no con audio pendiente real, así que no debe citarse como latencia E2E ni como prueba de tiempo real.
+
+## 4. Cronología de memoria
+
+| Fase | WorkingSet total (MiB) | Commit privado (MiB) |
+|---|---:|---:|
+| baseline (launch) | 394,28 | 230,57 |
+| post-modelo | 822,53 | 861,20 |
+| post-warmup | 992,57 | 1.021,10 |
+| pico estable del feed | 1.031,95 | 1.076,13 (pico) |
+| inicio del trim (5,61 min) | 927,27 | 1.034,74 |
+| fin del feed (8,32 min) | 302,75 | 1.031,74 |
+| tras stream.close | 375,17 | 1.095,78 |
+| tras recovery + GC | 354,27 | 1.007,60 |
+
+Hechos clave:
+
+- El feed añade solo **+39,4 MiB** de WorkingSet sobre post-warmup antes de estabilizarse; el resto del footprint viene de la carga y el warmup.
+- El pico de commit privado ocurre a 1,49 min (1.076,13 MiB); después baja a ~1.045 MiB y permanece plano.
+- Entre 5,61 y 8,32 min el WorkingSet cae 563,9 MiB y el privado del renderer sube 3,66 MiB. Es recorte de páginas, no liberación.
+- El WASM no reproduce el escalón a 476 MiB de B1/B2 previos: en esta corrida se queda en 396,63 MiB todo el tiempo.
+- El JS heap de la página se mantiene en 92-94 MiB durante el feed; no hay crecimiento de estructuras JS apreciable. Tras `feed_end`, el cierre y la serialización del resultado elevan el JS heap a 256 MiB en `session_end`; es retención del harness, ocurre fuera de la ventana y es del mismo tipo de artefacto que el pico de teardown de B1.
+
+## 5. Comparación con B1 y B2 previo
+
+- B1 reportó pico 1.576,43 MiB, baseline 436,18 MiB y delta 1.140,25 MiB. El reanálisis local de B1 mostró que ese pico es un transitorio de teardown/serialización, no crecimiento de inferencia; la meseta real estaba en ~1,08-1,13 GiB.
+- B2 `soak-t3-2` (2026-10-30) ya mostraba commit privado estable: último tercio -1,52 MiB/min, WASM 0,00. Esta corrida nueva da +0,01 MiB/min de privado en el último tercio y no reproduce el pico de 1.499 MiB privado de aquel teardown.
+- B2 ciclos 12xT1-30s: commit privado +1,43 MiB/ciclo, por debajo del umbral equivalente de 4,96 MiB/ciclo. Ciclos con recarga de Transcriber tampoco acumulan.
+- La diferencia entre B1 y B2 nuevo es consistente con un artefacto de medición/teardown y con recorte de WorkingSet bajo presión de memoria, no con una fuga del motor.
+
+## 6. Límites
+
+- Una sola corrida nueva por configuración; no se afirma significancia estadística ni generalización a otros equipos.
+- WorkingSet y PageFileUsage del árbol Chrome no son RSS ni memoria privada estricta. El commit privado es la métrica más estable aquí, pero no mide bytes lógicos vivos del WASM.
+- El heap WASM mide capacidad reservada; Emscripten no la reduce tras liberar memoria lógica.
+- La última muestra de cierre de Chrome capturó un apagado parcial (80,2 MiB de WorkingSet y 764,1 MiB de commit privado en un renderer remanente). El proceso desapareció después; no se usa esa muestra para afirmar retención ni liberación total.
+- No se midió latencia E2E de captura/superficie ni se ejecutó T4-30m. No se modificó el producto.
+
+## 7. Artefactos
+
+- `audit\iteraciones\iter31-b2-mem-2026-11-02\robust-metrics.json`: métricas piecewise y detección de trim.
+- `audit\iteraciones\iter31-b2-mem-2026-11-02\b2-ws-trim-analysis.mjs`: script reproducible que genera esas métricas.
+- `audit\iteraciones\iter31-b2-mem-2026-11-02\run-soak-t3-20261102-1\`: copia de analysis, summary, events, process-memory, page-samples, result y consola.
+- `audit\iteraciones\iter31-b2-mem-2026-11-02\sha256-verification.json` y `identity-verification.json`: identidad del artefacto, modelo, audio y Git.
+- `audit\iteraciones\iter31-b2-mem-2026-11-02\git-status-short.txt`, `git-diff-stat.txt`, `git-head.txt`: estado del worktree sin modificarlo.
+- `bench\b2\results\reanalysis-20261101\combined.md`: reanálisis de los soaks previos.
+- `validation.json`: clasificación formal de criterios, umbrales, riesgos residuales y siguiente tarea.
+- `harness-integrity.json` + `harness-validation.txt`: integridad estática de la corrida y test del analizador (18/18 PASS).
+- `validate-b2-run.mjs`: verificador reproducible de hashes, eventos, muestras, identidad y ausencia de errores.
+- `final-integrity.txt`: HEAD, estado dirty, inventario y hashes finales de `dist`.
+- `evidence-sha256.txt`: hashes y tamaños de todos los artefactos de esta iteración.
+
+## 8. Conclusión operativa
+
+No hay evidencia de fuga de memoria sostenida en la ventana de 8,32 min. El comportamiento observado es: carga + warmup -> meseta -> recorte de WorkingSet por el SO. Para una sesión de producto, el riesgo relevante no es un crecimiento lineal por inferencia, sino el footprint inicial (~1,0 GiB de commit privado en este montaje) y la política de cierre del documento offscreen. Si se quiere cerrar la duda a 30 min, el siguiente paso sería `T4-30m` con la misma instrumentación; no es necesario para el veredicto actual.
+
+Parte 2 completada: validación de criterios y decisión técnica en §9-10. No se inició ningún cambio de producto ni de `dist`.
+
+## 9. Validación de criterios (Parte 2)
+
+### 9.1 Definición de umbrales
+
+- **Roadmap §20.2 (propuesta):** incremento de RSS ≤ 1 GB; backlog máximo 0 en soak de 10 min; sin errores no gestionados en consola.
+- **B2 (Anexo I.5 del roadmap):** pendiente ≤ 10 MiB/min en el último tercio **o** evidencia de fuga con traza; backlog 0; teardown 0 MiB. El límite de 10 MiB/min es **provisional** y no forma parte de §20.2; se aplica solo como criterio de B2.
+- **Definición operativa del último tercio:** OLS de MiB frente a minutos sobre el tercio final de la ventana `feed_start..feed_end` (`t >= start + 2/3*(end-start)`), con umbral de 10 MiB/min.
+- **Métrica primaria de esta corrida:** PageFileUsage (commit privado), porque el WorkingSet fue recortado por el SO. WASM = capacidad reservada (`HEAPU8.byteLength`); no mide bytes lógicos vivos.
+
+### 9.2 Estado por criterio
+
+| Criterio | Estado | Evidencia / salvedad |
+|---|---|---|
+| Reproducibilidad del experimento | **PASS (cualitativa)** | Tres soaks T3 con el mismo modelo/audio muestran meseta: T3-1 (WS -17,19 MiB/min), T3-2 (privado -1,52) y T3 nuevo (privado +0,01). Solo el nuevo usa el harness B2 actual; no se repitió la corrida exacta. |
+| Integridad del harness | **PASS** | `b2-analyze-test.mjs` 18/18 PASS; `validate-b2-run.mjs` `allOk=true`; 4.992 pasadas; 198 muestras de proceso y 845 de página en ventana; hashes de audio/modelo/dist; 0 peticiones externas; 0 `pageerror`. |
+| Pendiente de memoria en el último tercio | **PASS (con salvedad)** | Commit privado **+0,01 MiB/min**; renderer privado **+1,10**; WASM **0,00**; JS **+0,13**. WorkingSet total **-158,33** por trim, no por liberación. Todas las series relevantes ≤10 MiB/min. |
+| Incremento de RSS ≤ 1 GB (§20.2) | **NOT_MEASURED** | No se midió RSS. Proxy: delta de WorkingSet +637,7 MiB y delta de commit privado +845,6 MiB, ambos <1 GB, pero no son RSS. |
+| Errores | **PASS** | 0 sesiones fallidas, 0 `pageerror`, 0 peticiones bloqueadas. |
+| Backlog máximo 0 | **FAIL** | El harness reporta `max_backlog_ms=352` y 71 stalls >2 s. Además, su fórmula (`cumPass - audioFed`) no mide audio pendiente real; no se usa como latencia E2E. |
+| Backlog real / audio pendiente | **NOT_MEASURED** | La métrica actual no permite afirmarlo; requiere instrumentar pendiente real en una tarea posterior. |
+| Recuperación post-close / post-recovery | **PASS (medida)** | Tras `stream.close`: 375,17 MiB WS / 1.095,78 privado; tras recovery+GC: 354,27 / 1.007,60. El proceso terminó después. |
+| Teardown 0 MiB | **NOT_MEASURED** | La última muestra capturó apagado parcial: 80,2 MiB WS y 764,1 MiB privado en un renderer remanente; el proceso desapareció después, pero no hay muestra de árbol completamente cerrado. |
+| Causa raíz del pico B1 / caída de WS | **PASS** | El pico de 1.576,4 MiB coincide con el teardown/serialización; la caída de WS de 563,9 MiB con privado -3,0 MiB es trim del SO bajo presión (~451 MiB libres), no fuga. |
+| Fuga lenta > 8,32 min | **NOT_MEASURED** | No se ejecutó T4-30m. Los ciclos 12xT1-30s no muestran acumulación (+1,43 MiB/ciclo, umbral 4,96), pero no cubren 30 min continuos. |
+| No regresión | **NOT_MEASURED** | No se aplicó ninguna corrección; no hay antes/después que comparar. |
+| Integridad del producto y `dist/` | **PASS** | HEAD `9cadff8a...`; 58 entradas dirty/untracked preexistentes; `dist` 47 archivos/13.723.012 B; manifest/vendor sin cambios; no se reconstruyó. |
+
+### 9.3 Decisión técnica
+
+**A. Memoria estabilizada en la ventana medida; continuar con el siguiente cuello de botella demostrado.**
+
+No hay respaldo para B (crecimiento persistente): el privado y el WASM están planos y el pico de B1 se explica por teardown/trim. No se elige C para memoria porque hay tres soaks T3 y ciclos consistentes; C queda limitado a las incertidumbres residuales (RSS, 30 min continuos y teardown completo). El siguiente cuello de botella demostrado es **backlog/latencia real**, no memoria.
+
+### 9.4 Experimento mínimo si se exige cerrar las incertidumbres
+
+1. Corregir en el harness la métrica de backlog para usar audio pendiente real y esperar el cierre completo de Chrome antes de la muestra final.
+2. Repetir `T4-30m` con la misma instrumentación solo si se requiere evidencia de 30 min; no es necesario para la decisión A.
+3. Medir RSS si §20.2 se aplica literalmente; el proxy actual es WorkingSet/PageCommit, no RSS.
+
+## 10. Cierre técnico
+
+B2 queda **HECHO CON SALVEDADES**: conclusión A para memoria, con backlog 0 en FAIL y RSS/teardown/30 min en NOT_MEASURED. No se modificó el motor STT, no se aplicaron optimizaciones especulativas y no se tocó producción ni `dist/`.
+
+---
+
+
