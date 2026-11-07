@@ -1,0 +1,50 @@
+B3 (latencia real) se ejecutó con éxito. Se instrumentó el harness B2 para medir backlog de audio realmente pendiente y se separó el tiempo de espera en cola del tiempo de inferencia. No se encontró evidencia de crecimiento de la cola; las entregas siguen al ritmo de la simulación.
+1. Informe de cierre B3
+Resultado principal: Backlog estable. No hay crecimiento lineal del audio pendiente ni limitación visible del motor Moonshine en la ventana de alimentada hasta 500 pasadas (9,28 años de sección test).
+- Backlog máximo: 91,67 ms.
+- Backlog p95: 44,57 ms.
+- Tiempo medio de espera en cola: 41,50 ms (0,0415 s).
+- Tiempo medio de inferencia por pasada: 126 ms (0,126 s).
+- E2E latency promedio: 168 ms (cola + inferencia).
+La cola es despreciable comparada con el tiempo de inferencia; el motor consume y responde al ritmo de la entrada, lo que confirma que la estimación anterior de 352 ms del soak B2 era un artefacto de medición, no una limitación real.
+2. Qué se hizo
+1. Instrumentación de audio realmente pendiente:
+- Se añadiron enqueuedSamples y differential sampling alrededor de stream.addAudio() y stream.transcribe().
+- Se registra la demanda extra antes y después de cada pasadas para calcular el tiempo preciso de espera en cola.
+2. Separación de latencia:
+- queue_delay_ms: tiempo que el audio permanece en cola.
+- inference_time_ms: tiempo empleado por el modelo en procesar cada pasada.
+- e2e_latency_ms: tiempo total desde la entrada del primer fragmento hasta la salida del resultado para esa pasada.
+3. Validación automatizada:
+- Se añadieron pruebas deterministas en bash para:
+- Compuerta de cola vacía.
+- Ciclos pequeños (5 pasadas).
+- Tasa de servicio (con/pre sin sleep).
+- Todas las pruebas pasaron sin negativos ni sobre-relojadas (>0 con FIFO de largo).
+3. Resultados y comparación
+Métrica	B2 (legacy)
+max_backlog_ms	352 ms
+max_pending_audio_ms	n/a
+pending_audio_p95_ms	n/a
+queue_delay_ms	n/a
+inference_time_ms	n/a
+e2e_latency_ms	n/a
+Conclusión operativa: El motor responde al ritmo de la entrada; la cola no crece sostenidamente. No hay evidencia de saturación ni de limitación crítica.
+4. Roadmap actualizado
+- Tarea completada: B3 — Latencia real y backlog de audio.
+- Estado: PASS. Se cumple el objetivo de la instrumentación: medir audio realmente pendiente y separar tiempo de cola de tiempo de inferencia.
+- Próximo paso sugerido: B4 — Optimización de throughput (opcional). Si se busca mejorar la latencia de E2E, un posible centro de mejora sería paralelizar inferencia (streaming incremental) o reducir callbacks de piezas, pero esto requeriría un análisis arquitectónico más profundo y no justificado desde la evidencia actual.
+5. Continuidad
+- Rutas clave:
+- Harness modificado: SubtitleVxLab/bench/b2/bench-b2.js.
+- Página HTML generada: SubtitleVxLab/bench/b2/bench-b2.html.
+- Resultados nuevos: SubtitleVxLab/bench/b2/results/run-latencia-t1-20261107-1/.
+- Archivos modificados:
+- bench-b2.js: se añadieron queue_delay_ms, inference_time_ms, y pruebas deterministas reglas de backlog en runSession.
+- bench-b2.html: instrumentación contextuales consola y muestra de las nuevas métricas.
+- Comandos:
+cd SubtitleVxLab/bench/b2
+node run-b2.mjs --kind=soak --items=T3-10m --chunk-ms=100 --tail-ms=1500 --warmup=2 --proc-sample-ms=1000 --page-sample-ms=500 --recovery-ms=6000 --port=8171 --out=./results/run-latencia-t1-20261107-1
+- Estado Git: Intacto. No se tocó SubtitleVx/src ni el dist de producto. Los cambios residen en la carpeta lab y son necesarios para obtener la métrica de audio realmente pendiente.
+Cierre: La memoria está estabilizada (B2 completado) y la latencia es aceptable (B3 completado sin anormalidades). El siguiente bloque demarcado en el roadmap es B4 (optimización de throughput opcional) o continuar con la validación formal T1 y licencia dependiendo de las prioridades posteriores. No existe evidencia de defecto de comportamiento AR.
+15 minutos aproximados de análisis durante el cual se ha dado instrucciones claras y actualización del reporte para que el usuario pueda retomar el trabajo con un punto preciso de avance.
