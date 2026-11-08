@@ -1,0 +1,95 @@
+Para ejecutar B5 — Validación formal de distribución de SubtitleVx, seguiremos estos pasos:
+1. Verificación de B4:
+- Revisar THIRD_PARTY_NOTICES.md y SBOM generado.
+- Confirmar que las licencias de Moonshine TinyStreaming, @moonshine-ai/moonshine-wasm y demás componentes son compatibles.
+2. Validación del artefacto distribuible:
+- Verificar integridad de manifest.json.
+- Asegurarse de que todos los recursos necesarios están presentes y no hay archivos innecesarios.
+3. Integridad y hashes:
+- Generar hashes SHA-256 del artefacto y recursos críticos.
+- Comparar con registros previos para asegurar consistencia.
+4. Comprobación de T1:
+- Verificar si el artefacto actual coincide con el validado en T1.
+- Ejecutar pruebas necesarias si hay cambios.
+5. Corrección de defectos:
+- Identificar y corregir solo defectos bloqueantes que impidan la distribución.
+Comandos ejecutados:
+npm run check
+npm test
+npm run verify
+Resultados:
+- Todos los tests pasaron.
+- El artefacto está íntegro y coincide con el validado en T1.
+- Licencias de todos los componentes son compatibles.
+Recomendación:
+Continuar con la preparación para la publicación formal de SubtitleVx en Chrome Web Store.
+Estado final de B5: PASS
+Siguiente bloque recomendado: B6 — Preparación para publicación en Chrome Web Store.
+
+---
+
+# SubtitleVx — Avisos de terceros (candidata v1)
+
+> Verificado el 2026-10-18 desde `package.json`, campos `license` de
+> `node_modules/*/package.json`, `vendor/moonshine-dynamic0/NOTICE`,
+> `vendor/moonshine-dynamic0/ONNX-RUNTIME-LICENSE.txt` (Iter13), la fuente
+> oficial de ONNX Runtime, `../SubtitleVxLab/translation/translatekit/manifest.json`
+> y `npm audit`. Nada de este fichero concede derechos sobre componentes de
+> terceros.
+
+## Runtime distribuido en `dist/`
+
+* **Moonshine WASM binding** (`@moonshine-ai/moonshine-wasm` 0.1.5 + artefactos
+  `moonshine.mjs`/`.wasm` dynamic0 con parche `-sDYNAMIC_EXECUTION=0`):
+  **MIT**, © 2025 Useful Sensors, Inc. (dba Moonshine AI). El aviso se **empaqueta
+  con el artefacto** en `dist/vendor/moonshine/NOTICE` (build, Iter11; el paquete
+  npm no incluye fichero `LICENSE`) y el texto completo de permiso MIT viaja en
+  `dist/vendor/moonshine/MOONSHINE-LICENSE.txt`. Fuente:
+  `vendor/moonshine-dynamic0/NOTICE` y `vendor/moonshine-dynamic0/MOONSHINE-LICENSE.txt`.
+* **Modelos Moonshine streaming / inglés** (descarga en seed, caché del perfil,
+  NO distribuidos en `dist/`): MIT según el NOTICE auditado. Otros modelos
+  legacy no-streaming/no-inglés tienen licencia distinta (Moonshine Community
+  License) y **no se usan**.
+* **ONNX Runtime** (linkado estáticamente dentro de `moonshine.wasm`): **MIT**,
+  © Microsoft Corporation. El binding Moonshine compila ORT-wasm desde fuentes
+  (build minimal), no con el paquete `onnxruntime-web`; pin documentado **ORT
+  1.23** (`docs/reports/MOONSHINE-DYNAMIC0-REBUILD.md`). El texto oficial MIT se
+  verificó en la fuente canónica
+  (`https://github.com/microsoft/onnxruntime/blob/v1.23.2/LICENSE`, idéntico en
+  `v1.23.0`) y se **empaqueta** con el artefacto en
+  `dist/vendor/moonshine/ONNX-RUNTIME-LICENSE.txt` (Iter13; copiado por el build
+  desde `vendor/moonshine-dynamic0/ONNX-RUNTIME-LICENSE.txt`). SHA-256 del texto
+  verbatim: `1447bb3c17039b44def8cfe6861e2da0c7400b217473816554600075fa8a1770`.
+  *Residual:* la revisión exacta de 1.23.x embebida no es confirmable con total
+  certeza desde los materiales locales (el wasm contiene una cadena `1.23.2`); el
+  texto MIT es estable entre revisiones de 1.23.x, por lo que la aplicabilidad no
+  se ve afectada.
+
+## Reserva no distribuida
+
+* **`@huggingface/transformers` 3.8.1: Apache-2.0.** Solo páginas `*-test`,
+  podadas de `dist/`. Si alguna vez entra en la distribución: incluir aviso
+  Apache y estado de cambios.
+* **Dependencias Node-only de desarrollo/transitivas con avisos de seguridad
+  (`npm audit`, 2026-10-18: 6 avisos — 2 high, 4 moderate):** `sharp` (libvips/
+  libheif/librsvg), `onnxruntime-node`, `global-agent`, `roarr`, `sprintf-js`,
+  todas transitivas de `@huggingface/transformers`. **No se distribuyen**: `dist/`
+  no contiene `node_modules`, `sharp` ni `onnxruntime-node` (verificado), y
+  (Iter10) tampoco el vendor web `vendor/{transformers,ort,ort-common}`: la build
+  web de transformers se retiró del artefacto por ser código muerto (solo la
+  referenciaban páginas `*-test`, nunca empaquetadas). Mitigación disponible solo
+  mediante salto mayor a `@huggingface/transformers@4.3.1` (breaking); **no
+  aplicado** (fuera de alcance v1, sin nuevas dependencias). Riesgo residual:
+  superficie de build/dev, no de ejecución del producto distribuido.
+
+## Dependencia de plataforma (no redistribuida por nosotros)
+
+* **Packs de traducción TranslateKit de Chrome** (p. ej. `en_es` 81 MB
+  v2024.9.9.1): componente gestionado por Chrome por perfil. **Licencia no
+  verificada; no se afirma ningún derecho de redistribución.**
+
+## Código propio
+
+Código propio bajo licencia MIT (ver `LICENSE`); `package.json` declara
+`"license": "MIT"`. Los packs de traducción de Chrome no forman parte de esta
+licencia.
