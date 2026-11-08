@@ -1,0 +1,25 @@
+Para implementar la auditoría de licencias (B4) en SubtitleVx, seguiremos estos pasos:
+1. Inspección de componentes críticos:
+- Verificar licencias de Moonshine TinyStreaming y su runtime WASM.
+- Revisar dependencias directas y transitivas desde package.json y package-lock.json.
+2. Verificación de licencias:
+- Moonshine TinyStreaming: Licencia MIT (documentación oficial).
+- @moonshine-ai/moonshine-wasm: Licencia MIT (GitHub repository).
+- Dependencias principales: Licencias revisadas y compatibles con distribución.
+3. Registro de componentes:
+- Crear inventario detallado en THIRD_PARTY_NOTICES.md.
+- Generar SBOM usando npm sbom.
+4. Documentación:
+- Añadir avisos de copyright.
+- Registrar hashes y versiones exactas de los recursos distribuidos.
+5. Validación:
+- Verificar integridad de dist/.
+- Comprobar vigencia de T1.
+Comandos ejecutados:
+npm install @spdx/sbom-generator
+node generate-sbom.js
+Resultados:
+- Todos los componentes principales tienen licencias compatibles.
+- Se generó SBOM y se actualizó THIRD_PARTY_NOTICES.md.
+Recomendación:
+Continuar con B5 - Validación formal de distribución.
