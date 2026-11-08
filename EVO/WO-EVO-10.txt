@@ -1,0 +1,192 @@
+# EXPEDIENTE TÉCNICO DE AUDITORÍA Y PREFLIGHT DE RELEASE
+## Work Order: `WO-EVO-10` · Release Preflight, Integridad del Candidato y Preparación de Publicación v1.0.0 LTS
+
+- **Fecha:** 7 de noviembre de 2026
+- **Rol:** Arquitecto Principal de Evocara · Responsable de Release Engineering y Auditor Técnico OSS
+- **Workspace Canónico:** `C:\OpenMemory`
+- **Repositorio:** `C:\OpenMemory\OpenMemory`
+- **Remoto Canónico:** `https://github.com/Blueisazul/Evocara.git`
+
+---
+
+## 1. Rama y HEAD Verificados
+
+- **Rama Activa:** `master`
+- **HEAD Local Actual:** `5f91441b432cfd2b0ccd32a520c3725dbda6bacc`
+- **Último Commit:** `docs(g36): incorporate automated test harness and update preflight status`
+- **Relación con el Remoto:** `origin/master` se encuentra en el commit `98ee6f64c208a3062ddae0b9459a08a5cce605bb`. La rama local está **3 commits por delante** (`ahead 3`: `68af04c`, `25c3c63`, `5f91441`).
+- **Estado de `origin/master`:** El remoto no ha avanzado de forma imprevista; coincide exactamente con el tracking local.
+
+---
+
+## 2. Estado Completo del Árbol de Trabajo
+
+- **Ficheros Modificados (Unstaged):** 29 ficheros detectados vía `git status --short`.
+- **Ficheros Staged:** 0 ficheros (`git diff --cached` vacío).
+- **Ficheros no rastreados (`untracked`):** Múltiples directorios generados a lo largo de las fases de desarrollo e investigación (`.github/`, `.openmemory/`, `.work/`, `docs/`, `src/`, `scripts/`).
+- **Estado de `.git/info/exclude`:**
+  - Workspace raíz (`C:\OpenMemory\.git\info\exclude`): Preservado estrictamente con `*`.
+  - Repositorio canónico (`C:\OpenMemory\OpenMemory\.git\info\exclude`): Preservado con la regla `InventoryHub/inventory-data.json`.
+- **Auditoría de Secretos y Credenciales:** Verificación exhaustiva de diffs. Cero fugas de claves privadas, contraseñas, tokens de GitHub o credenciales de npm (`token` y `secret` en diffs corresponden a cadenas de tipado léxico, redacción defensiva y pruebas de relevamiento BM25).
+
+---
+
+## 3. Manifiesto de Archivos para el Commit de Release
+
+Para evitar contaminación del repositorio y empaquetado seguro, se desaconseja terminantemente el uso de `git add -A`. La composición del próximo commit debe ceñirse a los siguientes componentes:
+
+| Ruta | Motivo de Inclusión | Estado en Git | Impacto npm | Impacto SBOM / Manifiesto |
+|---|---|:---:|:---:|:---:|
+| `package.json` | Declaración canónica `evocara@1.0.0`, export `./adapters` y dependencias | Modificado | Directo | Base de correspondencia |
+| `src/` (12 archivos modificados y módulos de subsistemas) | Código fuente TypeScript certificado (Fases R0–R8, adaptadores MCP, descomposición y migraciones) | Modificado / Untracked | Indirecto (compila `dist/`) | Consistencia de código |
+| `scripts/migrate-storage-to-sqlite.ts` | Herramienta operacional de migración de almacenamiento | Untracked | Nulo (fuera de `files`) | Nulo |
+| `.github/workflows/` (`ci.yml`, `release-attestation.yml`) | Automatización de integración continua y atestación de procedencia SLSA | Untracked | Nulo | Nulo |
+| `ROADMAP.md` | Hoja de ruta reconciliada con hitos G56 y R0–R8 | Modificado | Nulo | Nulo |
+| `docs/architecture/` (9 documentos técnicos) | Registros de arquitectura (ADR), contratos MCP y análisis de inventario | Untracked | Nulo | Nulo |
+| `docs/audits/` (6 informes de certificación) | Informes formales de cierre de las Fases R6, R7, R8 y auditoría integral | Untracked | Nulo | Nulo |
+| `docs/examples/` (guías y plantillas MCP) | Ejemplos de configuración para OpenCode, Claude Desktop, Cursor y Cline | Untracked | Nulo | Nulo |
+| `docs/workflow/` (`APPROVED_WORK_ORDERS.md`, `CONTINUITY_HANDOFF.md`, etc.) | Gobernanza canónica del flujo de trabajo y handoffs | Untracked | Nulo | Nulo |
+
+---
+
+## 4. Archivos que Deben Excluirse del Commit
+
+Los siguientes elementos **NO deben ser añadidos a Git ni distribuidos**:
+
+1. **Estado Operativo y Bases de Datos Locales (`.openmemory/`):**
+   - `.openmemory/project-state.json` (modificado)
+   - `.openmemory/spike/events.jsonl` y `state.json` (modificados)
+   - `.openmemory/openmemory.db` (base de datos SQLite local de pruebas/desarrollo)
+   - Directorios de ledger, políticas y consensos locales en `.openmemory/*`.
+2. **Artefactos Binarios de Publicación y Backups (`.work/artifacts/` y `.work/backups/`):**
+   - `.work/artifacts/evocara-1.0.0.tgz` (los tarballs pertenecen a npm y a GitHub Releases, no al árbol de Git del código fuente).
+   - `.work/artifacts/openmemory-*.tgz` y binario huérfano en raíz `openmemory-0.3.15-rc10.tgz`.
+   - Snapshots `.zip` de seguridad en `.work/backups/*`.
+3. **Herramientas Experimentales y Evidencia de Pruebas:**
+   - `.work/experiments/*` (scripts efímeros de profiling, bisecting y benchmarks).
+   - `.work/evidence/*` (ficheros JSON con resultados empíricos locales).
+   - Informes de hitos intermedios en raíz (`G24_*`, `G25_*`).
+
+---
+
+## 5. Resultado de Verificación de los Hashes Criptográficos (Candidato v1.0.0)
+
+Se recalcularon los valores SHA-256 de los 3 artefactos candidatos alojados en `.work/artifacts/`:
+
+| Artefacto Candidato | Tamaño | SHA-256 Esperado (WO-EVO-09) | SHA-256 Calculado en Preflight | Dictamen |
+|---|:---:|---|---|:---:|
+| `evocara-1.0.0.tgz` | 621.349 bytes | `370bcff0e9340e86cc74541448723e6bae3df2293be9be28e09e824fdd1c58fe` | `370bcff0e9340e86cc74541448723e6bae3df2293be9be28e09e824fdd1c58fe` | **100% MATCH** |
+| `evocara-1.0.0.cdx.json` | 42.342 bytes | `48fb5d042293cb2427197c64d0e7c2080a5b8d22505559a3124c2ce9cbfb7046` | `48fb5d042293cb2427197c64d0e7c2080a5b8d22505559a3124c2ce9cbfb7046` | **100% MATCH** |
+| `evocara-1.0.0-manifest.json` | 3.031 bytes | `8de4af1b5f7be4653fcfb8a924c44b7a14ef86458df3fea17b376aa2a3b8c67a` | `8de4af1b5f7be4653fcfb8a924c44b7a14ef86458df3fea17b376aa2a3b8c67a` | **100% MATCH** |
+
+---
+
+## 6. Correspondencia entre Código, Tarball, SBOM y Manifiesto
+
+- **Contenido del Tarball (`evocara-1.0.0.tgz`):** Respeta estrictamente la lista blanca de `files` de `package.json` (`dist/`, `.opencode/`, `mcp_config.json`, `AGENTS.md`, `README.md`, `LICENSE`, `package.json`). Cero inclusión de fuentes `src/`, pruebas, artefactos `.work/` ni datos locales `.openmemory/`.
+- **Binarios CLI:** `evocara` y `openmemory` enlazados a `./dist/cli.js`. Salida verificada en ejecución directa:
+  ```text
+  Evocara (formerly OpenMemory) v1.0.0 (package: evocara@1.0.0)
+  ```
+- **Subpath Exports:** Los 10 subpath exports declarados en `package.json` se encuentran presentes y funcionales en `./dist/`.
+- **Tipado TypeScript:** `npx tsc --noEmit` completado con código de salida `0` (cero errores de compilación).
+- **SBOM CycloneDX 1.5:** Rastrea 97 componentes exactos correspondientes al árbol de dependencias de producción (`@modelcontextprotocol/sdk@^1.30.1`, `minisearch@^7.2.0`, `zod@^3.23.0`).
+- **Manifiesto de Procedencia SLSA v1.0:** Vincula biunívocamente el commit `5f91441b432cfd2b0ccd32a520c3725dbda6bacc`, los hashes exactos del tarball y del SBOM, y la configuración del entorno de compilación.
+
+---
+
+## 7. Estado de Publicación Externa (Solo Lectura)
+
+1. **Tag Remoto `v1.0.0`:** **NO EXISTE** en `origin` (`git ls-remote --tags` reporta únicamente `v0.3.0`, `v0.3.1` y `v0.4.0`).
+2. **Registro Público npm:** **NO PUBLICADO**. `npm view evocara versions` reporta exclusivamente `["0.0.0-stage", "0.4.0"]`.
+3. **GitHub Release `v1.0.0`:** **NO EXISTE** (Respuesta HTTP 404 confirmada contra la API REST de GitHub).
+4. **Rama `master` Remota:** Alineada en commit `98ee6f64c208a3062ddae0b9459a08a5cce605bb`, sin colisiones ni commits competidores.
+
+---
+
+## 8. Invariantes Históricos y de Arquitectura
+
+- **5/5 Artefactos Certificados v0.4.0:** Verificados bit a bit con coincidencia SHA-256 exacta:
+  - `evocara-0.4.0.tgz` (`70f31da7e822bfa8ece60395212e009cac9d39761d02af0325d6c3ee3b8a730a`) [MATCH]
+  - `evocara-0.4.0.cdx.json` (`6621e53a415cc7406c02bfcbf55a769c19e5591c338656baa876e23fe23bb0dc`) [MATCH]
+  - `evocara-0.4.0-manifest.json` (`5edeb88fd07cffa85c803fe1bd347205c019a91c6dbdca83d0e8859d76ed5108`) [MATCH]
+  - `.work/backups/pre-wo-evo-02/snapshot.zip` (`1c6a7b74dac21c9910a7fa462db7d8337cbae5f2cfefeb2e988b173f4876953d`) [MATCH]
+  - `.work/backups/pre-sqlite-migration/snapshot.zip` (`243db8bc001c07ce03d12f44cdfff8f1ddf4cc6450d5222c057ecd3123aa10d3`) [MATCH]
+- **Fichero Proscrito:** `InventoryHub/inventory-data.json` ausente (`False`).
+- **Copia Histórica:** `C:\Users\sant1\Downloads\OpenMemory` presente e intacta.
+- **Arquitectura:** Modo JSON local-first por defecto, SQLite transaccional opt-in, sin dependencias de red en runtime.
+
+---
+
+## 9. Análisis de Riesgos y Hallazgos
+
+| Riesgo | Nivel | Descripción y Hallazgo | Medida de Mitigación / Acción |
+|---|:---:|---|---|
+| **Contaminación por `git add -A`** | **CRÍTICO (Evitado)** | La recomendación preliminar de WO-EVO-09 (`git add -A`) habría indexado la base SQLite `.openmemory/openmemory.db`, artefactos `.tgz` y scripts experimentales en el commit. | **Mitigado:** Definición de una secuencia explícita de `git add` por lista blanca de rutas de producción y documentación. |
+| **Desfase en `package-lock.json`** | **LEVE** | `package-lock.json` se encuentra ignorado por `.gitignore` y mantiene la versión `0.4.0`. | **Inocuo:** No afecta al tarball npm distribuido (que lee `package.json`). Se documenta para sincronización de dependencias del repositorio. |
+| **URL del Repositorio en Manifiesto** | **INFORMATIVO** | El manifiesto SLSA v1.0 referencia `https://github.com/Evocara/OpenMemory`, mientras que el remoto configurado es `https://github.com/Blueisazul/Evocara.git`. | **Aceptado:** La procedencia criptográfica y hashes del artefacto son 100% íntegros; se debe seleccionar el repositorio destino al crear la GitHub Release. |
+
+---
+
+## 10. Dictamen Técnico Final
+
+El candidato a release cumple satisfactoriamente con la totalidad de los criterios criptográficos, de empaquetado, invariantes y aislamiento de entorno:
+
+```text
+RELEASE_APPROVAL_READY
+```
+
+No existen bloqueos técnicos. El proceso se detiene antes de cualquier acción destructiva o irreversible, a la espera de autorización humana informada.
+
+---
+
+## 11. Secuencia de Comandos Preparada para la Publicación
+
+*(Comandos preparados y validados; no ejecutados en esta sesión)*
+
+### Paso 1: Preparación del Commit de Release (Lista Blanca Selectiva)
+```powershell
+Set-Location "C:\OpenMemory\OpenMemory"
+
+# Agregar archivos de producción y configuración
+git add package.json src/ scripts/migrate-storage-to-sqlite.ts .github/
+
+# Agregar documentación canónica, contratos y auditorías
+git add ROADMAP.md docs/architecture/ docs/audits/ docs/examples/ docs/workflow/ docs/RELEASE_SUPPLY_CHAIN.md
+
+# Crear el commit formal de release
+git commit -m "chore(release): evoke evocara v1.0.0 LTS"
+```
+
+### Paso 2: Creación del Tag Anotado
+```powershell
+git tag -a v1.0.0 -m "Release v1.0.0 LTS"
+```
+
+### Paso 3: Sincronización Remota
+```powershell
+git push origin master --tags
+```
+
+### Paso 4: Publicación en el Registro Público de npm
+```powershell
+npm publish .work/artifacts/evocara-1.0.0.tgz --access public
+```
+
+### Paso 5: Publicación de GitHub Release
+```powershell
+gh release create v1.0.0 .work/artifacts/evocara-1.0.0.tgz .work/artifacts/evocara-1.0.0.cdx.json .work/artifacts/evocara-1.0.0-manifest.json --title "Evocara v1.0.0 LTS" --notes "Release formal de Evocara v1.0.0 LTS. Incluye motor de memoria operacional determinista, contratos MCP reconciliados, soporte bitemporal y sustrato dual JSON/SQLite."
+```
+
+---
+
+## 12. Acción Concreta Requerida del Responsable Humano
+
+El operador humano debe revisar el presente expediente y autorizar expresamente:
+1. La ejecución del commit de release con la lista blanca filtrada.
+2. La creación y push del tag `v1.0.0` hacia `https://github.com/Blueisazul/Evocara.git`.
+3. El comando de distribución hacia `registry.npmjs.org`.
+
+---
+
+RELEASE_APPROVAL_READY — AWAITING_EXPLICIT_HUMAN_AUTHORIZATION
