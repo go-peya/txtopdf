@@ -1,0 +1,23 @@
+La auditoría de preparación para publicación (B6) de SubtitleVx se ha completado. La extensión cumple con los requisitos fundamentales de arquitectura Manifest V3 y presenta un perfil de seguridad y privacidad robusto gracias a su enfoque "local-first".
+1. Estado Final: READY_WITH_LIMITATIONS
+La extensión está técnicamente preparada para publicación. Las limitaciones documentadas (auditoría automática incompleta y falta de validación T1 por operador humano) son condiciones del entorno y de la naturaleza del producto, no fallos técnicos.
+2. Auditoría y Matrices (Resumen)
+Área	Requisito	Estado	Nota
+Manifiesto	MV3 (JSON, background, permisos)	READY	Coherente y correcto.
+Seguridad	Sin código remoto/eval	READY	Estáticamente seguro.
+Privacidad	Declaración de datos	READY	Local-first: no hay transmisión a servidores externos.
+Ficha CWS	Metadatos y recursos	READY	Borrador preparado.
+Artefacto	Integridad y licencias	READY_WITH_LIMITATIONS	Digest verificado (B5), T1 requiere operador humano.
+Matriz de Permisos (Justificación)
+Permiso	Uso	Justificación
+tabCapture	Captura de audio de pestaña	Necesario para STT.
+offscreen	Procesamiento en segundo plano	Necesario para WASM/ONNX sin bloquear UI.
+activeTab	Acceso a pestaña activa	Necesario para activar la captura.
+scripting	Inyección de UI de subtítulos	Necesario para mostrar subtítulos.
+3. Conclusiones y Bloqueos
+- Candidata de publicación: dist/ (SHA-256: 3d7e5977936966f34b8eb284e9edc86a16d3d814026938803d4bf4ebdbaed62c).
+- Privacidad: La extensión no recopila, transmite ni almacena datos fuera del entorno local del usuario. Esta es la garantía fundamental para la política de privacidad de CWS.
+- Bloqueos técnicos: Ninguno crítico.
+- Acción pendiente: Validación T1 (audio, captura real) por parte del propietario y revisión humana final de los borradores de ficha y privacidad antes de proceder a cualquier envío.
+Confirmación: No se ha realizado ninguna publicación, envío a revisión, commit ni push a repositorios. Los cambios en el árbol de trabajo Git son preexistentes o forenses y se han respetado estrictamente las directrices de AGENTS.md.
+El informe completo con los borradores de ficha, matriz de privacidad y registro de release se encuentra en los archivos generados en C:\SubtitleFull\SubtitleVx\docs\reports\B6-RELEASE-PREPARATION.md.
