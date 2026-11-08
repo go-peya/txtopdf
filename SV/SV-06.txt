@@ -1,0 +1,22 @@
+Para ejecutar B7, necesitamos validar la extensión en un entorno real. Aquí están los pasos clave:
+1. Preparación del entorno:
+- Asegúrate de tener Chrome 153.x instalado.
+- Carga la extensión desde el directorio dist/.
+- Abre una pestaña con contenido de audio conocido (por ejemplo, samples/en-30s.mp3).
+2. Validación del flujo funcional:
+- Activa la captura de audio.
+- Verifica que se procese el audio con Moonshine WASM.
+- Confirma que se traduzca el texto correctamente.
+- Asegúrate de que los subtítulos aparezcan en la pestaña.
+3. Ciclo de vida:
+- Inicia y detén la captura varias veces.
+- Verifica que no queden recursos pendientes.
+4. Privacidad en ejecución:
+- Inspecciona el tráfico de red durante todo el flujo.
+- Asegúrate de que no se transmitan datos externamente.
+5. Rendimiento:
+- Mide el tiempo desde la captura hasta la presentación de subtítulos.
+6. Reporte:
+- Documenta los resultados en B7-FUNCTIONAL-VALIDATION.md.
+- Incluye capturas de pantalla y logs relevantes.
+¿Necesitas ayuda con algún paso específico?
