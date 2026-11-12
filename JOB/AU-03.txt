@@ -238,96 +238,6 @@ Ran terminal command: $tmp = Join-Path (Get-Location) 'tmpdbd6w81j'; if (Test-Pa
 
 ---
 
-# Seguimiento de autorización de fuentes
-
-**Estado al 2026-11-11:** borradores preparados, no enviados. Ninguna fuente está autorizada para extracción automática o republicación por este registro. No usar correos ni formularios en nombre del usuario sin una instrucción posterior.
-
-## Evidencia y contactos oficiales
-
-### SERVIR — Talento Perú
-
-- Fuente: [página oficial Talento Perú](https://www.gob.pe/institucion/servir/campa%C3%B1as/4782-talento-peru).
-- La [página oficial de canales de consulta](https://www.gob.pe/institucion/servir/informes-publicaciones/6182394-directorio-de-plataformas-para-canales-de-atencion-de-consultas) lista “Búsqueda de empleos y prácticas en el Estado — Talento Perú” y enlaza a la [aplicación de consulta pública](https://app.servir.gob.pe/DifusionOfertasExterno/faces/consultas/ofertas_laborales.xhtml). La herramienta de navegación recibió HTTP 403 al abrir esa URL; no permite concluir si el sitio requiere interacción, bloquea automatización o está inaccesible desde este entorno.
-- La página institucional de Talento Perú publica `talentoperu@servir.gob.pe` y los anexos telefónicos para consultas; la nota oficial de lanzamiento también identifica ese correo y los anexos de ofertas laborales/prácticas: [contacto para Talento Perú](https://www.servir.gob.pe/servir-lanza-unico-portal-de-ofertas-de-empleos-y-practicas-en-el-estado-talento-peru/).
-- Contacto de primer envío sugerido: `talentoperu@servir.gob.pe` (canal específico publicado por SERVIR). El teléfono publicado es (01) 206-3370, anexos 2519 para ofertas laborales y 2616 para prácticas, según la página de campaña.
-
-### FISI — UNMSM
-
-- Fuente: [portal oficial FISI](https://sistemas.unmsm.edu.pe/) y [sección Oportunidad Laboral](https://sistemas.unmsm.edu.pe/site/noticias/38-oportunidad-laboral).
-- El [directorio institucional de FISI](https://sistemas.unmsm.edu.pe/posgrado/directorio/) identifica `decanato.fisi@unmsm.edu.pe` como correo del Decanato y `mesadepartes.fisi@unmsm.edu.pe` como Mesa de Partes. Contacto sugerido para la consulta: Decanato; Mesa de Partes queda como canal institucional alterno si no existe otro canal aplicable.
-- El sitio muestra anuncios de empleadores externos y oportunidades institucionales. La autoridad del contenido y del canal de postulación debe evaluarse por cada ficha; no asumir que FISI es el empleador.
-
-### Canonical Careers
-
-- Fuente: [portal oficial de carreras](https://canonical.com/careers), [roles abiertos](https://canonical.com/careers/all) y [política de trabajo remoto](https://canonical.com/careers/company-culture/remote-work).
-- Los [términos del sitio](https://canonical.com/legal/terms) limitan el uso visible del contenido a fines personales, educativos y no comerciales, conservando avisos. No acreditan extracción automatizada ni republicación pública en Aurel.
-- Contacto jurídico publicado: `legal@canonical.com`. El expediente detallado está en [canonical-careers-2026-11-11.md](canonical-careers-2026-11-11.md).
-- Estado: `pending_review`, deshabilitada, presupuesto cero. La candidata es relevante por roles de ingeniería y trabajo remoto, pero la elegibilidad para Perú y los derechos de uso deben confirmarse por escrito.
-
-## Borrador para SERVIR
-
-**Para:** talentoperu@servir.gob.pe<br>
-**Asunto:** Consulta sobre acceso y reutilización de metadatos públicos de Talento Perú
-
-> Señores de SERVIR / equipo de Talento Perú:
->
-> Estoy preparando Ruta Sistemas, un catálogo independiente para ayudar a estudiantes y profesionales de Ingeniería de Sistemas a encontrar convocatorias públicas y verificar siempre la fuente y el canal oficial de postulación. Antes de incorporar información de Talento Perú, quisiera confirmar las condiciones aplicables.
->
-> 1. ¿Existe una API, feed, exportación o mecanismo oficial autorizado para consultas automatizadas por un proyecto externo? ¿La aplicación pública de consulta puede consultarse automáticamente o solo mediante navegación humana?
-> 2. ¿Se permite almacenar y reutilizar en un catálogo público metadatos mínimos de una convocatoria (entidad, título, identificador, fechas, ubicación y enlace), sin copiar las bases ni la descripción completa?
-> 3. ¿Qué atribución y enlaces de origen deben mostrarse? ¿Debe enlazarse siempre también al portal de la entidad convocante?
-> 4. ¿Qué frecuencia, límites, identificación del cliente o condiciones técnicas deben respetarse?
-> 5. ¿Qué política de retención, corrección y retirada recomienda o exige SERVIR para registros y metadatos derivados?
-> 6. ¿Qué campo o enlace permite identificar el canal vigente de postulación? ¿La presencia de una ficha en Talento Perú significa que la postulación sigue abierta, o debe confirmarse en el portal de cada entidad?
-> 7. ¿Hay términos, licencias o restricciones que impidan publicar esos metadatos en un catálogo de terceros, incluso citando y enlazando la fuente?
->
-> Mantendremos la fuente deshabilitada hasta recibir orientación suficiente. Agradeceré que indiquen los términos/documentos oficiales aplicables o el área competente para responder.
->
-> Atentamente,<br>
-> Equipo Ruta Sistemas
-
-## Borrador para FISI-UNMSM
-
-**Para:** decanato.fisi@unmsm.edu.pe<br>
-**Asunto:** Consulta sobre difusión y reutilización de avisos laborales publicados por FISI
-
-> Señores del Decanato de la Facultad de Ingeniería de Sistemas e Informática:
->
-> Estoy preparando Ruta Sistemas, un catálogo independiente para orientar a estudiantes y profesionales de Sistemas hacia oportunidades verificables. En el portal FISI observamos avisos laborales y de prácticas, algunos remitidos por empleadores externos. Antes de registrar esos avisos, quisiera confirmar el uso permitido.
->
-> 1. ¿Existe una API, feed, exportación o mecanismo oficial para consultar avisos; se permite automatizar consultas a las páginas públicas de Oportunidad Laboral?
-> 2. ¿FISI autoriza conservar y publicar metadatos mínimos (título, entidad anunciante, fecha y enlace), sin reproducir el texto íntegro ni anexos? ¿Debe solicitarse autorización a cada empleador anunciante?
-> 3. ¿Qué atribución y enlaces de origen deben mantenerse?
-> 4. ¿Qué frecuencia y límites técnicos deben respetarse?
-> 5. ¿Cuál es el procedimiento para corregir o retirar un aviso, y cuánto tiempo puede conservarse la referencia?
-> 6. ¿Cómo distinguir anuncios vigentes, cerrados o históricos y verificar el canal oficial de postulación?
-> 7. ¿Qué condiciones del portal o de los avisos limitan republicar esos metadatos en un catálogo público?
->
-> No automatizaremos consultas ni publicaremos avisos hasta aclarar estas condiciones. Si esta consulta corresponde a otra oficina, agradeceré nos indiquen el canal oficial adecuado.
->
-> Atentamente,<br>
-> Equipo Ruta Sistemas
-
-## Registro de seguimiento y decisión
-
-| Fuente | Contacto verificado | Estado del borrador | Respuesta | Decisión actual |
-|---|---|---|---|---|
-| Talento Perú / SERVIR | `talentoperu@servir.gob.pe`; página de campaña oficial | Preparado; no enviado | Pendiente | `pending_review` |
-| FISI / UNMSM | `decanato.fisi@unmsm.edu.pe`; directorio oficial | Preparado; no enviado | Pendiente | `pending_review` |
-| Canonical Careers | `legal@canonical.com`; términos oficiales | Preparado en expediente; no enviado | Pendiente | `pending_review` |
-
-### Criterios para reabrir la decisión
-
-- **Aprobar consulta automatizada:** obtener una fuente oficial que permita explícitamente el mecanismo y propósito; conocer hosts, límites, frecuencia y manejo de errores; confirmar que no se requieren credenciales o evasión de controles.
-- **Aprobar almacenamiento/reutilización pública:** confirmar el conjunto mínimo de metadatos que puede conservarse/publicarse, atribución, enlaces, retención, corrección y retirada. Si el permiso cubre solo navegación manual, registrar la autorización manual por separado y mantener el adaptador deshabilitado.
-- **Validar publicación de una ficha:** verificar individualmente que el anunciante/entidad de origen está identificado, que la fuente autoriza el uso del dato, y que el canal de postulación vigente y la evidencia reciente pertenecen al empleador o entidad responsable. El TTL y una respuesta HTTP no son prueba de vigencia.
-- **Rechazar:** registrar una prohibición expresa, incompatibilidad de licencia/condiciones, necesidad de eludir controles o falta de canal/evidencia confiable que no pueda corregirse.
-- **Mantener pendiente:** cualquier silencio, respuesta ambigua o evidencia incompleta. No habilitar solicitudes por defecto.
-
-Una autorización manual nunca habilita automáticamente el conector. La configuración debe mantener separadas las decisiones de acceso manual, automatización y reutilización/publicación.
-
----
-
 # Diseño preliminar: modelo de datos y arquitectura del piloto
 
 **Proyecto:** Plataforma de oportunidades y carrera para Sistemas  
@@ -1123,3 +1033,346 @@ python scripts/validate_catalog.py
 ```
 
 El workflow de publicación no tiene cron, no llama a colectores y no escribe commits en `main`. GitHub Actions/Pages siguen siendo servicios alojados; ver la decisión vigente en `docs/adr/ADR-001-catalogo-curado-publicacion-segura.md` y el roadmap en la sección 21 de `Diseno-modelo-datos-arquitectura-piloto-2026-10-03.md`.
+
+---
+
+{
+  "schemaVersion": 1,
+  "defaultPolicy": {
+    "enabled": false,
+    "termsReview": "pending",
+    "robotsReview": "pending",
+    "allowRedirects": false,
+    "maxRequestsPerRun": 25,
+    "minDelayMs": 5000,
+    "maxDepth": 0,
+    "retainRawHtml": false,
+    "retainFullDescription": false,
+    "followExternalLinks": false
+  },
+  "sources": [
+    {
+      "id": "talento-peru-servir",
+      "kind": "official_discovery_portal",
+      "connector": "manual-review",
+      "enabled": false,
+      "decision": "pending_review",
+      "manualAccessStatus": "public_query_documented",
+      "manualReviewStatus": "pending_review",
+      "automatedAccessStatus": "pending_review",
+      "publicReuseStatus": "pending_review",
+      "reviewedAt": "2026-10-26",
+      "officialUrl": "https://www.gob.pe/institucion/servir/campañas/4782-talento-peru",
+      "portalUrl": "https://talentoperu.servir.gob.pe/",
+      "publicQueryUrl": "https://app.servir.gob.pe/DifusionOfertasExterno/faces/consultas/ofertas_laborales.xhtml",
+      "entity": "Autoridad Nacional del Servicio Civil (SERVIR)",
+      "accessMechanism": "Directorio oficial de SERVIR enlaza a una aplicación pública de consulta; no se documentó API/feed ni permiso de extracción/reutilización",
+      "contactEmail": "talentoperu@servir.gob.pe",
+      "contactPhone": "(01) 206-3370, anexos 2519 (empleos) y 2616 (prácticas)",
+      "allowedHosts": ["www.gob.pe", "talentoperu.servir.gob.pe", "app.servir.gob.pe"],
+      "termsReview": "pending",
+      "robotsReview": "pending_unavailable",
+      "rightsReview": "pending",
+      "purpose": "Evaluar descubrimiento de convocatorias estatales para revisión humana; sin extracción habilitada",
+      "maxRequestsPerRun": 0,
+      "minDelayMs": 0,
+      "retainRawHtml": false,
+      "retainFullDescription": false,
+      "evidence": [
+        "https://www.gob.pe/institucion/servir/campa%C3%B1as/4782-talento-peru",
+        "https://www.gob.pe/institucion/servir/informes-publicaciones/6182394-directorio-de-plataformas-para-canales-de-atencion-de-consultas",
+        "https://cdn.www.gob.pe/uploads/document/file/3291482/Preguntas%20frecuentes%20sobre%20Talento%20Per%C3%BA.pdf"
+      ]
+    },
+    {
+      "id": "unmsm-fisi-employment-board",
+      "kind": "institutional_employment_board",
+      "connector": "manual-review",
+      "enabled": false,
+      "decision": "pending_review",
+      "manualAccessStatus": "public_page_documented",
+      "manualReviewStatus": "pending_review",
+      "automatedAccessStatus": "pending_review",
+      "publicReuseStatus": "pending_review",
+      "reviewedAt": "2026-10-26",
+      "officialUrl": "https://sistemas.unmsm.edu.pe/",
+      "entity": "Facultad de Ingeniería de Sistemas e Informática, Universidad Nacional Mayor de San Marcos",
+      "accessMechanism": "Publicaciones de oportunidades laborales en el portal oficial FISI; no se confirmó API/feed ni permiso de automatización/reutilización",
+      "contactPage": "https://sistemas.unmsm.edu.pe/posgrado/directorio/",
+      "contactEmail": "decanato.fisi@unmsm.edu.pe",
+      "contactEmailRole": "Decanato de la FISI",
+      "contactAlternativeEmail": "mesadepartes.fisi@unmsm.edu.pe",
+      "allowedHosts": ["sistemas.unmsm.edu.pe"],
+      "termsReview": "pending",
+      "robotsReview": "pending_unavailable",
+      "rightsReview": "pending",
+      "purpose": "Alternativa institucional evaluada para descubrimiento manual de oportunidades de Sistemas; extracción deshabilitada",
+      "maxRequestsPerRun": 0,
+      "minDelayMs": 0,
+      "retainRawHtml": false,
+      "retainFullDescription": false,
+      "evidence": [
+        "https://sistemas.unmsm.edu.pe/",
+        "https://sistemas.unmsm.edu.pe/site/noticias/35-importante/1844-convocatoria-para-practicas-preprofesionales-gm-ingenieros-y-consultores-s-a-c"
+      ]
+    },
+    {
+      "id": "greenhouse-public-job-board-template",
+      "kind": "public_ats_api",
+      "connector": "greenhouse-job-board",
+      "enabled": false,
+      "baseUrlTemplate": "https://boards-api.greenhouse.io/v1/boards/{boardToken}/jobs",
+      "allowedHosts": ["boards-api.greenhouse.io"],
+      "allowedPostingHosts": ["boards.greenhouse.io", "job-boards.greenhouse.io"],
+      "employer": null,
+      "boardToken": null,
+      "termsReview": "pending",
+      "robotsReview": "not_applicable_api",
+      "rightsReview": "pending",
+      "purpose": "Descubrir publicaciones públicas del portal de carreras del empleador",
+      "maxRequestsPerRun": 1,
+      "minDelayMs": 5000,
+      "retainRawHtml": false,
+      "retainFullDescription": false
+    },
+    {
+      "id": "lever-public-postings-template",
+      "kind": "public_ats_api",
+      "connector": "lever-postings",
+      "enabled": false,
+      "baseUrlTemplate": "https://api.lever.co/v0/postings/{site}?mode=json",
+      "apiOrigin": "https://api.lever.co",
+      "allowedHosts": ["api.lever.co", "api.eu.lever.co"],
+      "allowedPostingHosts": ["jobs.lever.co", "jobs.eu.lever.co"],
+      "employer": null,
+      "site": null,
+      "termsReview": "pending",
+      "robotsReview": "not_applicable_api",
+      "rightsReview": "pending",
+      "purpose": "Descubrir publicaciones públicas del portal de carreras del empleador",
+      "maxRequestsPerRun": 1,
+      "minDelayMs": 5000,
+      "retainRawHtml": false,
+      "retainFullDescription": false
+    },
+    {
+      "id": "ositran-manual-review",
+      "kind": "employer_site",
+      "connector": "manual-review",
+      "enabled": false,
+      "allowedHosts": ["oportunidadlaboral.ositran.gob.pe"],
+      "employer": "OSITRAN",
+      "termsReview": "pending",
+      "robotsReview": "pending",
+      "rightsReview": "pending",
+      "purpose": "Revisión manual de convocatorias públicas y documentos oficiales",
+      "maxRequestsPerRun": 1,
+      "minDelayMs": 10000,
+      "maxDepth": 0,
+      "retainRawHtml": false,
+      "retainFullDescription": false
+    },
+    {
+      "id": "freehire-discovery-reference",
+      "kind": "third_party_index",
+      "connector": "disabled",
+      "enabled": false,
+      "allowedHosts": ["freehire.me"],
+      "termsReview": "pending",
+      "robotsReview": "not_applicable_api",
+      "rightsReview": "pending",
+      "purpose": "Referencia de investigación; no es una dependencia de ejecución",
+      "maxRequestsPerRun": 0,
+      "minDelayMs": 0,
+      "retainRawHtml": false,
+      "retainFullDescription": false
+    },
+    {
+      "id": "canonical-careers",
+      "kind": "employer_site",
+      "connector": "manual-review",
+      "enabled": false,
+      "decision": "pending_review",
+      "manualAccessStatus": "public_page_documented",
+      "manualReviewStatus": "pending_review",
+      "automatedAccessStatus": "pending_review",
+      "publicReuseStatus": "pending_review",
+      "reviewedAt": "2026-11-11",
+      "officialUrl": "https://canonical.com/careers",
+      "entity": "Canonical",
+      "accessMechanism": "Portal corporativo público; no se documentó API/feed ni permiso de automatización o republicación",
+      "contactEmail": "legal@canonical.com",
+      "allowedHosts": ["canonical.com"],
+      "termsReview": "pending",
+      "robotsReview": "pending",
+      "rightsReview": "pending",
+      "purpose": "Evaluar consulta manual de oportunidades técnicas y remotas; sin extracción habilitada",
+      "maxRequestsPerRun": 0,
+      "minDelayMs": 0,
+      "retainRawHtml": false,
+      "retainFullDescription": false,
+      "evidence": [
+        "https://canonical.com/careers",
+        "https://canonical.com/careers/all",
+        "https://canonical.com/careers/company-culture/remote-work",
+        "https://canonical.com/legal/terms",
+        "https://canonical.com/legal/data-privacy"
+      ]
+    }
+  ]
+}
+
+---
+
+# Seguimiento de autorización de fuentes
+
+**Estado al 2026-11-11:** borradores preparados, no enviados. Ninguna fuente está autorizada para extracción automática o republicación por este registro. No usar correos ni formularios en nombre del usuario sin una instrucción posterior.
+
+## Evidencia y contactos oficiales
+
+### SERVIR — Talento Perú
+
+- Fuente: [página oficial Talento Perú](https://www.gob.pe/institucion/servir/campa%C3%B1as/4782-talento-peru).
+- La [página oficial de canales de consulta](https://www.gob.pe/institucion/servir/informes-publicaciones/6182394-directorio-de-plataformas-para-canales-de-atencion-de-consultas) lista “Búsqueda de empleos y prácticas en el Estado — Talento Perú” y enlaza a la [aplicación de consulta pública](https://app.servir.gob.pe/DifusionOfertasExterno/faces/consultas/ofertas_laborales.xhtml). La herramienta de navegación recibió HTTP 403 al abrir esa URL; no permite concluir si el sitio requiere interacción, bloquea automatización o está inaccesible desde este entorno.
+- La página institucional de Talento Perú publica `talentoperu@servir.gob.pe` y los anexos telefónicos para consultas; la nota oficial de lanzamiento también identifica ese correo y los anexos de ofertas laborales/prácticas: [contacto para Talento Perú](https://www.servir.gob.pe/servir-lanza-unico-portal-de-ofertas-de-empleos-y-practicas-en-el-estado-talento-peru/).
+- Contacto de primer envío sugerido: `talentoperu@servir.gob.pe` (canal específico publicado por SERVIR). El teléfono publicado es (01) 206-3370, anexos 2519 para ofertas laborales y 2616 para prácticas, según la página de campaña.
+
+### FISI — UNMSM
+
+- Fuente: [portal oficial FISI](https://sistemas.unmsm.edu.pe/) y [sección Oportunidad Laboral](https://sistemas.unmsm.edu.pe/site/noticias/38-oportunidad-laboral).
+- El [directorio institucional de FISI](https://sistemas.unmsm.edu.pe/posgrado/directorio/) identifica `decanato.fisi@unmsm.edu.pe` como correo del Decanato y `mesadepartes.fisi@unmsm.edu.pe` como Mesa de Partes. Contacto sugerido para la consulta: Decanato; Mesa de Partes queda como canal institucional alterno si no existe otro canal aplicable.
+- El sitio muestra anuncios de empleadores externos y oportunidades institucionales. La autoridad del contenido y del canal de postulación debe evaluarse por cada ficha; no asumir que FISI es el empleador.
+
+### Canonical Careers
+
+- Fuente: [portal oficial de carreras](https://canonical.com/careers), [roles abiertos](https://canonical.com/careers/all) y [política de trabajo remoto](https://canonical.com/careers/company-culture/remote-work).
+- Los [términos del sitio](https://canonical.com/legal/terms) limitan el uso visible del contenido a fines personales, educativos y no comerciales, conservando avisos. No acreditan extracción automatizada ni republicación pública en Aurel.
+- Contacto jurídico publicado: `legal@canonical.com`. El expediente detallado está en [canonical-careers-2026-11-11.md](canonical-careers-2026-11-11.md).
+- Estado: `pending_review`, deshabilitada, presupuesto cero. La candidata es relevante por roles de ingeniería y trabajo remoto, pero la elegibilidad para Perú y los derechos de uso deben confirmarse por escrito.
+
+## Borrador para SERVIR
+
+**Para:** talentoperu@servir.gob.pe<br>
+**Asunto:** Consulta sobre acceso y reutilización de metadatos públicos de Talento Perú
+
+> Señores de SERVIR / equipo de Talento Perú:
+>
+> Estoy preparando Ruta Sistemas, un catálogo independiente para ayudar a estudiantes y profesionales de Ingeniería de Sistemas a encontrar convocatorias públicas y verificar siempre la fuente y el canal oficial de postulación. Antes de incorporar información de Talento Perú, quisiera confirmar las condiciones aplicables.
+>
+> 1. ¿Existe una API, feed, exportación o mecanismo oficial autorizado para consultas automatizadas por un proyecto externo? ¿La aplicación pública de consulta puede consultarse automáticamente o solo mediante navegación humana?
+> 2. ¿Se permite almacenar y reutilizar en un catálogo público metadatos mínimos de una convocatoria (entidad, título, identificador, fechas, ubicación y enlace), sin copiar las bases ni la descripción completa?
+> 3. ¿Qué atribución y enlaces de origen deben mostrarse? ¿Debe enlazarse siempre también al portal de la entidad convocante?
+> 4. ¿Qué frecuencia, límites, identificación del cliente o condiciones técnicas deben respetarse?
+> 5. ¿Qué política de retención, corrección y retirada recomienda o exige SERVIR para registros y metadatos derivados?
+> 6. ¿Qué campo o enlace permite identificar el canal vigente de postulación? ¿La presencia de una ficha en Talento Perú significa que la postulación sigue abierta, o debe confirmarse en el portal de cada entidad?
+> 7. ¿Hay términos, licencias o restricciones que impidan publicar esos metadatos en un catálogo de terceros, incluso citando y enlazando la fuente?
+>
+> Mantendremos la fuente deshabilitada hasta recibir orientación suficiente. Agradeceré que indiquen los términos/documentos oficiales aplicables o el área competente para responder.
+>
+> Atentamente,<br>
+> Equipo Ruta Sistemas
+
+## Borrador para FISI-UNMSM
+
+**Para:** decanato.fisi@unmsm.edu.pe<br>
+**Asunto:** Consulta sobre difusión y reutilización de avisos laborales publicados por FISI
+
+> Señores del Decanato de la Facultad de Ingeniería de Sistemas e Informática:
+>
+> Estoy preparando Ruta Sistemas, un catálogo independiente para orientar a estudiantes y profesionales de Sistemas hacia oportunidades verificables. En el portal FISI observamos avisos laborales y de prácticas, algunos remitidos por empleadores externos. Antes de registrar esos avisos, quisiera confirmar el uso permitido.
+>
+> 1. ¿Existe una API, feed, exportación o mecanismo oficial para consultar avisos; se permite automatizar consultas a las páginas públicas de Oportunidad Laboral?
+> 2. ¿FISI autoriza conservar y publicar metadatos mínimos (título, entidad anunciante, fecha y enlace), sin reproducir el texto íntegro ni anexos? ¿Debe solicitarse autorización a cada empleador anunciante?
+> 3. ¿Qué atribución y enlaces de origen deben mantenerse?
+> 4. ¿Qué frecuencia y límites técnicos deben respetarse?
+> 5. ¿Cuál es el procedimiento para corregir o retirar un aviso, y cuánto tiempo puede conservarse la referencia?
+> 6. ¿Cómo distinguir anuncios vigentes, cerrados o históricos y verificar el canal oficial de postulación?
+> 7. ¿Qué condiciones del portal o de los avisos limitan republicar esos metadatos en un catálogo público?
+>
+> No automatizaremos consultas ni publicaremos avisos hasta aclarar estas condiciones. Si esta consulta corresponde a otra oficina, agradeceré nos indiquen el canal oficial adecuado.
+>
+> Atentamente,<br>
+> Equipo Ruta Sistemas
+
+## Registro de seguimiento y decisión
+
+| Fuente | Contacto verificado | Estado del borrador | Respuesta | Decisión actual |
+|---|---|---|---|---|
+| Talento Perú / SERVIR | `talentoperu@servir.gob.pe`; página de campaña oficial | Preparado; no enviado | Pendiente | `pending_review` |
+| FISI / UNMSM | `decanato.fisi@unmsm.edu.pe`; directorio oficial | Preparado; no enviado | Pendiente | `pending_review` |
+| Canonical Careers | `legal@canonical.com`; términos oficiales | Preparado en expediente; no enviado | Pendiente | `pending_review` |
+
+### Criterios para reabrir la decisión
+
+- **Aprobar consulta automatizada:** obtener una fuente oficial que permita explícitamente el mecanismo y propósito; conocer hosts, límites, frecuencia y manejo de errores; confirmar que no se requieren credenciales o evasión de controles.
+- **Aprobar almacenamiento/reutilización pública:** confirmar el conjunto mínimo de metadatos que puede conservarse/publicarse, atribución, enlaces, retención, corrección y retirada. Si el permiso cubre solo navegación manual, registrar la autorización manual por separado y mantener el adaptador deshabilitado.
+- **Validar publicación de una ficha:** verificar individualmente que el anunciante/entidad de origen está identificado, que la fuente autoriza el uso del dato, y que el canal de postulación vigente y la evidencia reciente pertenecen al empleador o entidad responsable. El TTL y una respuesta HTTP no son prueba de vigencia.
+- **Rechazar:** registrar una prohibición expresa, incompatibilidad de licencia/condiciones, necesidad de eludir controles o falta de canal/evidencia confiable que no pueda corregirse.
+- **Mantener pendiente:** cualquier silencio, respuesta ambigua o evidencia incompleta. No habilitar solicitudes por defecto.
+
+Una autorización manual nunca habilita automáticamente el conector. La configuración debe mantener separadas las decisiones de acceso manual, automatización y reutilización/publicación.
+
+---
+
+# Evaluación de fuente: Canonical Careers
+
+- **Fecha de consulta:** 2026-11-11
+- **ID local propuesto:** `canonical-careers`
+- **Empleador:** Canonical Group Limited / Canonical
+- **Dominio corporativo:** `canonical.com`
+- **Decisión:** `pending_review`
+- **Automatización:** deshabilitada; presupuesto de solicitudes `0`
+
+## Evidencia oficial consultada
+
+1. [Canonical Careers](https://canonical.com/careers) identifica el portal corporativo y muestra departamentos de ingeniería, soporte, producto y otros.
+2. [Open roles](https://canonical.com/careers/all) muestra el buscador y filtros por departamento y región. La consulta de esta fecha no demostró una vacante concreta elegible para Perú; no se ejecutaron endpoints de búsqueda ni automatización.
+3. [Remote work](https://canonical.com/careers/company-culture/remote-work) declara que Canonical es una organización distribuida y describe su política de trabajo remoto. Esto demuestra relevancia potencial para trabajo remoto, no elegibilidad automática desde Perú para cada puesto.
+4. [Website terms and conditions](https://canonical.com/legal/terms) indica que el contenido del sitio es de Canonical o de sus proveedores y que la descarga/impresión se permite para uso personal, educativo y no comercial, conservando avisos. Esta cláusula no autoriza a Aurel a extraer, conservar o republicar anuncios en un catálogo público; requiere confirmación específica.
+5. [Data privacy](https://canonical.com/legal/data-privacy) enlaza una [privacy notice de recruitment](https://canonical.com/legal/data-privacy/recruitment). La política trata datos de postulantes y no concede licencia para reutilizar anuncios ni autoriza a Aurel a conservar datos personales. Aurel no debe capturar CV, nombres, correos ni formularios.
+
+## Evaluación por dimensión
+
+| Dimensión | Estado | Evidencia / límite |
+|---|---|---|
+| Consulta manual | Compatible con restricciones | El portal corporativo es públicamente identificable; se debe revisar cada ficha sin asumir disponibilidad futura. |
+| Automatización | Pendiente de confirmación | No se identificó un API/feed oficial ni permiso explícito para automatización de terceros. No se consultaron endpoints ATS. |
+| Conservación | Pendiente de confirmación | Los términos no definen un conjunto de metadatos de vacantes que Aurel pueda almacenar. No conservar contenido completo ni datos personales. |
+| Reutilización pública | No demostrada | La autorización de uso personal/educativo/no comercial de la web no equivale a permiso para republicación pública en Aurel. |
+| Atribución | Pendiente | Como mínimo sería necesario enlazar la ficha corporativa original y mantener avisos; debe confirmarlo Canonical. |
+| Canal de postulación | Identificable por ficha, por verificar | La postulación debe permanecer en la URL corporativa original; no se debe sustituir por un formulario de Aurel. |
+| Cobertura | Potencialmente relevante | Ingeniería y soporte son pertinentes para Sistemas; la elegibilidad territorial debe comprobarse por puesto. |
+| Viabilidad operativa | No medida | No se ejecutó scraping, API, prueba de carga ni seguimiento de cambios. |
+| Incertidumbre | Alta | Faltan autorización, retención, frecuencia, corrección, retirada y reglas para puestos remotos desde Perú. |
+
+## Propuesta condicionada de incorporación
+
+- **Hosts a evaluar, no autorizados:** `canonical.com` y el host exacto de la ficha corporativa que Canonical confirme. No añadir hosts ATS por conjetura.
+- **Mecanismo:** revisión manual inicial. Solo diseñar un adaptador pequeño si Canonical confirma un mecanismo oficial y sus límites.
+- **Campos mínimos candidatos:** empleador, publisher, título, ubicación/país elegible, modalidad, fecha observada, URL informativa y URL original de postulación.
+- **No almacenar:** descripción completa, requisitos extensos, imágenes, CV, datos de postulantes, cookies, tokens ni contenido sujeto a acceso autenticado.
+- **Atribución:** Canonical como empleador, enlace a la ficha original y cualquier texto de atribución que confirme la empresa.
+- **Presupuesto inicial:** cero hasta respuesta escrita. Si se autoriza automatización, proponer un límite explícito y reversible antes de activar.
+- **Vigencia:** comprobar individualmente que la ficha sigue abierta y que acepta postulantes desde Perú; no inferirlo por la etiqueta “remote”.
+- **Retirada:** retirar o marcar histórica ante cierre, solicitud del empleador, redirección no autorizada o evidencia fuera del TTL.
+
+## Consulta humana preparada, no enviada
+
+Canal sugerido: `legal@canonical.com` aparece en los términos del sitio. La consulta debe pedir confirmación separada sobre:
+
+1. consulta manual y uso de enlaces;
+2. automatización, API/feed o exportación autorizada;
+3. metadatos mínimos que pueden conservarse y plazo;
+4. republicación pública en Aurel y límites de contenido;
+5. atribución obligatoria;
+6. frecuencia, identificación y límites técnicos;
+7. corrección, retirada y eliminación;
+8. URL canónica de postulación y criterio de elegibilidad para Perú;
+9. canal responsable de confirmar permisos de cada vacante.
+
+No se envió correo ni formulario en este bloque.
+
+## Decisión
+
+Canonical es la **candidata privada principal para continuar la resolución humana**, porque tiene un portal corporativo oficial, roles técnicos y una política remota explícita. No es una fuente compatible todavía: los términos visibles restringen el uso del contenido y no hay autorización de automatización o republicación. Permanece deshabilitada, sin presupuesto y fuera del flujo de consulta.
+
