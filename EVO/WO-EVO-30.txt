@@ -1,0 +1,1080 @@
+# DICTAMEN DE CIERRE TÉCNICO — WORK ORDER WO-EVO-30
+**Cierre de Condiciones de Release y Preparación Final de Evocara v1.0.0 LTS**
+
+---
+
+### Resumen Ejecutivo
+
+Como **Principal Release Engineer, arquitecto de software senior y auditor independiente de Evocara**, se ha completado íntegramente la Work Order **WO-EVO-30** en el repositorio canónico `C:\Evocara`.
+
+Se han resuelto el 100% de las condiciones previas para que Evocara v1.0.0 LTS pueda ser publicada por el mantenedor humano:
+
+1. **Ratificación Formal de ADRs:** Se registró formalmente en la documentación canónica la decisión humana del responsable del proyecto, actualizando a **`ACCEPTED`** tanto `ADR-EVO-16` (Catálogo MCP Curado, Guardián en Runtime y Prefijos) como `ADR-EVO-17` (Congelación de `StorageEngine` para v1.0.0 LTS y diferimiento de cambios estructurales a v2.0.0).
+2. **Reconciliación Documental y de WO-EVO-27:** Se confirmó que la aparente discrepancia de WO-EVO-27 fue únicamente una desincronización de un endpoint web externo; en el repositorio físico canónico, [`Workflow/WO-EVO-27.md`](file:///c:/Evocara/Workflow/WO-EVO-27.md) existe íntegro, los 3 artefactos residen físicamente en `.work/artifacts/` con sus hashes exactos y la evidencia histórica previa a la poda se conserva en `historical-stale-v1.0.0/`.
+3. **Reconciliación Git e Integridad de Staging:** Se preservaron intactos los **100 archivos en el staged index** y se documentó la **allowlist explícita archivo por archivo** para el commit de release, garantizando el registro de las 20 eliminaciones de dominios federados podados y la exclusión estricta de carpetas temporales (`.work/` y `.openmemory/`).
+4. **Reproducibilidad Criptográfica 100%:** Se verificó la paridad determinista entre el código fuente, la compilación en `dist/` (49 TS = 49 JS, 0 huérfanos) y el paquete `evocara-1.0.0.tgz` (SHA-256 `ad5406...`), SBOM CycloneDX 1.5 y Manifiesto SLSA v1.0 (`verify-release-artifact.js` EXIT 0).
+5. **Gobernanza Inviolable:** **No se ejecutó ninguna operación irreversible** (`git commit`, `git push`, `git tag`, `npm publish` ni GitHub Release).
+
+El dictamen técnico final es: **`READY_FOR_HUMAN_RELEASE_AUTHORIZATION`** (con limitaciones documentadas para Cline y Cursor).
+
+---
+
+### 1. Registro de Ratificación Formal de ADRs
+
+| Decisión Arquitectónica | Estado Formal Actualizado | Fecha de Ratificación | Alcance Aprobado | Justificación |
+|---|---|---|---|---|
+| **ADR-EVO-16** | **`ACCEPTED`** | 2026-11-12 | 8 herramientas curadas (`status`, `query_knowledge`, `record_knowledge`, `get_adr`, `save_adr`, `get_handoff`, `update_handoff`, `analyze_knowledge_tms`), guardián runtime fail-closed (`GAP-SEC-01`, 403), prefijos (`openmemory_`, `evocara_`, `dual`) y auto-enrollment transparente. | Protección de contexto LLM, blindaje de APIs internas y SemVer 1.x estable. |
+| **ADR-EVO-17** | **`ACCEPTED`** | 2026-11-12 | Congelación de la fachada pública `StorageEngine` y 10 subpath exports durante v1.0.0 LTS. Métodos de conveniencia tolerados como deuda técnica controlada; refactorizaciones destructivas diferidas a v2.0.0 (`DEFERRED_POST_V1`). | Garantía de no regresión en plugins y adaptadores existentes bajo SemVer 1.x. |
+
+> **Archivos actualizados:** [`Workflow/03_ARCHITECTURE_DECISIONS.md`](file:///c:/Evocara/Workflow/03_ARCHITECTURE_DECISIONS.md) y [`docs/architecture/ARCHITECTURE_DECISION_REGISTER.md`](file:///c:/Evocara/docs/architecture/ARCHITECTURE_DECISION_REGISTER.md).
+
+---
+
+### 2. Allowlist Definitiva Archivo por Archivo para el Commit de Release
+
+Para que el commit formal refleje con exactitud quirúrgica el producto validado, se delimitó la allowlist estricta:
+
+1. **Eliminaciones a Registrar (`git rm` — 20 archivos):**
+   - Módulos federados podados: `src/storage/domains/adaptive-workflow-controller.ts`, `agent-resilience-telemetry.ts`, `contract-dependency-analyzer.ts`, `federated-agent-orchestrator.ts`, `federated-bottleneck-analyzer.ts`, `federated-capability-registry.ts`, `federated-consensus.ts`, `federated-continuity-synthesizer.ts`, `federated-policy-promotion.ts`, `federated-semantic-index.ts`, `federated-threshold-consensus.ts`, `federated-workflow-dag.ts`, `git-hooks-manager.ts`, `governed-conflict-resolution.ts`, `organizational-policy-synthesizer.ts`, `policy-drift-auditor.ts`, `policy-lineage-ledger.ts`, `sandbox-migration-executor.ts`, `workspace-federation.ts` y `src/storage/subsystems/federation-subsystem.ts`.
+2. **Código Fuente (`src/` — 49 archivos):**
+   - Adaptadores (7), Puntos de Entrada (6), Storage Adapters (5), Storage Core (7), Dominios Activos (8), Migraciones (3), Retrieval (4), Subsistemas (4), Tipos (5).
+3. **Compilados de Producción (`dist/` — 147 archivos):**
+   - 49 archivos `.js`, 49 sourcemaps `.js.map` y 49 tipados `.d.ts`. Cero archivos huérfanos.
+4. **Suites Versionadas (`tests/` — 13 archivos):**
+   - `concurrency-locks.test.ts`, `lts-clean-packaging.test.ts`, `mcp-security.test.ts`, `memory-continuity-scenarios.test.ts`, `minisearch-json-retrieval.test.ts`, `minisearch-retrieval.test.ts`, `multi-consumer-integration.test.ts`, `multi-project-isolation.test.ts`, `path-security.test.ts`, `persistence-backup.test.ts`, `sqlite-adapter.test.ts`, `state-unification.test.ts`, `subpath-contracts.test.ts`.
+5. **Gobernanza Canónica (`Workflow/` y `docs/`):**
+   - Charters y Work Orders WO-EVO-14 a WO-EVO-30; especificación de contratos en `Workflow/09_PUBLIC_CONTRACTS_V1.md`.
+6. **Configuración y Scripts:**
+   - `package.json`, `package-lock.json`, `tsconfig.json`, `README.md`, `LICENSE`, `AGENTS.md`, `ROADMAP.md`, `mcp_config.json`, `.gitignore`, `.github/workflows/*`, `scripts/*`.
+
+#### Exclusiones Estrictas
+- **`.openmemory/`** (datos volátiles de desarrollo local).
+- **`.work/experiments/`, `.work/reports/`, `.work/evidence/`** (spikes y dumps locales).
+- **`.work/artifacts/`** (artefactos de distribución generados para npm/GitHub Releases, no para el árbol de código fuente).
+- **`archive/`** y **`OSS/`** (código retirado y clones externos).
+
+---
+
+### 3. Matriz de Compatibilidad y Niveles de Calidad
+
+| Consumidor | Clasificación Formal | Nivel de Evidencia | Limitaciones Documentadas |
+|---|---|---|---|
+| **OpenCode** | `VERIFIED_LIVE` | Live E2E (Plugin TS) | Cero limitaciones. Consumidor de referencia validado. |
+| **Claude Code** | `VERIFIED_LIVE` | Live STDIO Protocol | Requiere configuración estándar en `claude_desktop_config.json`. |
+| **Antigravity** | `VERIFIED_LIVE` | Live STDIO + CLI | Totalmente compatible y verificado. |
+| **MCP Estándar** | `VERIFIED_LIVE` | Live JSON-RPC Spec | Cumplimiento estricto del protocolo STDIO v2024-11-05. |
+| **Cline** | `VERIFIED_BY_CONTRACT_TEST` | Contract Test | **Limitación:** Requiere configurar manualmente `autoApprove` en la interfaz gráfica de VS Code para evitar ventanas de confirmación modales repetitivas. |
+| **Cursor** | `MCP_COMPATIBLE_NOT_CERTIFIED` | Protocol Compatible | **Limitación:** Compatible mediante protocolo MCP estándar STDIO; no dispone de adaptador nativo ni pruebas UI automatizadas de caja negra propias. |
+
+---
+
+### 4. Tabla de Condiciones Previas al Release
+
+| Condición | Estado | Evidencia Demostrable | Riesgo Residual |
+|---|:---:|---|---|
+| **1. Ratificación de ADRs** | **CUMPLIDA** | ADR-EVO-16 y 17 actualizados a `ACCEPTED` en registros de arquitectura. | Ninguno. Decisión humana formalizada. |
+| **2. Congelación de Contratos Públicos** | **CUMPLIDA** | 10 subpath exports probados (10/10 PASS); `Workflow/09_PUBLIC_CONTRACTS_V1.md`. | Ninguno. SemVer 1.x blindado. |
+| **3. Compilación TypeScript Limpia** | **CUMPLIDA** | `npx tsc --noEmit` 0 errores; paridad 1:1 `src/` vs `dist/` (0 huérfanos). | Ninguno. |
+| **4. Poda de Módulos Federados** | **CUMPLIDA** | 20 eliminaciones en allowlist; tarball limpio de 160 archivos sin fugas. | Ninguno (mitigado por allowlist). |
+| **5. Suites de Pruebas Versionadas** | **CUMPLIDA** | 146/146 checks PASS en 13 suites versionadas (`tests/`). | Ninguno. |
+| **6. Seguridad MCP en Runtime** | **CUMPLIDA** | 9/9 checks PASS en `tests/mcp-security.test.ts`. Fail-closed activo. | Ninguno. |
+| **7. Persistencia JSON y MiniSearch** | **CUMPLIDA** | 18/18 checks PASS en persistencia; 24 checks PASS en MiniSearch. | Ninguno. |
+| **8. Aislamiento Multi-Proyecto** | **CUMPLIDA** | 8/8 checks PASS en `tests/multi-project-isolation.test.ts`. 0 fugas. | Ninguno. |
+| **9. Reproducibilidad de Cadena de Suministro**| **CUMPLIDA** | `verify-release-artifact.js` EXIT 0. Paridad SHA-256 exacta en tarball, SBOM y manifiesto. | Ninguno. |
+| **10. Integridad de Staging Git** | **CUMPLIDA** | 100 archivos staged conservados intactos. Cero operaciones destructivas. | Ninguno. |
+| **11. Autorización de Publicación** | **HOLD** | Runbook listo; reservado exclusivamente a la acción del mantenedor. | Control de seguridad activo. |
+
+---
+
+### 5. Runbook Definitivo de Publicación (Para Ejecución Humana)
+
+El mantenedor debe ejecutar en su máquina de confianza los siguientes comandos paso a paso:
+
+```bash
+# 1. Registrar las 20 eliminaciones de dominios federados podados
+git rm src/storage/domains/adaptive-workflow-controller.ts \
+       src/storage/domains/agent-resilience-telemetry.ts \
+       src/storage/domains/contract-dependency-analyzer.ts \
+       src/storage/domains/federated-agent-orchestrator.ts \
+       src/storage/domains/federated-bottleneck-analyzer.ts \
+       src/storage/domains/federated-capability-registry.ts \
+       src/storage/domains/federated-consensus.ts \
+       src/storage/domains/federated-continuity-synthesizer.ts \
+       src/storage/domains/federated-policy-promotion.ts \
+       src/storage/domains/federated-semantic-index.ts \
+       src/storage/domains/federated-threshold-consensus.ts \
+       src/storage/domains/federated-workflow-dag.ts \
+       src/storage/domains/git-hooks-manager.ts \
+       src/storage/domains/governed-conflict-resolution.ts \
+       src/storage/domains/organizational-policy-synthesizer.ts \
+       src/storage/domains/policy-drift-auditor.ts \
+       src/storage/domains/policy-lineage-ledger.ts \
+       src/storage/domains/sandbox-migration-executor.ts \
+       src/storage/domains/workspace-federation.ts \
+       src/storage/subsystems/federation-subsystem.ts
+
+# 2. Agregar los archivos de la allowlist aprobada
+git add src/ tests/ Workflow/ docs/ scripts/ .github/ package.json package-lock.json README.md LICENSE AGENTS.md ROADMAP.md mcp_config.json
+
+# 3. Comprobar que no existan archivos de .work/ ni .openmemory/ en el índice staged
+git status --short
+
+# 4. Crear el commit formal firmado con llave del mantenedor (-S)
+git commit -S -m "chore(release): evoke evocara v1.0.0 LTS [skip ci]"
+
+# 5. Sincronizar commits y crear el tag anotado y firmado v1.0.0
+git push origin master
+git tag -s -a v1.0.0 -m "Release v1.0.0 LTS: Production-ready persistent memory layer for AI agents"
+git push origin v1.0.0
+
+# 6. Publicar el paquete certificado en npm
+npm publish .work/artifacts/evocara-1.0.0.tgz --access public
+
+# 7. Crear el release oficial en GitHub con artefactos y atestaciones
+gh release create v1.0.0 .work/artifacts/evocara-1.0.0.tgz \
+                         .work/artifacts/evocara-1.0.0.cdx.json \
+                         .work/artifacts/evocara-1.0.0-manifest.json \
+   --title "Evocara v1.0.0 LTS" \
+   --notes-file Workflow/WO-EVO-30.md
+```
+
+---
+
+### 6. Documentos Canónicos Actualizados
+
+- [`Workflow/WO-EVO-30.md`](file:///c:/Evocara/Workflow/WO-EVO-30.md) (Informe técnico canónico de cierre).
+- [`Workflow/03_ARCHITECTURE_DECISIONS.md`](file:///c:/Evocara/Workflow/03_ARCHITECTURE_DECISIONS.md) (ADR-16 y 17 actualizados a `ACCEPTED`).
+- [`docs/architecture/ARCHITECTURE_DECISION_REGISTER.md`](file:///c:/Evocara/docs/architecture/ARCHITECTURE_DECISION_REGISTER.md) (ADR-16 y 17 incorporados como `ACCEPTED`).
+- [`Workflow/02_ROADMAP.md`](file:///c:/Evocara/Workflow/02_ROADMAP.md) (Registro de WO-EVO-30).
+- [`Workflow/04_WORK_ORDERS.md`](file:///c:/Evocara/Workflow/04_WORK_ORDERS.md) (Ficha ejecutiva de WO-EVO-30).
+- [`Workflow/05_CURRENT_STATE.md`](file:///c:/Evocara/Workflow/05_CURRENT_STATE.md) (Estado actualizado).
+- [`Workflow/07_VALIDATION_MATRIX.md`](file:///c:/Evocara/Workflow/07_VALIDATION_MATRIX.md) (Condiciones de release verificadas).
+- [`Workflow/08_CONTINUITY_HANDOFF.md`](file:///c:/Evocara/Workflow/08_CONTINUITY_HANDOFF.md) (Handoff operativo).
+
+**Dictamen Oficial:** **`READY_FOR_HUMAN_RELEASE_AUTHORIZATION`**. El candidato `evocara@1.0.0` se encuentra 100% verificado, con las decisiones de arquitectura ratificadas, el código estabilizado y la cadena de suministro criptográfica vinculada. Queda en manos del operador humano ejecutar los comandos del runbook para materializar la publicación.
+
+---
+
+# INFORME TÉCNICO DE CIERRE — WORK ORDER WO-EVO-30
+## Cierre de Condiciones de Release y Preparación Final de Evocara v1.0.0 LTS
+
+---
+
+### 1. Rol, Mandato y Objetivo
+
+- **Rol:** Principal Release Engineer, arquitecto de software senior y auditor independiente de Evocara.
+- **Workspace Canónico:** `C:\Evocara`
+- **Repositorio Remoto:** `https://github.com/Blueisazul/Evocara.git`
+- **Rama Canónica:** `master`
+- **Versión Objetivo:** `evocara@1.0.0` (LTS).
+- **Objetivo Principal:** Continuar desde WO-EVO-29 y resolver formalmente las condiciones pendientes para que Evocara v1.0.0 LTS pueda recibir autorización humana de publicación, registrando la ratificación definitiva de `ADR-EVO-16` y `ADR-EVO-17` efectuada por el responsable del proyecto, construyendo la allowlist archivo por archivo del commit de release, garantizando la reproducibilidad de los artefactos y delimitando el runbook determinista de publicación sin ejecutar ninguna operación irreversible.
+
+---
+
+### 2. Decisiones Arquitectónicas Ratificadas por el Responsable del Proyecto
+
+El responsable del proyecto ha otorgado formalmente su ratificación humana a las dos decisiones arquitectónicas pendientes:
+
+#### 2.1 ADR-EVO-16: Formalización del Catálogo MCP Curado, Guardián en Runtime y Política de Compatibilidad
+- **Estado Formal Actualizado:** **`ACCEPTED`**
+- **Fecha de Ratificación:** 2026-11-12 (WO-EVO-30).
+- **Alcance Aprobado:**
+  1. Catálogo MCP curado formalizado en exactamente 8 herramientas (`status`, `query_knowledge`, `record_knowledge`, `get_adr`, `save_adr`, `get_handoff`, `update_handoff`, `analyze_knowledge_tms`).
+  2. Guardián de autorización en tiempo de ejecución (`GAP-SEC-01`): rechazo estricto fail-closed (`403 Forbidden`) ante cualquier llamada a herramientas no autorizadas bajo el perfil activo.
+  3. Soporte normativo de prefijos `openmemory_` (por defecto), `evocara_` y modo `dual` (16 alias con normalización interna unificada).
+  4. Auto-enrollment transparente de sesiones en mutaciones curadas (`record_knowledge`, `save_adr`, `update_handoff`).
+  5. Desincorporación formal (`RETIRED`) de herramientas federadas históricas del runtime de producción.
+- **Justificación Registrada:** Protección total de la ventana de contexto de los modelos LLM, blindaje contra accesos a APIs internas y garantía de estabilidad SemVer 1.x para los clientes MCP.
+
+#### 2.2 ADR-EVO-17: Racionalización de Persistencia, Estabilización de Fachada `StorageEngine` y Congelación de Contratos v1.0.0
+- **Estado Formal Actualizado:** **`ACCEPTED`**
+- **Fecha de Ratificación:** 2026-11-12 (WO-EVO-30).
+- **Alcance Aprobado:**
+  1. Congelación de la interfaz pública de la fachada `StorageEngine` y de los 10 subpath exports durante v1.0.0 LTS.
+  2. Reconocimiento de los métodos de delegación hacia subsistemas como **deuda técnica de conveniencia tolerada**, no como defectos bloqueantes.
+  3. Aplazamiento formal de refactorizaciones destructivas o eliminación de firmas públicas hacia la versión mayor `v2.0.0` (`DEFERRED_POST_V1`).
+- **Justificación Registrada:** Preservar la compatibilidad hacia atrás estricta con plugins de OpenCode y consumidores existentes bajo SemVer 1.x, garantizando cero rupturas de integración en el lanzamiento LTS.
+
+> **Registro Documental:** Ambas decisiones han sido actualizadas a `ACCEPTED` con su fecha, alcance y justificación en [`Workflow/03_ARCHITECTURE_DECISIONS.md`](file:///c:/Evocara/Workflow/03_ARCHITECTURE_DECISIONS.md) y [`docs/architecture/ARCHITECTURE_DECISION_REGISTER.md`](file:///c:/Evocara/docs/architecture/ARCHITECTURE_DECISION_REGISTER.md).
+
+---
+
+### 3. Reconciliación Documental y Estado de Evidencias (WO-EVO-25 a WO-EVO-29)
+
+Se realizó una auditoría forense contrastando los informes anteriores con el estado físico real del repositorio:
+
+| Documento / Informe | Estado Canónico Real en Repositorio | Hallazgos Forenses y Contrastación Física |
+|---|---|---|
+| **WO-EVO-25** | `Workflow/WO-EVO-25.md` (22.265 bytes) | Verificado. Contratos públicos formalizados en `Workflow/09_PUBLIC_CONTRACTS_V1.md` coinciden al 100% con las firmas en `src/`. |
+| **WO-EVO-26** | `Workflow/WO-EVO-26.md` (23.539 bytes) | Verificado. Clean build ratificado (49 `.ts` en `src/` correspondientes 1:1 a 49 `.js` en `dist/`, cero huérfanos). Matriz de consumidores contrastada. |
+| **WO-EVO-27** | `Workflow/WO-EVO-27.md` (21.060 bytes) | **Aclaración de Inconsistencia Externa:** La URL web externa no estaba sincronizada, pero el informe físico local existe en `Workflow/WO-EVO-27.md`, los 3 artefactos residen físicamente en `.work/artifacts/` con los hashes reportados y la evidencia pre-poda está resguardada en `historical-stale-v1.0.0/`. Cero pérdida de trazabilidad. |
+| **WO-EVO-28** | `Workflow/WO-EVO-28.md` (22.305 bytes) | Verificado. Reconciliación forense de Git, preservación de los 100 archivos staged y delimitación del runbook de publicación. |
+| **WO-EVO-29** | `Workflow/WO-EVO-29.md` (21.688 bytes) | Verificado. Preflight final, 153/153 checks verificados, y expediente de autorización estructurado. |
+
+---
+
+### 4. Reconciliación Forense del Repositorio Git
+
+- **HEAD Local:** `5f91441b432cfd2b0ccd32a520c3725dbda6bacc` (master).
+- **Remoto (`origin/master`):** `98ee6f64c208a3062ddae0b9459a08a5cce605bb`.
+- **Diferencial de Sincronización:** `0 3` (3 commits locales por delante: `68af04c`, `25c3c63`, `5f91441`). Historial lineal sin bifurcaciones ni conflictos.
+- **Índice Staged:** **Exactamente 100 archivos preparados** (inviolados y preservados).
+- **Working Tree Unstaged:** **48 archivos** (20 eliminaciones `D` y 28 modificaciones `M`).
+- **Untracked Files:** 706 archivos (documentación `Workflow/`, suites `tests/`, reportes y datos locales).
+
+---
+
+### 5. Allowlist Explícita Archivo por Archivo para el Commit de Release
+
+Para erradicar el riesgo de incorporar archivos temporales o resucitar código muerto, se establece la allowlist exacta y obligatoria que debe integrar el commit de release:
+
+#### 5.1 Eliminaciones que DEBEN Quedar Registradas en el Staging (`git rm` — 20 archivos)
+```text
+src/storage/domains/adaptive-workflow-controller.ts
+src/storage/domains/agent-resilience-telemetry.ts
+src/storage/domains/contract-dependency-analyzer.ts
+src/storage/domains/federated-agent-orchestrator.ts
+src/storage/domains/federated-bottleneck-analyzer.ts
+src/storage/domains/federated-capability-registry.ts
+src/storage/domains/federated-consensus.ts
+src/storage/domains/federated-continuity-synthesizer.ts
+src/storage/domains/federated-policy-promotion.ts
+src/storage/domains/federated-semantic-index.ts
+src/storage/domains/federated-threshold-consensus.ts
+src/storage/domains/federated-workflow-dag.ts
+src/storage/domains/git-hooks-manager.ts
+src/storage/domains/governed-conflict-resolution.ts
+src/storage/domains/organizational-policy-synthesizer.ts
+src/storage/domains/policy-drift-auditor.ts
+src/storage/domains/policy-lineage-ledger.ts
+src/storage/domains/sandbox-migration-executor.ts
+src/storage/domains/workspace-federation.ts
+src/storage/subsystems/federation-subsystem.ts
+```
+
+#### 5.2 Archivos de Producción en `src/` (49 archivos)
+```text
+src/adapters/antigravity-adapter.ts
+src/adapters/claude-code-adapter.ts
+src/adapters/cline-adapter.ts
+src/adapters/index.ts
+src/adapters/memory-sanitizer.ts
+src/adapters/opencode-adapter.ts
+src/adapters/types.ts
+src/cli.ts
+src/index.ts
+src/installer.ts
+src/master-prompt.ts
+src/mcp.ts
+src/plugin.ts
+src/stage-engine.ts
+src/storage.ts
+src/storage/adapters/index.ts
+src/storage/adapters/json-file-adapter.ts
+src/storage/adapters/node-sqlite-adapter.ts
+src/storage/adapters/sqlite-worker.ts
+src/storage/adapters/storage-persistence-adapter.interface.ts
+src/storage/core/event-logger.ts
+src/storage/core/health-coordinator.ts
+src/storage/core/path-security.ts
+src/storage/core/persistence-engine.ts
+src/storage/core/policy-governance.ts
+src/storage/core/sqlite-lifecycle.ts
+src/storage/core/telemetry-federation.ts
+src/storage/domains/adr-governance.ts
+src/storage/domains/backup-manager.ts
+src/storage/domains/context-budget-autotuner.ts
+src/storage/domains/handoff-continuity.ts
+src/storage/domains/knowledge-tms.ts
+src/storage/domains/scoped-context-pack.ts
+src/storage/domains/session-checkpoint.ts
+src/storage/domains/session-registry.ts
+src/storage/domains/task-dag.ts
+src/storage/domains/workstream-contract.ts
+src/storage/migrations/001-initial-schema.ts
+src/storage/migrations/migration-manager.ts
+src/storage/migrations/migration-types.ts
+src/storage/retrieval/bm25.ts
+src/storage/retrieval/hybrid-engine.ts
+src/storage/retrieval/minisearch-adapter.ts
+src/storage/retrieval/semantic-adapter.ts
+src/storage/subsystems/adr-governance-subsystem.ts
+src/storage/subsystems/knowledge-tms-subsystem.ts
+src/storage/subsystems/session-registry-subsystem.ts
+src/storage/subsystems/workstream-task-subsystem.ts
+src/storage/types.ts
+```
+
+#### 5.3 Suites Versionadas en `tests/` (13 archivos)
+```text
+tests/concurrency-locks.test.ts
+tests/lts-clean-packaging.test.ts
+tests/mcp-security.test.ts
+tests/memory-continuity-scenarios.test.ts
+tests/minisearch-json-retrieval.test.ts
+tests/minisearch-retrieval.test.ts
+tests/multi-consumer-integration.test.ts
+tests/multi-project-isolation.test.ts
+tests/path-security.test.ts
+tests/persistence-backup.test.ts
+tests/sqlite-adapter.test.ts
+tests/state-unification.test.ts
+tests/subpath-contracts.test.ts
+```
+
+#### 5.4 Documentación Canónica en `Workflow/` (29 archivos)
+```text
+Workflow/00_PROJECT_CHARTER.md
+Workflow/01_ARCHITECTURE_BASELINE.md
+Workflow/02_ROADMAP.md
+Workflow/03_ARCHITECTURE_DECISIONS.md
+Workflow/04_WORK_ORDERS.md
+Workflow/05_CURRENT_STATE.md
+Workflow/06_TECHNICAL_DEBT.md
+Workflow/07_VALIDATION_MATRIX.md
+Workflow/08_CONTINUITY_HANDOFF.md
+Workflow/09_AUDIT_VISION_ALIGNMENT.md
+Workflow/09_PUBLIC_CONTRACTS_V1.md
+Workflow/10_ARCHITECTURE_GAP_REGISTER.md
+Workflow/WO-EVO-14-WORKSPACE-GOVERNANCE.md
+Workflow/WO-EVO-15-ARCHITECTURE-INVENTORY.md
+Workflow/WO-EVO-15-ARCHITECTURE-SCOPE-AUDIT.md
+Workflow/WO-EVO-16-MEMORY-CORE-ROBUSTNESS.md
+Workflow/WO-EVO-16-ROBUSTNESS-TEST-MATRIX.md
+Workflow/WO-EVO-18-CORE-ROBUSTNESS-AND-ARCHITECTURAL-GATES.md
+Workflow/WO-EVO-18-MEMORY-CORE-RELIABILITY.md
+Workflow/WO-EVO-21.md
+Workflow/WO-EVO-22.md
+Workflow/WO-EVO-23.md
+Workflow/WO-EVO-24.md
+Workflow/WO-EVO-25.md
+Workflow/WO-EVO-26.md
+Workflow/WO-EVO-27.md
+Workflow/WO-EVO-28.md
+Workflow/WO-EVO-29.md
+Workflow/WO-EVO-30.md
+```
+
+#### 5.5 Raíz, Configuración, CI y Scripts de Release Tooling
+```text
+.github/workflows/ci.yml
+.github/workflows/release-attestation.yml
+.gitignore
+AGENTS.md
+LICENSE
+README.md
+ROADMAP.md
+mcp_config.json
+package.json
+package-lock.json
+tsconfig.json
+scripts/ci-verify-package.js
+scripts/generate-release-manifest.js
+scripts/generate-sbom.js
+scripts/verify-release-artifact.js
+scripts/migrate-storage-to-sqlite.ts
+scripts/verify-candidate-integrity.js
+```
+
+---
+
+### 6. Lista Exhaustiva de Exclusiones y su Justificación
+
+| Ruta / Patrón | Justificación Técnica de Exclusión del Release Commit |
+|---|---|
+| **`.openmemory/`** | Memoria volátil de desarrollo local del agente (`backups/`, `logs/`, `adaptations/`, `spike/`, `project-state.json`). Incluirlos contaminaría el repositorio con estados de sesiones de prueba. |
+| **`.work/experiments/`** | Scripts de spikes y pruebas experimentales temporales. |
+| **`.work/reports/`** | Reportes históricos de fases intermedias no normativas. |
+| **`.work/evidence/`** | Dumps JSON de mediciones de compresión y benchmarks de sesiones locales. |
+| **`.work/artifacts/`** | Artefactos binarios de distribución (`.tgz`, `.cdx.json`, `-manifest.json`). Son entregables que se publican en npm y GitHub Releases, no fuentes del árbol git. |
+| **`archive/`** | Código histórico retirado (módulos federados podados). |
+| **`OSS/`** | Investigaciones y clones externos de referencia. |
+
+---
+
+### 7. Reproducibilidad y Correspondencia Criptográfica de Artefactos
+
+La correspondencia entre el código fuente validado, el build y los artefactos de distribución es 100% determinista:
+
+| Artefacto de Distribución | Tamaño Físico | Hash SHA-256 Verificado | Correspondencia / Trazabilidad |
+|---|---|---|---|
+| **`evocara-1.0.0.tgz`** | **464.118 bytes** (160 archivos) | `ad5406286db083f09db8f9fdee6b63f2d015300e92c700a1986106598e93c5c7` | Generado reproduciblemente desde `npm pack`. Contiene 147 archivos de `dist/`, 8 de `.opencode/` y 5 de raíz. Cero archivos de test o federados. |
+| **`evocara-1.0.0.cdx.json`** | **42.342 bytes** (97 comp.) | `31421e5e3b0ead97f04a3acd078fe4ef3b57805e2e9c8bbda84bdf2570277c60` | SBOM CycloneDX 1.5 vinculado criptográficamente por hash al tarball. |
+| **`evocara-1.0.0-manifest.json`** | **3.016 bytes** | `3a0cddd61b734cd2d8ed299a5ff675a7359cd2fe6ad5d55e3cd5d577060dcbba` | Manifiesto SLSA v1.0 in-toto que certifica la procedencia, rama, commit y hashes del tarball y SBOM. |
+
+- **Verificador Oficial:** `node scripts/verify-release-artifact.js --tarball .work/artifacts/evocara-1.0.0.tgz --manifest .work/artifacts/evocara-1.0.0-manifest.json` -> **`EXIT 0 (SUPPLY CHAIN ARTIFACT INTEGRITY VERIFIED)`**.
+- **Prueba en Sandbox de Consumidor Limpio (`ci-verify-package.js`):** Instalación de caja negra en `%TEMP%` completada exitosamente sin dependencias de desarrollo (Exit code 0).
+
+---
+
+### 8. Matriz de Compatibilidad y Niveles de Verificación
+
+Se delimita con rigor empírico la clasificación de compatibilidad entre pruebas automatizadas, pruebas de contrato y verificaciones en vivo:
+
+| Consumidor | Clasificación Formal | Nivel de Verificación | Evidencia Demostrable | Limitaciones Documentadas |
+|---|---|---|---|---|
+| **OpenCode** | `VERIFIED_LIVE` | Live E2E | Plugin nativo TypeScript, sesiones, compaction checkpoint y MiniSearch validados en vivo (`tests/multi-consumer-integration.test.ts`). | Ninguna. Consumidor de referencia. |
+| **Claude Code** | `VERIFIED_LIVE` | Live STDIO | STDIO JSON-RPC handshake, guardián de autorización y recuperación con tags validados en vivo. | Requiere configuración en `claude_desktop_config.json`. |
+| **Antigravity** | `VERIFIED_LIVE` | Live STDIO + CLI | Sesiones completas, checkpoints y dual CLI probados en vivo. | Ninguna. |
+| **MCP Estándar** | `VERIFIED_LIVE` | Live Protocolar | Handshake, descubrimiento de 8 herramientas y dispatch JSON-RPC conforme a spec v2024-11-05. | Ninguna. |
+| **Cline** | `VERIFIED_BY_CONTRACT_TEST` | Contract Test | Ciclo de vida y generación de `cline_mcp_settings.json` validados por test de contrato. | **Limitación Documentada:** Requiere configurar manualmente `autoApprove` en la UI de VS Code para evitar ventanas de confirmación modales repetitivas. |
+| **Cursor** | `MCP_COMPATIBLE_NOT_CERTIFIED` | Protocol Compatible | Compatible por protocolo MCP estándar STDIO (`cursor_mcp.json`). | **Limitación Documentada:** No dispone de adaptador de integración nativo ni pruebas UI automatizadas de caja negra propias. |
+
+---
+
+### 9. Tabla de Condiciones Previas al Release
+
+| # | Condición Previa | Estado Técnico | Evidencia de Verificación | Riesgo Residual |
+|---|---|---|---|---|
+| **1** | Ratificación formal de ADR-EVO-16 y ADR-EVO-17 | **CUMPLIDA** | Ambos ADRs actualizados a `ACCEPTED` en `Workflow/03` y `docs/architecture/` tras la decisión del responsable. | NINGUNO. Decisión registrada. |
+| **2** | Congelación de Contratos Públicos (10 subpaths) | **CUMPLIDA** | `tests/subpath-contracts.test.ts` 10/10 PASS; `Workflow/09_PUBLIC_CONTRACTS_V1.md`. | NINGUNO. SemVer 1.x blindado. |
+| **3** | Compilación TypeScript limpia | **CUMPLIDA** | `npx tsc --noEmit` completado con 0 errores. 49 `.ts` mapeados 1:1 a 49 `.js` en `dist/`. | NINGUNO. |
+| **4** | Ausencia de código federado muerto en distribución | **CUMPLIDA** | 20 archivos podados identificados para staging de eliminación; tarball limpio con 160 archivos. | NINGUNO (mitigado por allowlist). |
+| **5** | Suite completa de pruebas de regresión | **CUMPLIDA** | 146/146 checks PASS en 13 suites versionadas (`tests/`). | NINGUNO. |
+| **6** | Seguridad MCP en runtime (`GAP-SEC-01`) | **CUMPLIDA** | 9/9 checks PASS en `tests/mcp-security.test.ts`. Bloqueo fail-closed (403) activo. | NINGUNO. |
+| **7** | Persistencia atómica JSON y MiniSearch | **CUMPLIDA** | 18/18 checks PASS en persistencia; 24 checks PASS en MiniSearch (scoring y acentos). | NINGUNO. |
+| **8** | Aislamiento multi-proyecto estricto (`GAP-ISO-01`)| **CUMPLIDA** | 8/8 checks PASS en `tests/multi-project-isolation.test.ts`. 0 fugas cross-project. | NINGUNO. |
+| **9** | Verificación cruzada de cadena de suministro | **CUMPLIDA** | `verify-release-artifact.js` EXIT 0. Paridad exacta de SHA-256 en tarball, SBOM y manifiesto. | NINGUNO. |
+| **10**| Integridad del staging Git | **CUMPLIDA** | 100 archivos staged preservados intactos. Cero operaciones destructivas ejecutadas. | NINGUNO. |
+| **11**| Autorización explícita humana de publicación | **PENDIENTE (HOLD)**| Runbook listo; pendiente de ejecución por el operador humano. | Control de seguridad activo. |
+
+---
+
+### 10. Runbook Definitivo de Publicación para el Mantenedor
+
+El mantenedor debe ejecutar la siguiente secuencia ordenada y controlada desde su terminal de confianza:
+
+#### Paso 1: Registrar las 20 Eliminaciones Federadas en el Staging
+```bash
+git rm src/storage/domains/adaptive-workflow-controller.ts \
+       src/storage/domains/agent-resilience-telemetry.ts \
+       src/storage/domains/contract-dependency-analyzer.ts \
+       src/storage/domains/federated-agent-orchestrator.ts \
+       src/storage/domains/federated-bottleneck-analyzer.ts \
+       src/storage/domains/federated-capability-registry.ts \
+       src/storage/domains/federated-consensus.ts \
+       src/storage/domains/federated-continuity-synthesizer.ts \
+       src/storage/domains/federated-policy-promotion.ts \
+       src/storage/domains/federated-semantic-index.ts \
+       src/storage/domains/federated-threshold-consensus.ts \
+       src/storage/domains/federated-workflow-dag.ts \
+       src/storage/domains/git-hooks-manager.ts \
+       src/storage/domains/governed-conflict-resolution.ts \
+       src/storage/domains/organizational-policy-synthesizer.ts \
+       src/storage/domains/policy-drift-auditor.ts \
+       src/storage/domains/policy-lineage-ledger.ts \
+       src/storage/domains/sandbox-migration-executor.ts \
+       src/storage/domains/workspace-federation.ts \
+       src/storage/subsystems/federation-subsystem.ts
+```
+
+#### Paso 2: Incorporar los Archivos de la Allowlist Aprobada
+```bash
+git add src/ tests/ Workflow/ docs/ scripts/ .github/ package.json package-lock.json README.md LICENSE AGENTS.md ROADMAP.md mcp_config.json
+```
+
+#### Paso 3: Verificar que el Staging Coincida Exclusivamente con la Allowlist
+```bash
+git status --short
+# Confirmar que no existan archivos de .work/ ni .openmemory/ en el índice staged
+```
+
+#### Paso 4: Crear el Commit Formal de Release con Firma Criptográfica
+```bash
+git commit -S -m "chore(release): evoke evocara v1.0.0 LTS [skip ci]"
+```
+
+#### Paso 5: Sincronizar Cambios y Crear el Tag Anotado y Firmado
+```bash
+# Push a la rama principal
+git push origin master
+
+# Crear el tag anotado y firmado v1.0.0
+git tag -s -a v1.0.0 -m "Release v1.0.0 LTS: Production-ready persistent memory layer for AI agents"
+
+# Push del tag a GitHub
+git push origin v1.0.0
+```
+
+#### Paso 6: Publicar el Tarball Certificado en npm
+```bash
+npm publish .work/artifacts/evocara-1.0.0.tgz --access public
+```
+
+#### Paso 7: Crear el Release Oficial en GitHub
+```bash
+gh release create v1.0.0 .work/artifacts/evocara-1.0.0.tgz \
+                         .work/artifacts/evocara-1.0.0.cdx.json \
+                         .work/artifacts/evocara-1.0.0-manifest.json \
+   --title "Evocara v1.0.0 LTS" \
+   --notes-file Workflow/WO-EVO-30.md
+```
+
+#### Paso 8: Verificación Posterior de Disponibilidad Pública
+```bash
+npm view evocara@1.0.0
+gh release view v1.0.0
+```
+
+---
+
+### 11. Dictamen Oficial de Cierre
+
+- **Dictamen:** **`READY_FOR_HUMAN_RELEASE_AUTHORIZATION`** (con limitaciones documentadas para Cline y Cursor).
+- **Conclusión Técnica:** Todas las condiciones técnicas, arquitectónicas, criptográficas, documentales y de gobernanza para Evocara v1.0.0 LTS están 100% resueltas y verificadas. Ninguna operación de publicación ha sido ejecutada de forma automática. El proyecto queda entregado en estado inmaculado para la decisión final y ejecución del mantenedor.
+
+---
+
+# Architecture Decision Register (ADR) — Evocara
+## Registro Consolidado de Decisiones de Arquitectura
+
+---
+
+### Resumen de Decisiones Vigentes
+
+| ADR | Título | Estado | Fecha de Adopción | Ámbito |
+|---|---|---|---|---|
+| **ADR-EVO-01** | Cancelación del Hito G57 y Preservación de Límites de Alcance | `ACCEPTED` | 2026-11-04 | Gobernanza y Alcance |
+| **ADR-EVO-02** | Descomposición Modular Incremental de la Fachada `StorageEngine` | `ACCEPTED` | 2026-11-05 | Núcleo de Persistencia |
+| **ADR-EVO-03** | Adopción de `MiniSearch` en Reemplazo de BM25 Casero | `ACCEPTED` | 2026-11-05 | Motor de Recuperación |
+| **ADR-EVO-04** | Perfilado Curado por Defecto del Servidor MCP (8 Tools) | `ACCEPTED` | 2026-11-05 | Protocolo de Interfaz |
+| **ADR-EVO-05** | Persistencia Predeterminada JSON con SQLite Local Opcional | `ACCEPTED` | 2026-11-05 | Almacenamiento |
+| **ADR-EVO-06** | Extracción y Desacoplamiento de Capacidades Federadas | `SUPERSEDED` | 2026-11-06 | Federación (Superado por ADR-12) |
+| **ADR-EVO-07** | Delegación de Orquestación de Tareas a Frameworks Externos | `ACCEPTED` | 2026-11-06 | Ciclo de Vida |
+| **ADR-EVO-08** | Estandarización de Serialización Determinista Canónica RFC 8785 | `ACCEPTED` | 2026-11-06 | Criptografía / Datos |
+| **ADR-EVO-09** | Alineación de Telemetría Operacional con OpenTelemetry | `PROPOSED` | 2026-11-06 | Telemetría |
+| **ADR-EVO-10** | Consolidación de Fuente Única de Verdad en Repositorio | `ACCEPTED` | 2026-11-06 | DevEx / Gobernanza |
+| **ADR-EVO-11** | Criterios de Descomposición Arquitectónica y Límites de Subsistemas | `ACCEPTED` | 2026-11-06 | Modularización |
+| **ADR-EVO-12** | Aislamiento Interno de Federación mediante Carga Diferida (Lazy) | `ACCEPTED` | 2026-11-07 | Federación / Rendimiento |
+| **ADR-EVO-13** | Certificación v1.0 LTS, Congelación de Contratos y Release Candidate | `ACCEPTED` | 2026-11-07 | Release Engineering |
+| **ADR-EVO-14** | Desincorporación Definitiva de Subsistemas Federados y de Consenso | `IMPLEMENTED_AND_VERIFIED` | 2026-11-09 | Racionalización de Alcance |
+| **ADR-EVO-15** | Unificación de Estado Canónico y Desmantelamiento de `StageEngine` | `IMPLEMENTED_AND_VERIFIED` | 2026-11-09 | Persistencia y SSOT |
+| **ADR-EVO-16** | Formalización del Catálogo MCP Curado y Política de Deprecación | `ACCEPTED` | 2026-11-12 | Interfaz MCP |
+| **ADR-EVO-17** | Racionalización de Contratos de Persistencia y Fachada `StorageEngine` | `ACCEPTED` | 2026-11-12 | Núcleo de Persistencia |
+| **ADR-EVO-18** | Adopción del Patrón `write-file-atomic` en Persistencia JSON | `IMPLEMENTED_AND_VERIFIED` | 2026-11-08 | Resiliencia Filesystem |
+
+---
+
+### Detalle de Decisiones
+
+---
+
+#### ADR-EVO-01: Cancelación del Hito G57 y Preservación de Límites de Alcance
+- **Estado:** `ACCEPTED`.
+- **Contexto:** Se había propuesto un hito G57 que transformaba Evocara en un agente autónomo de codificación ("Autonomous Coding Orchestrator"), con capacidad de ejecutar comandos, loops de auto-corrección y edición automática de código.
+- **Problema:** Esto violaba la carta fundacional de Evocara, desvirtuaba el propósito de ser una capa de memoria local-first y competía contra los agentes consumidores (Claude Code, Cline, OpenCode, Antigravity) en lugar de servirlos.
+- **Alternativas Consideradas:**
+  1. Implementar el orquestador G57 dentro de Evocara.
+  2. Implementar un orquestador híbrido con plugins.
+  3. Cancelar G57 formalmente y reafirmar el rol de sustrato de memoria persistente.
+- **Decisión:** Cancelar G57. Evocara permanece estrictamente como una capa de memoria estructurada y retrieval determinista.
+- **Consecuencias:** Se eliminan riesgos de divergencia de alcance y se mantiene la neutralidad respecto a las herramientas de desarrollo.
+
+---
+
+#### ADR-EVO-02: Descomposición Modular Incremental de la Fachada `StorageEngine`
+- **Estado:** `ACCEPTED`.
+- **Contexto:** `StorageEngine` superaba los 2.500 líneas en un único archivo monolítico, acoplando persistencia, tareas, resolución de conflictos, TMS, federación y auditoría de políticas.
+- **Problema:** Alto riesgo de regresión al modificar funcionalidades simples; dificultad para testear componentes aislados.
+- **Alternativas Consideradas:**
+  1. Reescritura total ("Big Bang").
+  2. Descomposición incremental mediante delegación de fachada a subsistemas especializados en `src/storage/subsystems/`.
+- **Decisión:** Adoptar descomposición incremental conservando la interfaz pública de `StorageEngine` para evitar romper clientes existentes.
+- **Consecuencias:** En las fases R6 y R7 se extrajeron exitosamente `KnowledgeTMSSubsystem`, `WorkstreamTaskSubsystem` y `FederationSubsystem`, reduciendo la complejidad del núcleo sin romper ningún contrato público.
+
+---
+
+#### ADR-EVO-03: Adopción de `MiniSearch` en Reemplazo de BM25 Casero
+- **Estado:** `ACCEPTED`.
+- **Contexto:** Evocara utilizaba una implementación artesanal de BM25 que carecía de optimizaciones de prefijos, tolerancia a errores léxicos y estructuras de búsqueda eficientes.
+- **Problema:** Desarrollar y mantener un motor léxico completo requiere un esfuerzo desproporcionado que no aporta valor diferencial frente a librerías maduras.
+- **Alternativas Consideradas:**
+  1. Reescribir el motor casero desde cero.
+  2. Adoptar una dependencia nativa C++ (e.g. SQLite FTS5 como requerimiento obligatorio).
+  3. Adoptar `MiniSearch` (licencia MIT, TypeScript puro, 0 dependencias nativas, indexación en memoria veloz).
+- **Decisión:** Adoptar `MiniSearch` como indexador léxico predeterminado (`src/storage/retrieval/minisearch-adapter.ts`).
+- **Consecuencias:** Aumento drástico de rendimiento y precisión de búsqueda manteniendo portabilidad multiplataforma total y empaquetado hermético.
+
+---
+
+#### ADR-EVO-04: Perfilado Curado por Defecto del Servidor MCP (8 Tools)
+- **Estado:** `ACCEPTED`.
+- **Contexto:** El servidor MCP exponía más de 29 herramientas, la mayoría de bajo nivel (inspección de locks, votación de consensos internos, etc.), lo cual saturaba el contexto de los modelos LLM.
+- **Problema:** Los LLMs consumían tokens excesivos leyendo descripciones de herramientas innecesarias y seleccionaban herramientas internas erróneas.
+- **Alternativas Consideradas:**
+  1. Mantener las 29 herramientas obligatorias.
+  2. Eliminar 21 herramientas rompiendo compatibilidad regresiva.
+  3. Ofrecer perfilado dual: Perfil Curado por defecto (8 herramientas esenciales para el flujo cognitivo) y perfil de compatibilidad bajo demanda.
+- **Decisión:** Adoptar el perfil curado de 8 herramientas (`evocara_*`), conservando la compatibilidad con las 29 herramientas mediante flag/configuración.
+- **Consecuencias:** Reducción del 70 % en la carga de contexto de herramientas MCP para los agentes consumidores.
+
+---
+
+#### ADR-EVO-05: Persistencia Predeterminada JSON con SQLite Local Opcional
+- **Estado:** `ACCEPTED`.
+- **Contexto:** Los desarrolladores valoran la inspección humana directa y el versionado Git de los archivos de memoria (`.json`), pero proyectos de gran escala requieren consultas relacionales y concurrencia transaccional.
+- **Problema:** Forzar SQLite como único backend dificulta la inspección rápida; forzar JSON limita la escala.
+- **Decisión:** Mantener JSON estructurado como almacenamiento predeterminado local-first. Proporcionar un adaptador opt-in basado en `node:sqlite` nativo (`src/storage/adapters/node-sqlite-adapter.ts`), sin dependencias de red ni binarios externos.
+- **Consecuencias:** Cobertura de ambos casos de uso sin imponer sobrecarga a usuarios estándar.
+
+---
+
+#### ADR-EVO-12: Aislamiento Interno de Federación mediante Carga Diferida (Lazy)
+- **Estado:** `ACCEPTED` (Sustituye a ADR-EVO-06).
+- **Contexto:** Los módulos federados (`federated-consensus.ts`, `federated-agent-orchestrator.ts`, etc.) representan una complejidad elevada que no se utiliza en el 95 % de los despliegues monorepo/locales.
+- **Decisión:** Encapsular toda la lógica federada dentro de `FederationSubsystem`, instanciándola únicamente bajo demanda mediante lazy loading si el usuario habilita explícitamente la federación.
+- **Consecuencias:** Cero penalización en el arranque y tiempo de importación de Evocara para el flujo local estándar.
+
+---
+
+#### ADR-EVO-13: Certificación v1.0 LTS, Congelación de Contratos y Release Candidate
+- **Estado:** `ACCEPTED`.
+- **Contexto:** Tras culminar las fases R1 a R8, era imperativo congelar la API pública y emitir una versión con garantías de soporte a largo plazo.
+- **Decisión:** Certificar `1.0.0` como versión LTS. Congelar los 10 subpath exports en `package.json` y garantizar compatibilidad retroactiva con los alias `openmemory_*`.
+- **Consecuencias:** Estabilidad absoluta para el ecosistema de consumidores externos.
+
+---
+
+#### ADR-EVO-14: Desincorporación Definitiva de Subsistemas Federados y de Consenso
+- **Estado:** `IMPLEMENTED_AND_VERIFIED` (Ejecutado y verificado en Work Order `WO-EVO-21`, 2026-11-09).
+- **Contexto:** Durante G50–G56 se añadieron 16 gestores federados (6.628 LOC en `domains/` + invocadores en `mcp.ts`, `cli.ts` y `storage.ts`, totalizando 15.300+ LOC) que implementan orquestación multiagente, blockchains locales de políticas (`policy-lineage-ledger.ts`) y consensos Ed25519. Aunque aislados por ADR-EVO-12 con carga diferida, al acceder a cualquiera de ellos se generaban 24 archivos de estado en `.openmemory/` que contaminaban el workspace.
+- **Problema:** Violaba el principio fundacional de Evocara (capa de memoria local, no un orquestador ni red federada). Incrementaba la superficie de mantenimiento sin beneficio para los agentes de desarrollo.
+- **Decisión:** Desincorporar definitivamente del runtime los 16 gestores federados, archivando su código histórico en `archive/federated-domains/`. Podar de `src/storage.ts` las propiedades y métodos proxy asociados; sustituir comandos CLI federados y llamadas MCP correspondientes por respuestas descriptivas de desincorporación controlada.
+- **Consecuencias:** Reducción sustancial del tamaño y complejidad del runtime en `src/`, preservación histórica íntegra en `archive/` sin impacto sobre consumidores de memoria, compilación TypeScript limpia (`npx tsc --noEmit` PASS) y verificación de empaquetado CI al 100%.
+
+---
+
+#### ADR-EVO-15: Unificación de Estado Canónico y Desmantelamiento de `StageEngine`
+- **Estado:** `IMPLEMENTED_AND_VERIFIED` (Ejecutado y verificado en Work Order `WO-EVO-21`, 2026-11-09).
+- **Contexto:** `StageEngine` (`src/stage-engine.ts`, 709 LOC) gobernaba una cascada de 12 fases para OpenCode y persistía en `.openmemory/stage-state.json`. `StorageEngine` persistía en `.openmemory/project-state.json`. Ambos persistían `activeGoal`, `tasks`, `currentPhase`, `roadmap` e `history`.
+- **Problema:** Duplicación de estado y condición de carrera en disco por dos instancias independientes de `StorageEngine` corriendo en runtime.
+- **Decisión:** Establecer `.openmemory/project-state.json` como la Única Fuente de Verdad (SSOT). Modificar el constructor de `StageEngine` para recibir la instancia activa de `StorageEngine` por inyección de dependencias (eliminando la instanciación redundante). Unificar toda lectura y escritura de fases en `storage.saveCanonicalState(state)` y purgar físicamente cualquier archivo residual `stage-state.json`. Adaptar `BackupManager` y `restoreBackup` para migrar e ignorar `stage-state.json`.
+- **Consecuencias:** Cero discrepancias entre estados, eliminación de inicializaciones duplicadas en memoria y compatibilidad total demostrada en la suite `tests/state-unification.test.ts` (7/7 PASS).
+
+---
+
+#### ADR-EVO-16: Formalización del Catálogo MCP Curado, Guardián en Runtime y Política de Compatibilidad
+- **Estado Formal:** `ACCEPTED` (Ratificado formalmente por el responsable del proyecto el 2026-11-12 en WO-EVO-30).
+- **Alcance y Justificación:** Aprobada la formalización del catálogo MCP curado de exactamente 8 operaciones (`status`, `query_knowledge`, `record_knowledge`, `get_adr`, `save_adr`, `get_handoff`, `update_handoff`, `analyze_knowledge_tms`), el guardián de autorización estricto en runtime (`GAP-SEC-01`), la política de prefijos documentada (`openmemory_`, `evocara_`, `dual`) y el auto-enrollment transparente de sesiones.
+- **Relación con Decisiones Previas:** Complementa directamente a `ADR-EVO-04` (Perfilado Curado de 8 herramientas por defecto). Mientras ADR-EVO-04 regulaba el anuncio de herramientas en `ListTools`, ADR-EVO-16 extiende el control hacia la ejecución en `CallTool` (guardián en runtime `GAP-SEC-01`), normaliza prefijos (`openmemory_`, `evocara_`, `dual`) y define la política de compatibilidad.
+- **Contexto y Problema:** Anteriormente, `CallToolRequestSchema` carecía de validación de perfil en ejecución, permitiendo a clientes invocar herramientas internas no anunciadas y saturar la ventana de contexto de los modelos LLM o acoplarse a contratos no estabilizados.
+- **Decisión Normativa v1.0.0 LTS:**
+  1. Formalizar las **8 herramientas curadas canónicas**: `status`, `query_knowledge`, `record_knowledge`, `get_adr`, `save_adr`, `get_handoff`, `update_handoff` y `analyze_knowledge_tms`.
+  2. Implementar guardián de autorización estricto en runtime (`getEffectiveTools`): cualquier invocación no autorizada bajo el perfil activo se rechaza fail-closed (`403 Forbidden`).
+  3. Soporte determinista de prefijos (`openmemory` por defecto, `evocara`, y `dual`), con normalización interna unificada sin duplicar código de negocio.
+  4. Auto-enrollment transparente de sesiones en mutaciones curadas (`record_knowledge`, `save_adr`, `update_handoff`) para permitir el uso seguro por parte de clientes MCP de caja negra.
+  5. Desincorporación formal (`RETIRED`) de herramientas federadas históricas (consenso, ledger, workflow DAG) del runtime de producción.
+- **Consecuencias y Compatibilidad:** Protección absoluta de la ventana de contexto de los LLMs, cero superficie de ataque no autorizada y garantía de compatibilidad SemVer 1.x para los 4 entornos de agentes verificados.
+- **Contrato Normativo Asociado:** Formalizado en `Workflow/09_PUBLIC_CONTRACTS_V1.md`.
+- **Registro de Ratificación Humana:** Aprobado por el responsable del proyecto el 2026-11-12 (WO-EVO-30).
+
+---
+
+#### ADR-EVO-17: Racionalización de Persistencia, Estabilización de Fachada `StorageEngine` y Congelación de Contratos v1.0.0
+- **Estado Formal:** `ACCEPTED` (Ratificado formalmente por el responsable del proyecto el 2026-11-12 en WO-EVO-30).
+- **Alcance y Justificación:** Aprobada la congelación de la fachada pública `StorageEngine` y los 10 subpath exports durante v1.0.0 LTS para no romper compatibilidad SemVer 1.x con integraciones existentes, reconociendo la delegación interna como deuda técnica tolerable y difiriendo formalmente cualquier cambio estructural destructivo a la versión mayor `v2.0.0`.
+- **Relación con Decisiones Previas:** Es la continuación y estabilización de `ADR-EVO-02` (Descomposición Modular Incremental de `StorageEngine`). ADR-EVO-02 estableció el principio de extraer la lógica interna hacia subsistemas (`src/storage/subsystems/`) preservando la API pública de la fachada para no romper clientes.
+- **Contexto y Problema:** Auditorías históricas reportaron 261 métodos públicos y 104 métodos inline en `StorageEngine`. Se propuso inicialmente reducir drásticamente el número de métodos antes del release.
+- **Evaluación Arquitectónica (WO-EVO-25):**
+  1. En WO-EVO-21 se retiraron físicamente más de 3.000 LOC de código federado de `StorageEngine` (archivadas en `archive/federated-domains/`).
+  2. En WO-EVO-22 se integró `MiniSearch` universal en persistencia JSON, eliminando el escaneo O(N) y las listas fijas de proyectos.
+  3. En WO-EVO-23 y WO-EVO-24 se verificaron los 10 subpath exports públicos y la estabilidad multiconsumidor (155 checks PASS).
+  4. La presencia de métodos públicos de conveniencia y delegación en `StorageEngine` representa una **deuda técnica de elegancia interna aceptada**, pero **NO constituye un defecto que comprometa la estabilidad, seguridad ni interoperabilidad**.
+  5. Una eliminación masiva de métodos públicos en este punto rompería la compatibilidad hacia atrás con plugins de OpenCode y contratos de integración existentes.
+- **Decisión Normativa v1.0.0 LTS:**
+  1. Congelar la API pública de `StorageEngine` y los 10 subpath exports para v1.0.0 LTS, garantizando estabilidad contractual SemVer 1.x.
+  2. Ratificar las extracciones ya completadas (`KnowledgeTMSSubsystem`, `WorkstreamTaskSubsystem`, `SessionRegistry`, `ADRGovernanceSubsystem`, `PersistenceEngine`, `PathSecurity`).
+  3. Diferir formalmente cualquier reducción destructiva de firmas públicas hacia la versión mayor `v2.0.0` (`DEFERRED_POST_V1`).
+- **Consecuencias:** Estabilidad garantizada para usuarios y harnesses, cero regresiones de integración y una frontera clara entre deuda técnica aceptada y estabilidad operativa.
+- **Contrato Normativo Asociado:** Formalizado en `Workflow/09_PUBLIC_CONTRACTS_V1.md`.
+- **Registro de Ratificación Humana:** Aprobado por el responsable del proyecto el 2026-11-12 (WO-EVO-30).
+
+---
+
+#### ADR-EVO-18: Adopción del Patrón `write-file-atomic` en Persistencia JSON
+- **Estado:** `IMPLEMENTED_AND_VERIFIED` (Ejecutado y Verificado en WO-EVO-18).
+- **Contexto:** En sistemas Windows, indexadores y antivirus generan bloqueos transitorios (`EBUSY`/`EPERM`) en escrituras sobre archivos JSON.
+- **Problema:** Fallos esporádicos en sesiones de alta intensidad concurrente si los adaptadores usan escrituras directas.
+- **Decisión:** Implementar la función robusta `robustAtomicWriteFileSync` en `src/storage/core/persistence-engine.ts` e inyectarla en `JsonFileStorageAdapter.atomicWrite`, proveyendo `fsyncSync`, bucle de 25 reintentos con `Atomics.wait(15)` y limpieza garantizada de temporales. Se descartó la incorporación de la dependencia externa `write-file-atomic` al demostrarse que el motor nativo de Evocara resuelve el 100% de los requisitos.
+- **Consecuencias:** Resiliencia completa y robustez enterprise en entornos Windows, verificada con 7/7 tests empíricos PASS y 0 dependencias añadidas.
+
+---
+
+#### ADR-EVO-19: Validación Multiconsumidor Estándar e Interoperabilidad Homogénea
+- **Estado:** `IMPLEMENTED_AND_VERIFIED` (Ejecutado y Verificado en Work Order `WO-EVO-23`, Fase 6).
+- **Contexto:** Evocara fue concebida como capa de memoria persistente independiente de cualquier agente particular. Existían adaptadores para OpenCode, Claude Code, Cline y Antigravity, pero faltaba una validación empírica unificada de interoperabilidad y continuidad de memoria cruzada entre ellos.
+- **Problema:** Riesgo de fragmentación funcional donde clientes no-OpenCode sufrieran diferencias de contratos o fallos de autorización por requerir herramientas no curadas.
+- **Decisión:** Establecer una suite contractual y funcional multiconsumidor (`tests/multi-consumer-integration.test.ts` y `tests/memory-continuity-scenarios.test.ts`) que evalúe a los 4 adaptadores y a clientes MCP estándar sobre STDIO e InMemoryTransport. Implementar auto-registro transparente de sesiones no enrolladas en herramientas de mutación curada (`openmemory_record_knowledge`, `openmemory_save_adr`, `openmemory_update_handoff`) para permitir el consumo inmediato y seguro de clientes estándar sin requerir llamadas fuera del perfil curado.
+- **Consecuencias:** Interoperabilidad 100% homogénea demostrada en tests empíricos; transferencia íntegra de conocimiento, procedencia y handoffs entre OpenCode y Claude Code; cero fuga cross-project; latencia sub-20ms.
+
+---
+
+#### ADR-EVO-20: Certificación Determinista de Empaquetado LTS v1.0.0 y Política de Publicación Humana
+- **Estado:** `IMPLEMENTED_AND_VERIFIED` (Ejecutado y Verificado en Work Order `WO-EVO-23`, Fase 6).
+- **Contexto:** El tarball histórico `.work/artifacts/evocara-1.0.0.tgz` (621.349 bytes, 7/11/2026) contenía código de dominios federados posteriormente podados en WO-EVO-21 y WO-EVO-22.
+- **Problema:** Necesidad de garantizar que el candidato distribuible v1.0.0 LTS sea hermético, reproducible, libre de dependencias de desarrollo y que instale sin errores en un sandbox externo sin repositorio, sin ejecutar publicaciones destructivas ni alterar el índice Git del usuario.
+- **Decisión:** Catalogar formalmente el tarball histórico como `RELEASE_ARTIFACT_STALE`. Generar y certificar deterministamente el candidato limpio (`evocara-1.0.0.tgz`, 581.116 bytes, SHA-256 `1fd6e00b9b70cc37c59ff91e00c8f2e3acede39e70183ba4b18fc0723ed86452`) en sandbox temporal (`tests/lts-clean-packaging.test.ts`), verificando los 10 subpath exports públicos (`tests/subpath-contracts.test.ts`). Declarar el producto en estado `READY_FOR_HUMAN_RELEASE_AUTHORIZATION`, reservando la publicación en npm y GitHub Releases exclusivamente a la decisión humana.
+- **Consecuencias:** Garantía absoluta de reproducibilidad y hermeticidad para despliegues productivos. Cero operaciones destructivas en Git (no commits, no resets, no push, no publish).
+
+---
+
+# Registro de Decisiones de Arquitectura (ADR) — Evocara
+
+- **Fecha de Actualización:** 7 de noviembre de 2026
+- **Estado Global:** `GOVERNANCE_ACTIVE (ADR-02, ADR-03, ADR-04, ADR-11, ADR-12, ADR-13 ACCEPTED_IMPLEMENTED | ADR-05 HARDENED_INTEGRATED (PROPOSED) | ADR-01, ADR-06-10 PROPOSED/SUPERSEDED)`
+- **Ubicación Canónica:** `C:\OpenMemory`
+- **Nota de Gobernanza:** Las decisiones arquitectónicas ADR-EVO-02, ADR-EVO-03, ADR-EVO-04, ADR-EVO-11, ADR-EVO-12 y ADR-EVO-13 han sido formalmente autorizadas por el usuario y se encuentran implementadas y verificadas con evidencia reproducible. ADR-EVO-13 formaliza la congelación de contratos públicos en cinco niveles de estabilidad, la certificación cruzada con cuatro clientes MCP (OpenCode, Claude Desktop, Cursor, Cline) y la preparación del release candidate v1.0 LTS (`evocara-1.0.0.tgz`), garantizando la preservación de invariantes históricos y la exclusión de publicación externa automática sin aprobación humana explícita. ADR-EVO-12 formaliza el aislamiento de la complejidad federada y consenso bizantino en `FederationSubsystem` con carga lazy on-demand y cero sobrecarga de arranque. ADR-EVO-05 permanece en estado `PROPOSED` a nivel de registro de decisión arquitectónica hasta que el usuario decida formalmente su adopción formal y la eventual activación de SQLite como backend por defecto (el backend predeterminado continúa siendo `json`). Las restantes decisiones continúan en estado `PROPOSED`.
+
+---
+
+## Índice de Decisiones Propuestas
+
+| ID | Título | Problema que Resuelve | Estado |
+|---|---|---|:---:|
+| **ADR-EVO-01** | Cancelación del Hito G57 y Preservación de Límites de Alcance | Desviación hacia un marketplace de agentes y negociación de SLAs | `PROPOSED` |
+| **ADR-EVO-02** | Descomposición Modular de la Fachada `StorageEngine` | Monolito de 7.814 líneas físicas con 255 miembros públicos (256 con ctor) | `ACCEPTED_IMPLEMENTED` |
+| **ADR-EVO-03** | Adopción de `MiniSearch` en Reemplazo de BM25 Casero | Falta de fuzzy search, prefijos y serialización en el motor léxico actual | `ACCEPTED_IMPLEMENTED` |
+| **ADR-EVO-04** | Perfilado Curado por Defecto del Servidor MCP | Saturación de contexto LLM (14.000 a 28.000 tokens en 96/192 tools) | `ACCEPTED_IMPLEMENTED` |
+| **ADR-EVO-05** | Transición de Almacenamiento JSON a SQLite Local Transaccional | Concurrencia frágil, bloqueo `Atomics.wait` y lentitud con cientos de JSONs | `PROPOSED (CONSTRUCTED)` |
+| **ADR-EVO-06** | Extracción de Capacidades Federadas a Extensión Opcional | Sobrecarga de blockchain y consenso para desarrolladores individuales | `RESOLVED_BY_ADR_12` |
+| **ADR-EVO-07** | Delegación de Orquestación de Tareas a Frameworks Externos | Reinvención redundante de planificadores de agentes (LangGraph/Temporal) | `RESOLVED_BY_ADR_12` |
+| **ADR-EVO-08** | Estandarización de Serialización Canónica Determinista RFC 8785 | Algoritmos caseros de ordenación de claves en ledgers criptográficos | `PROPOSED` |
+| **ADR-EVO-09** | Alineación de Telemetría Operacional con OpenTelemetry | Formato JSONL propietario sin exportación a observabilidad estándar | `PROPOSED` |
+| **ADR-EVO-10** | Consolidación de un Sistema de Trabajo con Fuente Única de Verdad | Dispersión documental y ambigüedad de rutas entre auditorías | `PROPOSED` |
+| **ADR-EVO-11** | Criterios de Descomposición Arquitectónica de `StorageEngine` y Límites de Subsistemas | Acoplamiento del monolito vs riesgo de fragmentación artificial | `ACCEPTED_IMPLEMENTED` |
+| **ADR-EVO-12** | Aislamiento Interno y Desacoplamiento de Complejidad Federada mediante `FederationSubsystem` y Carga Lazy On-Demand | Instanciación síncrona forzada de 16 managers federados y creación de 15 directorios innecesarios en arranque local | `ACCEPTED_IMPLEMENTED` |
+| **ADR-EVO-13** | Certificación v1.0 LTS, Congelación de Contratos Públicos y Preparación de Release Candidate | Necesidad de garantizar estabilidad SemVer, certificar interoperabilidad MCP multiplataforma y blindar empaquetado seguro sin publicación externa no autorizada | `ACCEPTED_IMPLEMENTED` |
+| **ADR-EVO-16** | Formalización del Catálogo MCP Curado, Guardián en Runtime y Auto-Enrollment | Riesgo de saturación de contexto y llamadas a herramientas internas no autorizadas | `ACCEPTED` |
+| **ADR-EVO-17** | Racionalización de Persistencia, Estabilización de Fachada `StorageEngine` y Congelación v1.0 | Deuda técnica de métodos en fachada vs estabilidad contractual SemVer 1.x | `ACCEPTED` |
+
+---
+
+### ADR-EVO-01: Cancelación del Hito G57 y Preservación de Límites de Alcance
+- **Estado:** `PROPOSED`
+- **Contexto:** El roadmap anterior proyectaba para G57 un "mercado descentralizado de capacidades y orquestación basada en reputación criptográfica" con contratos formales, atestaciones, subasta de tareas por SLA y penalizaciones.
+- **Problema:** Evocara es una biblioteca de memoria local-first para agentes. Construir un marketplace comercial de agentes viola el principio fundamental de no competir con los agentes ni convertirse en un orquestador general.
+- **Decisión Propuesta:** Cancelar formalmente G57. Retirar el archivo vacío `src/storage/domains/federated-capability-registry.ts` (0 bytes). Reorientar los esfuerzos hacia la solidez y modularidad del núcleo de memoria.
+- **Consecuencias:** Protege la identidad de Evocara. Cualquier negociación de tareas se delega a las plataformas de agentes consumidoras.
+
+---
+
+### ADR-EVO-02: Descomposición Modular Incremental de la Fachada `StorageEngine`
+- **Estado:** `ACCEPTED_IMPLEMENTED` (Fase 1: ADR Core extraído exitosamente)
+- **Contexto:** `src/storage.ts` contenía 7.930 líneas físicas (actualmente 7.814) y expone 255 miembros públicos de clase (236 métodos públicos: 233 de instancia estándar, 2 genéricos y 1 estático, y 19 propiedades directas; 256 miembros de clase incluyendo el constructor). Instanciaba síncronamente 25 domain managers en su constructor.
+- **Problema:** Acoplamiento extremo y concentración de responsabilidades heterogéneas. Modificar una política de gobernanza o un algoritmo de recuperación obligaba a editar el mismo archivo monolítico.
+- **Decisión Implementada:** Descomponer `StorageEngine` de forma incremental basada en dominios de responsabilidad cohesivos, comenzando por el subsistema nuclear de ADRs (`ADRGovernanceSubsystem` en `src/storage/subsystems/adr-governance-subsystem.ts`), empleando inyección explícita de dependencias (`IADRSubsystemDependencies`) y una fachada delegada en `StorageEngine` que preserva al 100% las firmas y contratos de los 236 métodos públicos existentes.
+- **Evidencia y Validación:**
+  1. Extracción de los 5 métodos públicos (`saveADR`, `voteADR`, `evaluateADRConsensus`, `listADRs`, `getADR`).
+  2. Internalización de los 3 métodos de soporte (`internalSaveADR`, `parseADRMarkdown`, `listADRsReadOnly`).
+  3. Suite de validación post-extracción: 28/28 PASS (100%), incluyendo los 23 casos de la línea base Golden Master.
+  4. Suites de regresión: MCP Curado (24/24 PASS), Consenso G56 (16/16 PASS), Build TypeScript (código 0).
+- **Consecuencias:** Reducción verificable del acoplamiento y del riesgo de regresión; alta testabilidad aislada por dominio; Compatibilidad de Contrato de API Pública, Firmas y Comportamiento Observable en Runtime garantizada para consumidores y suites de pruebas existentes.
+
+---
+
+### ADR-EVO-03: Adopción de `MiniSearch` en Reemplazo de BM25 Casero
+- **Estado:** `ACCEPTED_IMPLEMENTED` (Implementado y verificado bajo WO-EVO-03)
+- **Contexto:** `src/storage/retrieval/bm25.ts` calculaba puntuaciones BM25 mediante escaneo lineal exhaustivo sin indexación previa, careciendo de tolerancia a erratas (edit-distance fuzzy search), prefijos estructurados y aceleración de consultas repetidas.
+- **Problema:** En colecciones medianas y grandes (500 a 2.500 items), la latencia de escaneo BM25 lineal crecía hasta 800+ ms por consulta, y las consultas con erratas tipográficas comunes sufrían 0% de recuperación (fallo total).
+- **Decisión Adoptada e Implementada:**
+  1. Se incorporó formalmente `minisearch@7.2.0` (Licencia MIT, cero dependencias transitivas).
+  2. Se diseñó e implementó `MiniSearchRetrievalAdapter` en `src/storage/retrieval/minisearch-adapter.ts`, configurando explícitamente los campos de búsqueda (`title`, `tags`, `classification`, `content`, `topic`), ponderaciones de campo (`title: 3.5`, `tags: 2.5`, `classification: 2.0`, `content: 1.2`, `topic: 0.5`), tokenización multilingüe normalizada (español e inglés) y búsqueda difusa controlada (`fuzzy: 0.2` para términos >= 4 caracteres).
+  3. Se desacopló completamente de `StorageEngine`, delegando la funcionalidad a través del adaptador en la capa de recuperación.
+  4. Se preservó el 100% de los contratos de API pública y firmas de `BM25Engine` para todos los consumidores existentes (`StorageEngine`, `HybridRetrievalEngine`, `ScopedContextPack`).
+  5. Se mantuvieron idénticos los multiplicadores de ciclo de vida TMS, multiplicadores de frases exactas, ordenamiento determinista y políticas de aislamiento de proyectos.
+- **Evidencia y Validación:**
+  1. Benchmark comparativo reproducible: Aceleración de entre **16x y 114x** en colecciones pequeñas (50 items), **10x a 638x** en medianas (500 items) y **91x a 1966x** en grandes (2.500 items). Latencia de búsqueda reducida de 811 ms a 8.1 ms.
+  2. Tolerancia a errores tipográficos comprobada: recuperación de 0 hits a 417 hits en consultas con typos (e.g., `sqllite clustr`), con latencia inferior a 1 ms.
+  3. Regresión total aprobada: **125/125 PASS (100%)** en todas las suites (ADR 28/28, MCP 24/24, G56 16/16, G25 9/9, Baseline 16/16, MiniSearch 14/14, G45 11/11, G29 7/7, TypeScript build código 0).
+- **Consecuencias:** Modernización del motor léxico con rendimiento órdenes de magnitud superior, recuperación ante errores tipográficos y preservación contractual estricta sin dependencias nativas ni servicios externos.
+
+---
+
+### ADR-EVO-04: Perfilado Curado por Defecto del Servidor MCP
+- **Estado:** `ACCEPTED_IMPLEMENTED` (Implementado bajo WO-EVO-01)
+- **Contexto:** `src/mcp.ts` define 88 herramientas canónicas (96 definiciones en código fuente con los 8 curated iniciales) que se transforman en 176 herramientas en modo dual (`openmemory_*` y `evocara_*`).
+- **Problema:** La carga de herramientas consume 88.009 bytes (~22.002 tokens) sólo en metadatos de esquemas JSON durante `tools/list`, saturando la atención de los modelos LLM y provocando degradación de contexto.
+- **Decisión Adoptada e Implementada:**
+  1. Se estableció `profile: "curated"` como el comportamiento por defecto en `createMCPServer` y `runMCPServer`.
+  2. Expone exactamente 8 herramientas de memoria esencial (o 16 en modo dual `prefix: "dual"`).
+  3. Soporta selección de perfil vía argumento programático (`options.profile`), CLI flags (`--profile <val>`, `--profile=<val>`), y variables de entorno (`EVOCARA_MCP_PROFILE`, `OPENMEMORY_MCP_PROFILE`).
+  4. Preserva 100% de compatibilidad retrospectiva: el despachador de invocación `tools/call` NO restringe la ejecución según el perfil activo, permitiendo que cualquier cliente existente invoque herramientas del catálogo completo directamente.
+  5. Se documentó la matriz completa de contratos en `docs/architecture/MCP_CONTRACT_MATRIX.md`.
+- **Consecuencias:** Reducción empírica del 93.66% en bytes y tokens de descubrimiento (de 88.009 bytes a 5.576 bytes; de ~22.002 tokens a ~1.394 tokens). Verificado mediante suite automatizada `.work/experiments/test-mcp-curated-profile.js` (24/24 PASS).
+
+---
+
+### ADR-EVO-05: Transición de Almacenamiento JSON a SQLite Local Transaccional
+- **Estado:** `PROPOSED` *(Construcción completada bajo WO-EVO-04-CONST y remediada bajo WO-EVO-05-REMEDIATION; backend por defecto se mantiene en `json`)*
+- **Contexto:** Evocara almacena cada registro de investigación, ítem de conocimiento y ADR como archivos JSON/Markdown planos en disco y gestionaba bloqueos en `.openmemory/locks/` mediante esperas bloqueantes sincrónicas (`Atomics.wait`).
+- **Problema:** Fragilidad ante concurrencia, congelamiento del bucle de eventos (Event Loop) en Node.js, lentitud en directorios a escala (5,6 segundos en escaneo de 2.500 archivos) y falta de atomicidad en transacciones compuestas multi-archivo.
+- **Decisión Propuesta y Construida:** Desarrollar un sustrato de almacenamiento desacoplado mediante `IStoragePersistenceAdapter` con una implementación primaria basada en `node:sqlite` nativo (Node.js v22.15.0, cero dependencias npm externas, cero compilación nativa C++), modo WAL (`PRAGMA journal_mode = WAL`), sincronización normal (`PRAGMA synchronous = NORMAL`), retiros no bloqueantes para el bucle de eventos V8 y cola Worker Thread opcional. Proveer un comando CLI de migración no destructiva con validación previa (`--dry-run`), soporte para MADR Markdown `.md`, comprobación criptográfica de paridad y retención permanente de archivos JSON legacy.
+- **Evidencia y Validación de la Construcción y Hardening (WO-EVO-04-CONST y WO-EVO-05-REMEDIATION):**
+  1. **Adaptadores Implementados:** `NodeSqliteStorageAdapter` (SQLite) y `JsonFileStorageAdapter` (fallback legacy).
+  2. **Motor de Migraciones:** DDL relacional con índices B-Tree en `src/storage/migrations/` (10/10 tests unitarios PASS).
+  3. **Concurrencia Empírica y No Bloqueo:** Retención de heartbeats del **81.3%** en el Event Loop de Node.js durante 1212 ms de contención de escritura externa exclusiva, sin congelamiento del hilo V8.
+  4. **Delegación de Dominio Completa:** Persistencia unificada en `StorageEngine` para Researches, Knowledge Items & Relations, ADRs & Votes, Sessions, Tasks, Events y Metadata, con soporte síncrono y asíncrono.
+  5. **MiniSearch Consistente:** Invalidación inmediata de blob de índice en mutaciones de investigación y auto-reparación resiliente ante corrupción.
+  6. **Migración CLI Segura:** `scripts/migrate-storage-to-sqlite.ts` validado con promoción atómica (`renameSync`), soporte MADR `.md` y 100% de paridad en los 6 dominios.
+  7. **Preservación Total:** 255 miembros públicos de `StorageEngine` preservados; suites MCP (24/24), ADR Baseline (23/23), ADR Post-Extracción (28/28), Consenso G56 (16/16), Suite Integrada (34/34 PASS). Build `npm run build` con código 0.
+- **Consecuencias:** Persistencia ACID robusta, eliminación definitiva de bloqueos en el hilo de ejecución principal, aceleración comprobada en escaneos y filtros indexados, preservación del 100% de los contratos de dominio existentes y capacidad de rollback instantáneo hacia el motor legacy si fuera necesario. Permanece en estado `PROPOSED` a nivel de decisión arquitectónica hasta que el usuario decida formalmente su aceptación y la activación de SQLite como backend por defecto.
+
+---
+
+### ADR-EVO-06: Extracción de Capacidades Federadas a Extensión Opcional
+- **Estado:** `PROPOSED`
+- **Contexto:** Los hitos G51 a G56 implementaron consenso bizantino por umbrales, quórums Ed25519, federación multi-repo y un ledger blockchain de directivas (`PolicyLineageLedger`).
+- **Problema:** Esta sofisticación es valiosa en grandes corporaciones con múltiples repositorios, pero representa una carga innecesaria para un desarrollador individual que trabaja en un solo proyecto.
+- **Decisión Propuesta:** Mover los módulos de consenso y linaje federado a un paquete opcional `@evocara/federation` (o extensión desacoplada). El núcleo de Evocara permanecerá liviano y enfocado en la memoria local.
+- **Consecuencias:** Núcleo ligero sin perder las capacidades avanzadas de gobernanza corporativa.
+
+---
+
+### ADR-EVO-07: Delegación de Orquestación de Tareas a Frameworks Externos
+- **Estado:** `PROPOSED`
+- **Contexto:** Módulos como `AdaptiveWorkflowController` y `FederatedBottleneckAnalyzer` implementan balanceo dinámico de carga, detección de saturación y reprogramación de tareas de agentes.
+- **Problema:** Convierte a Evocara en un scheduler rudimentario que compite con soluciones consagradas (LangGraph, Temporal, CrewAI).
+- **Decisión Propuesta:** Deprecar la planificación y reasignación interna de agentes. En su lugar, exponer interfaces limpias para que orquestadores externos almacenen y consulten el estado de memoria en Evocara.
+- **Consecuencias:** Respeta estrictamente la separación de responsabilidades: los agentes ejecutan el trabajo, Evocara conserva la memoria.
+
+---
+
+### ADR-EVO-08: Estandarización de Serialización Canónica Determinista RFC 8785
+- **Estado:** `PROPOSED`
+- **Contexto:** La serialización canónica para hashes de bloques en `PolicyLineageLedger` utiliza ordenación manual de propiedades de objetos.
+- **Decisión Propuesta:** Adoptar formalmente la especificación IETF RFC 8785 mediante `json-canonicalization` (Apache-2.0, evaluado en el lab `.work/oss/security/json-canonicalization`).
+- **Consecuencias:** Garantía de firmas deterministas e interoperabilidad estándar en cualquier plataforma.
+
+---
+
+### ADR-EVO-09: Alineación de Telemetría Operacional con OpenTelemetry
+- **Estado:** `PROPOSED`
+- **Contexto:** `EventLogger` registra eventos de ciclo de vida en un formato JSONL propietario en `.openmemory/logs/events.jsonl`.
+- **Decisión Propuesta:** Diseñar un adaptador compatible con la API de OpenTelemetry (`@opentelemetry/api`) que permita exportar trazas y métricas a sistemas estándar de observabilidad sin alterar el registro local básico.
+- **Consecuencias:** Observabilidad corporativa sin sobrecargar el flujo local básico.
+
+---
+
+### ADR-EVO-10: Consolidación de un Sistema de Trabajo con Fuente Única de Verdad
+- **Estado:** `PROPOSED`
+- **Contexto:** Existencia de discrepancias entre informes de auditoría, referencias de rutas duplicadas y falta de sincronización documental.
+- **Decisión Propuesta:** Establecer como única fuente de verdad documental la jerarquía en `docs/architecture/` y `docs/workflow/` bajo la raíz canónica `C:\OpenMemory`, gobernada por este registro de decisiones, el `MASTER_ROADMAP.md` y `EXECUTION_STATUS.md`.
+- **Consecuencias:** Continuidad operacional determinista entre agentes posteriores sin riesgo de auditorías redundantes.
+
+---
+
+### ADR-EVO-11: Criterios de Descomposición Arquitectónica de `StorageEngine` y Límites de Subsistemas
+- **Estado:** `ACCEPTED_IMPLEMENTED` (Fase R6 — StorageEngine Decomposition COMPLETADA)
+- **Contexto:** `src/storage.ts` era un monolito de más de 7.800 líneas que concentraba 255 miembros públicos de clase. La auditoría integral del 4-Nov recomendó descomponerlo fijando umbrales orientativos (fachada < 800 líneas, subsistemas < 1.500 líneas).
+- **Problema:** Adoptar el conteo de líneas de código como criterio de aceptación estricto puede inducir una fragmentación artificial, dispersar responsabilidades acopladas en capas intermedias innecesarias o generar clases cascarón sin cohesión.
+- **Decisión Adoptada e Implementada:**
+  1. **Naturaleza de los Umbrales de Tamaño:** Los límites cuantitativos (< 800 líneas para la fachada `StorageEngine`, < 1.500 líneas por subsistema) se definen formalmente como **objetivos orientativos de diseño**, NO como criterios mecánicos de aceptación.
+  2. **Criterios Normativos de Aceptación:** Toda extracción modular se rige obligatoriamente por:
+     - **Alta Cohesión:** Cada subsistema encapsula un único dominio semántico bien delimitado.
+     - **Bajo Acoplamiento e Inyección Explícita de Dependencias:** El subsistema recibe todas sus dependencias mediante una interfaz tipada (`I<Domain>SubsystemDependencies`). Cero dependencias circulares (el subsistema jamás importa ni instancia `StorageEngine`).
+     - **Preservación Estricta de Contratos Públicos:** Se preserva al 100% la Compatibilidad de Contrato de API Pública, Firmas, Eventos y Comportamiento Observable en Runtime para todos los consumidores externos (`MCPServer`, `CLI`, plugins, tests).
+     - **Garantía mediante Pruebas de Caracterización:** Se exige una suite de pruebas de caracterización (*golden master*) previa a la extracción y una suite de validación posterior que demuestre paridad funcional y no-regresión.
+  3. **Secuencia de Descomposición en Fase R6:**
+     - **Paso 1 (Completado):** `SessionRegistrySubsystem` (`src/storage/subsystems/session-registry-subsystem.ts`). Extraído exitosamente con `ISessionSubsystemDependencies`, validado 18/18 PASS.
+     - **Paso 2 (Completado):** `KnowledgeTMSSubsystem` (`src/storage/subsystems/knowledge-tms-subsystem.ts`, `WO-EVO-06-DECOMPOSITION`). Extraído exitosamente con `IKnowledgeSubsystemDependencies` (20/20 Baseline PASS, 5/5 Post-Validation PASS). Fachada delegando 100% de contratos.
+     - **Paso 3 (Completado):** `WorkstreamTaskSubsystem` (`src/storage/subsystems/workstream-task-subsystem.ts`, `WO-EVO-06-TASKS`). Extraído exitosamente con `IWorkstreamTaskSubsystemDependencies` (25/25 Baseline PASS, 5/5 Post-Validation PASS). Fachada delegando los 25 métodos de tareas y workstream. Cero dependencias circulares.
+- **Consecuencias:** Descomposición modular de Fase R6 cerrada con éxito. `StorageEngine` modularizado en 4 subsistemas (`ADRGovernanceSubsystem`, `SessionRegistrySubsystem`, `KnowledgeTMSSubsystem`, `WorkstreamTaskSubsystem`). Protege la identidad de Evocara como sustrato de memoria persistente sin transformarlo en un orquestador. Cualquier negociación externa de tareas se delega a las plataformas de agentes consumidoras.
+
+---
+
+### ADR-EVO-02: Descomposición Modular Incremental de la Fachada `StorageEngine`
+- **Estado:** `ACCEPTED_IMPLEMENTED` (Fase 1: ADR Core extraído exitosamente)
+- **Contexto:** `src/storage.ts` contenía 7.930 líneas físicas (actualmente 7.814) y expone 255 miembros públicos de clase (236 métodos públicos: 233 de instancia estándar, 2 genéricos y 1 estático, y 19 propiedades directas; 256 miembros de clase incluyendo el constructor). Instanciaba síncronamente 25 domain managers en su constructor.
+- **Problema:** Acoplamiento extremo y concentración de responsabilidades heterogéneas. Modificar una política de gobernanza o un algoritmo de recuperación obligaba a editar el mismo archivo monolítico.
+- **Decisión Implementada:** Descomponer `StorageEngine` de forma incremental basada en dominios de responsabilidad cohesivos, comenzando por el subsistema nuclear de ADRs (`ADRGovernanceSubsystem` en `src/storage/subsystems/adr-governance-subsystem.ts`), empleando inyección explícita de dependencias (`IADRSubsystemDependencies`) y una fachada delegada en `StorageEngine` que preserva al 100% las firmas y contratos de los 236 métodos públicos existentes.
+- **Evidencia y Validación:**
+  1. Extracción de los 5 métodos públicos (`saveADR`, `voteADR`, `evaluateADRConsensus`, `listADRs`, `getADR`).
+  2. Internalización de los 3 métodos de soporte (`internalSaveADR`, `parseADRMarkdown`, `listADRsReadOnly`).
+  3. Suite de validación post-extracción: 28/28 PASS (100%), incluyendo los 23 casos de la línea base Golden Master.
+  4. Suites de regresión: MCP Curado (24/24 PASS), Consenso G56 (16/16 PASS), Build TypeScript (código 0).
+- **Consecuencias:** Reducción verificable del acoplamiento y del riesgo de regresión; alta testabilidad aislada por dominio; Compatibilidad de Contrato de API Pública, Firmas y Comportamiento Observable en Runtime garantizada para consumidores y suites de pruebas existentes.
+
+---
+
+### ADR-EVO-03: Adopción de `MiniSearch` en Reemplazo de BM25 Casero
+- **Estado:** `ACCEPTED_IMPLEMENTED` (Implementado y verificado bajo WO-EVO-03)
+- **Contexto:** `src/storage/retrieval/bm25.ts` calculaba puntuaciones BM25 mediante escaneo lineal exhaustivo sin indexación previa, careciendo de tolerancia a erratas (edit-distance fuzzy search), prefijos estructurados y aceleración de consultas repetidas.
+- **Problema:** En colecciones medianas y grandes (500 a 2.500 items), la latencia de escaneo BM25 lineal crecía hasta 800+ ms por consulta, y las consultas con erratas tipográficas comunes sufrían 0% de recuperación (fallo total).
+- **Decisión Adoptada e Implementada:**
+  1. Se incorporó formalmente `minisearch@7.2.0` (Licencia MIT, cero dependencias transitivas).
+  2. Se diseñó e implementó `MiniSearchRetrievalAdapter` en `src/storage/retrieval/minisearch-adapter.ts`, configurando explícitamente los campos de búsqueda (`title`, `tags`, `classification`, `content`, `topic`), ponderaciones de campo (`title: 3.5`, `tags: 2.5`, `classification: 2.0`, `content: 1.2`, `topic: 0.5`), tokenización multilingüe normalizada (español e inglés) y búsqueda difusa controlada (`fuzzy: 0.2` para términos >= 4 caracteres).
+  3. Se desacopló completamente de `StorageEngine`, delegando la funcionalidad a través del adaptador en la capa de recuperación.
+  4. Se preservó el 100% de los contratos de API pública y firmas de `BM25Engine` para todos los consumidores existentes (`StorageEngine`, `HybridRetrievalEngine`, `ScopedContextPack`).
+  5. Se mantuvieron idénticos los multiplicadores de ciclo de vida TMS, multiplicadores de frases exactas, ordenamiento determinista y políticas de aislamiento de proyectos.
+- **Evidencia y Validación:**
+  1. Benchmark comparativo reproducible: Aceleración de entre **16x y 114x** en colecciones pequeñas (50 items), **10x a 638x** en medianas (500 items) y **91x a 1966x** en grandes (2.500 items). Latencia de búsqueda reducida de 811 ms a 8.1 ms.
+  2. Tolerancia a errores tipográficos comprobada: recuperación de 0 hits a 417 hits en consultas con typos (e.g., `sqllite clustr`), con latencia inferior a 1 ms.
+  3. Regresión total aprobada: **125/125 PASS (100%)** en todas las suites (ADR 28/28, MCP 24/24, G56 16/16, G25 9/9, Baseline 16/16, MiniSearch 14/14, G45 11/11, G29 7/7, TypeScript build código 0).
+- **Consecuencias:** Modernización del motor léxico con rendimiento órdenes de magnitud superior, recuperación ante errores tipográficos y preservación contractual estricta sin dependencias nativas ni servicios externos.
+
+---
+
+### ADR-EVO-04: Perfilado Curado por Defecto del Servidor MCP
+- **Estado:** `ACCEPTED_IMPLEMENTED` (Implementado bajo WO-EVO-01)
+- **Contexto:** `src/mcp.ts` define 88 herramientas canónicas (96 definiciones en código fuente con los 8 curated iniciales) que se transforman en 176 herramientas en modo dual (`openmemory_*` y `evocara_*`).
+- **Problema:** La carga de herramientas consume 88.009 bytes (~22.002 tokens) sólo en metadatos de esquemas JSON durante `tools/list`, saturando la atención de los modelos LLM y provocando degradación de contexto.
+- **Decisión Adoptada e Implementada:**
+  1. Se estableció `profile: "curated"` como el comportamiento por defecto en `createMCPServer` y `runMCPServer`.
+  2. Expone exactamente 8 herramientas de memoria esencial (o 16 en modo dual `prefix: "dual"`).
+  3. Soporta selección de perfil vía argumento programático (`options.profile`), CLI flags (`--profile <val>`, `--profile=<val>`), y variables de entorno (`EVOCARA_MCP_PROFILE`, `OPENMEMORY_MCP_PROFILE`).
+  4. Preserva 100% de compatibilidad retrospectiva: el despachador de invocación `tools/call` NO restringe la ejecución según el perfil activo, permitiendo que cualquier cliente existente invoque herramientas del catálogo completo directamente.
+  5. Se documentó la matriz completa de contratos en `docs/architecture/MCP_CONTRACT_MATRIX.md`.
+- **Consecuencias:** Reducción empírica del 93.66% en bytes y tokens de descubrimiento (de 88.009 bytes a 5.576 bytes; de ~22.002 tokens a ~1.394 tokens). Verificado mediante suite automatizada `.work/experiments/test-mcp-curated-profile.js` (24/24 PASS).
+
+---
+
+### ADR-EVO-05: Transición de Almacenamiento JSON a SQLite Local Transaccional
+- **Estado:** `PROPOSED` *(Construcción completada bajo WO-EVO-04-CONST y remediada bajo WO-EVO-05-REMEDIATION; backend por defecto se mantiene en `json`)*
+- **Contexto:** Evocara almacena cada registro de investigación, ítem de conocimiento y ADR como archivos JSON/Markdown planos en disco y gestionaba bloqueos en `.openmemory/locks/` mediante esperas bloqueantes sincrónicas (`Atomics.wait`).
+- **Problema:** Fragilidad ante concurrencia, congelamiento del bucle de eventos (Event Loop) en Node.js, lentitud en directorios a escala (5,6 segundos en escaneo de 2.500 archivos) y falta de atomicidad en transacciones compuestas multi-archivo.
+- **Decisión Propuesta y Construida:** Desarrollar un sustrato de almacenamiento desacoplado mediante `IStoragePersistenceAdapter` con una implementación primaria basada en `node:sqlite` nativo (Node.js v22.15.0, cero dependencias npm externas, cero compilación nativa C++), modo WAL (`PRAGMA journal_mode = WAL`), sincronización normal (`PRAGMA synchronous = NORMAL`), retiros no bloqueantes para el bucle de eventos V8 y cola Worker Thread opcional. Proveer un comando CLI de migración no destructiva con validación previa (`--dry-run`), soporte para MADR Markdown `.md`, comprobación criptográfica de paridad y retención permanente de archivos JSON legacy.
+- **Evidencia y Validación de la Construcción y Hardening (WO-EVO-04-CONST y WO-EVO-05-REMEDIATION):**
+  1. **Adaptadores Implementados:** `NodeSqliteStorageAdapter` (SQLite) y `JsonFileStorageAdapter` (fallback legacy).
+  2. **Motor de Migraciones:** DDL relacional con índices B-Tree en `src/storage/migrations/` (10/10 tests unitarios PASS).
+  3. **Concurrencia Empírica y No Bloqueo:** Retención de heartbeats del **81.3%** en el Event Loop de Node.js durante 1212 ms de contención de escritura externa exclusiva, sin congelamiento del hilo V8.
+  4. **Delegación de Dominio Completa:** Persistencia unificada en `StorageEngine` para Researches, Knowledge Items & Relations, ADRs & Votes, Sessions, Tasks, Events y Metadata, con soporte síncrono y asíncrono.
+  5. **MiniSearch Consistente:** Invalidación inmediata de blob de índice en mutaciones de investigación y auto-reparación resiliente ante corrupción.
+  6. **Migración CLI Segura:** `scripts/migrate-storage-to-sqlite.ts` validado con promoción atómica (`renameSync`), soporte MADR `.md` y 100% de paridad en los 6 dominios.
+  7. **Preservación Total:** 255 miembros públicos de `StorageEngine` preservados; suites MCP (24/24), ADR Baseline (23/23), ADR Post-Extracción (28/28), Consenso G56 (16/16), Suite Integrada (34/34 PASS). Build `npm run build` con código 0.
+- **Consecuencias:** Persistencia ACID robusta, eliminación definitiva de bloqueos en el hilo de ejecución principal, aceleración comprobada en escaneos y filtros indexados, preservación del 100% de los contratos de dominio existentes y capacidad de rollback instantáneo hacia el motor legacy si fuera necesario. Permanece en estado `PROPOSED` a nivel de decisión arquitectónica hasta que el usuario decida formalmente su aceptación y la activación de SQLite como backend por defecto.
+
+---
+
+### ADR-EVO-06: Extracción de Capacidades Federadas a Extensión Opcional
+- **Estado:** `PROPOSED`
+- **Contexto:** Los hitos G51 a G56 implementaron consenso bizantino por umbrales, quórums Ed25519, federación multi-repo y un ledger blockchain de directivas (`PolicyLineageLedger`).
+- **Problema:** Esta sofisticación es valiosa en grandes corporaciones con múltiples repositorios, pero representa una carga innecesaria para un desarrollador individual que trabaja en un solo proyecto.
+- **Decisión Propuesta:** Mover los módulos de consenso y linaje federado a un paquete opcional `@evocara/federation` (o extensión desacoplada). El núcleo de Evocara permanecerá liviano y enfocado en la memoria local.
+- **Consecuencias:** Núcleo ligero sin perder las capacidades avanzadas de gobernanza corporativa.
+
+---
+
+### ADR-EVO-07: Delegación de Orquestación de Tareas a Frameworks Externos
+- **Estado:** `PROPOSED`
+- **Contexto:** Módulos como `AdaptiveWorkflowController` y `FederatedBottleneckAnalyzer` implementan balanceo dinámico de carga, detección de saturación y reprogramación de tareas de agentes.
+- **Problema:** Convierte a Evocara en un scheduler rudimentario que compite con soluciones consagradas (LangGraph, Temporal, CrewAI).
+- **Decisión Propuesta:** Deprecar la planificación y reasignación interna de agentes. En su lugar, exponer interfaces limpias para que orquestadores externos almacenen y consulten el estado de memoria en Evocara.
+- **Consecuencias:** Respeta estrictamente la separación de responsabilidades: los agentes ejecutan el trabajo, Evocara conserva la memoria.
+
+---
+
+### ADR-EVO-08: Estandarización de Serialización Canónica Determinista RFC 8785
+- **Estado:** `PROPOSED`
+- **Contexto:** La serialización canónica para hashes de bloques en `PolicyLineageLedger` utiliza ordenación manual de propiedades de objetos.
+- **Decisión Propuesta:** Adoptar formalmente la especificación IETF RFC 8785 mediante `json-canonicalization` (Apache-2.0, evaluado en el lab `.work/oss/security/json-canonicalization`).
+- **Consecuencias:** Garantía de firmas deterministas e interoperabilidad estándar en cualquier plataforma.
+
+---
+
+### ADR-EVO-09: Alineación de Telemetría Operacional con OpenTelemetry
+- **Estado:** `PROPOSED`
+- **Contexto:** `EventLogger` registra eventos de ciclo de vida en un formato JSONL propietario en `.openmemory/logs/events.jsonl`.
+- **Decisión Propuesta:** Diseñar un adaptador compatible con la API de OpenTelemetry (`@opentelemetry/api`) que permita exportar trazas y métricas a sistemas estándar de observabilidad sin alterar el registro local básico.
+- **Consecuencias:** Observabilidad corporativa sin sobrecargar el flujo local básico.
+
+---
+
+### ADR-EVO-10: Consolidación de un Sistema de Trabajo con Fuente Única de Verdad
+- **Estado:** `PROPOSED`
+- **Contexto:** Existencia de discrepancias entre informes de auditoría, referencias de rutas duplicadas y falta de sincronización documental.
+- **Decisión Propuesta:** Establecer como única fuente de verdad documental la jerarquía en `docs/architecture/` y `docs/workflow/` bajo la raíz canónica `C:\OpenMemory`, gobernada por este registro de decisiones, el `MASTER_ROADMAP.md` y `EXECUTION_STATUS.md`.
+- **Consecuencias:** Continuidad operacional determinista entre agentes posteriores sin riesgo de auditorías redundantes.
+
+---
+
+### ADR-EVO-12: Aislamiento Interno y Desacoplamiento de Complejidad Federada mediante `FederationSubsystem` y Carga Lazy On-Demand
+- **Estado:** `ACCEPTED_IMPLEMENTED` (Fase R7 — WO-EVO-07-PRUNING COMPLETADA)
+- **Fecha:** 7 de noviembre de 2026
+- **Contexto:** En los hitos G51 a G56 se desarrollaron 22 módulos asociados a capacidades de consenso bizantino Ed25519, ledgers inmutables de linaje multi-workspace, promoción de políticas organizacionales y orquestación satélite de agentes. El constructor de `StorageEngine` instanciaba síncronamente 16 managers de dominio (`PolicyGovernanceManager`, `WorkspaceFederationManager`, `ContractDependencyAnalyzer`, `FederatedConsensusManager`, `GitHooksManager`, `FederatedContinuitySynthesizer`, `FederatedSemanticIndexManager`, `SandboxMigrationExecutor`, `FederatedAgentOrchestrator`, `OrganizationalPolicySynthesizer`, `FederatedBottleneckAnalyzer`, `AdaptiveWorkflowController`, `FederatedThresholdConsensusManager`, `PolicyLineageLedger`, `FederatedPolicyPromotionManager`, `PolicyDriftAuditor`), provocando la creación incondicional de 15 directorios en `.openmemory/` (`consensus`, `contracts`, `federation`, `orchestrator`, `policies`, etc.) incluso cuando el consumidor requería exclusivamente persistencia de memoria local, sesiones, ADRs o Workstream.
+- **Problema:** Sobrecarga innecesaria de arranque, consumo de descriptores de archivo, acoplamiento mental y violación del principio de memoria local-first para agentes. La propuesta previa sugería extraer estos módulos a un paquete independiente `@evocara/federation`, pero esto habría introducido la complejidad accidental de gestionar un monorepo, versionado sincronizado y publicación externa sin justificación funcional demostrable.
+- **Alternativas Evaluadas:**
+  1. *Alternativa A (Paquete independiente `@evocara/federation`):* Rechazada por alta complejidad accidental de empaquetado, dependencias circulares potenciales de build y coste de mantenimiento.
+  2. *Alternativa B (Aislamiento interno mediante subsistema modular y carga lazy on-demand):* **SELECCIONADA**. Proporciona cero sobrecarga en el arranque local, preserva el repositorio unificado (`evocara` 0.4.0) y mantiene compatibilidad del 100% con contratos existentes.
+  3. *Alternativa C (Poda destructiva total de código):* Rechazada por romper los contratos de herramientas del perfil completo (`fullProfile`) de MCP y los comandos avanzados del CLI probados en G51-G56. Se combinó con poda controlada de stubs vacíos o inertes (`federated-capability-registry.ts`).
+- **Decisión Adoptada e Implementada:**
+  1. **Creación de `FederationSubsystem`:** Se encapsularon los 16 managers federados en `src/storage/subsystems/federation-subsystem.ts`, gobernado por inyección explícita `IFederationSubsystemDependencies` (`openmemoryDir`, `getSemanticAdapter`).
+  2. **Cero Dependencias Circulares:** `FederationSubsystem` no importa ni referencia la fachada `StorageEngine`.
+  3. **Arranque Limpio y Cero Overhead Local:** El constructor de `StorageEngine` no instantiates síncronamente ningún manager federado. Al iniciar un proyecto o ejecutar operaciones de memoria local (sesiones, Workstream, ADRs, TMS, ContextPacks), `isFederationActive()` permanece en `false` y no se crea ningún directorio federado en disco.
+  4. **Inicialización On-Demand (Lazy):** Las 16 propiedades y métodos de fachada en `StorageEngine` (`storage.workspaceFederation`, `storage.orchestrator`, `storage.listWorkspaces()`, etc.) delegan mediante getters que instancian `FederationSubsystem` y el manager requerido estrictamente en su primer acceso.
+  5. **Poda de Stubs Inertes:** `src/storage/domains/federated-capability-registry.ts` se formalizó como un stub inerte documentado bajo `DEPRECATED_CANDIDATE`, preservando la compatibilidad de invariantes de auditoría.
+- **Evidencia y Validación (100% PASS):**
+  - Suite de certificación R7 (`test-r7-pruning-and-federation-isolation.js`): **9/9 PASS (100.0%)**.
+  - Suites de subsistemas R6: ADR (28/28 PASS), Sesión (18/18 PASS), Knowledge TMS (5/5 PASS), Workstream Task (5/5 PASS).
+  - Suites funcionales: G40 (12/12 PASS), G41 (19/19 PASS), G42 (21/21 PASS), G43 (20/20 PASS), G44 (15/15 PASS), G47 (13/13 PASS), MCP Curado (24/24 PASS).
+  - Suites federadas bajo demanda: G51 (10/10 PASS), G52 (16/16 PASS), G56 (15/15 PASS).
+  - Consumer Integration E2E STDIO (100% PASS en JSON y SQLite).
+  - Invariantes de artefactos certificados (5/5 SHA-256 idénticos) y ausencia de `InventoryHub/inventory-data.json`.
+- **Consecuencias:** Núcleo de memoria puramente local-first, arranque instantáneo y limpio sin directorios huérfanos, 100% de compatibilidad con consumidores y sin necesidad de paquetes npm adicionales. Resuelve definitivamente los objetivos planteados en ADR-EVO-06 y ADR-EVO-07.
+
+---
+
+### ADR-EVO-13: Certificación v1.0 LTS, Congelación de Contratos Públicos y Preparación de Release Candidate
+- **Estado:** `ACCEPTED_IMPLEMENTED` (Fase R8 — WO-EVO-08-LTS COMPLETADA)
+- **Fecha:** 7 de noviembre de 2026
+- **Contexto:** Habiendo completado la modernización léxica (R3), persistencia transaccional SQLite no bloqueante (R4), asincronía MCP y cierre limpio sin contención EBUSY (R5), descomposición modular de `StorageEngine` en 4 subsistemas nucleares (R6) y el aislamiento de complejidad federada en `FederationSubsystem` (R7), Evocara requería formalizar y sellar su primera versión de soporte a largo plazo (v1.0.0 LTS).
+- **Problema:** Riesgo de fragmentación contractual entre clientes MCP heterogéneos (`OpenCode`, `Claude Desktop`, `Cursor`, `Cline`), falta de un marco formal de estabilidad SemVer para distinguir el núcleo estable de extensiones de compatibilidad, y necesidad de generar artefactos reproducibles (tarball, SBOM CycloneDX, manifiesto SLSA) garantizando que ninguna publicación externa irreversible ocurra sin autorización humana explícita.
+- **Alternativas Evaluadas:**
+  1. *Alternativa A (Publicación externa directa `npm publish`):* Rechazada tajantemente por violar el principio de autorización humana y las salvaguardas de gobernanza.
+  2. *Alternativa B (Certificación técnica exhaustiva y generación de Release Candidate en staging):* **SELECCIONADA**. Se congela la API en cinco niveles, se certifica el 100% de interoperabilidad MCP en 5 escenarios y 4 clientes, se valida la instalación limpia en un sandbox externo y se emiten los artefactos con sus hashes SHA-256 inmutables, dejando el dictamen formal en `RELEASE_CANDIDATE_READY — AWAITING_HUMAN_RELEASE_APPROVAL`.
+- **Decisión Adoptada e Implementada:**
+  1. **Congelación de Contratos en Cinco Niveles:** Formalizados en `docs/architecture/MCP_CONTRACT_MATRIX.md`:
+     - `PUBLIC_STABLE`: 8 herramientas curadas MCP, métodos del núcleo de `StorageEngine` (WorkstreamState, ScopedContextPack, KnowledgeTMS, Sessions, ADRs, SQLite Wal Checkpoint) y CLI (`evocara` / `openmemory`). Inmutabilidad total en v1.x.
+     - `PUBLIC_COMPATIBILITY`: 80 herramientas avanzadas del catálogo, dual aliases y 6 handlers legacy. Preservados para clientes LLM existentes.
+     - `INTERNAL`: Subsistemas modulares (`src/storage/subsystems/*`), `PersistenceEngine`, `EventLogger`.
+     - `EXPERIMENTAL`: Embeddings y adaptadores vectoriales externos.
+     - `DEPRECATED`: Stubs inertes documentados (`federated-capability-registry.ts`).
+  2. **Certificación Cruzada MCP Multi-Cliente:**
+     - Generadas configuraciones canónicas en `docs/examples/mcp-clients/` para `opencode.json`, `claude_desktop_config.json`, `cursor_mcp.json` y `cline_mcp_settings.json`.
+     - Clasificación rigurosa: OpenCode (`PASS_REAL_CLIENT`), Claude Desktop (`PASS_PROTOCOL_HARNESS`), Cursor (`PASS_PROTOCOL_HARNESS`), Cline (`PASS_PROTOCOL_HARNESS`).
+     - Suite protocolar cruzada con SDK oficial `@modelcontextprotocol/sdk`: **6/6 PASS (100.0%)**.
+  3. **Generación de Artefactos de Release Candidato v1.0.0:**
+     - `evocara-1.0.0.tgz` (621.349 bytes, SHA-256: `370bcff0e9340e86cc74541448723e6bae3df2293be9be28e09e824fdd1c58fe`)
+     - `evocara-1.0.0.cdx.json` (42.342 bytes, SHA-256: `48fb5d042293cb2427197c64d0e7c2080a5b8d22505559a3124c2ce9cbfb7046`)
+     - `evocara-1.0.0-manifest.json` (3.031 bytes, SHA-256: `8de4af1b5f7be4653fcfb8a924c44b7a14ef86458df3fea17b376aa2a3b8c67a`)
+  4. **Instalación Limpia en Sandbox Aislado:**
+     - Verificación 100% PASS en `os.tmpdir()` (`test-clean-install-v1.js`): `npm install` exitoso, versión `v1.0.0` confirmada en binarios CLI `evocara` y `openmemory`, y ejecución completa del ciclo de vida de `StorageEngine` desde `node_modules`.
+  5. **Preservación Incondicional de Invariantes Históricos:**
+     - 5/5 artefactos v0.4.0 certificados conservan hashes SHA-256 exactos.
+     - `InventoryHub/inventory-data.json` ausente (`false`).
+     - Backend predeterminado: `json` intacto; `sqlite` opt-in.
+- **Evidencia y Validación (100% PASS):**
+  - Benchmark Canónico: 105/105 PASS (100.0%, P@1: 100.0%, MRR: 1.000, FDR: 0.0%).
+  - Suite de Aislamiento R7: 9/9 PASS (100.0%).
+  - Suite de Certificación MCP: 6/6 PASS (100.0%).
+  - Consumer Integration E2E STDIO (OpenCode): 100% PASS en JSON y SQLite.
+  - Compilación TypeScript (`npm run build`, `npx tsc --noEmit`): 0 errores.
+- **Consecuencias:** Evocara v1.0 LTS queda técnicamente certificada, empaquetada y reproducible con la máxima calidad y fiabilidad. El proyecto se declara en estado `RELEASE_CANDIDATE_READY — AWAITING_HUMAN_RELEASE_APPROVAL`.
+
+---
+
+### ADR-EVO-16: Formalización del Catálogo MCP Curado, Guardián en Runtime y Política de Compatibilidad
+- **Estado:** `ACCEPTED` (Ratificado formalmente por el responsable del proyecto el 2026-11-12 en WO-EVO-30).
+- **Alcance y Justificación:** Aprobada la formalización del catálogo MCP curado de exactamente 8 operaciones (`status`, `query_knowledge`, `record_knowledge`, `get_adr`, `save_adr`, `get_handoff`, `update_handoff`, `analyze_knowledge_tms`), el guardián de autorización estricto en runtime (`GAP-SEC-01`), la política de prefijos documentada (`openmemory_`, `evocara_`, `dual`) y el auto-enrollment transparente de sesiones.
+- **Relación con Decisiones Previas:** Extiende y formaliza operativamente `ADR-EVO-04`.
+- **Decisión Normativa:**
+  1. Formalizar las 8 herramientas curadas canónicas en perfiles `curated` y `full`.
+  2. Implementar guardián fail-closed en runtime (`403 Forbidden` ante herramientas no autorizadas).
+  3. Soporte de prefijos `openmemory`, `evocara` y `dual`.
+  4. Auto-enrollment transparente de sesiones en mutaciones curadas.
+  5. Desincorporación formal (`RETIRED`) de herramientas federadas históricas del runtime de producción.
+- **Consecuencias:** Cero fugas de herramientas internas, protección de la ventana de contexto de los LLMs y estabilidad SemVer 1.x para los 4 entornos de agentes verificados.
+
+---
+
+### ADR-EVO-17: Racionalización de Persistencia, Estabilización de Fachada `StorageEngine` y Congelación de Contratos v1.0
+- **Estado:** `ACCEPTED` (Ratificado formalmente por el responsable del proyecto el 2026-11-12 en WO-EVO-30).
+- **Alcance y Justificación:** Aprobada la congelación de la fachada pública `StorageEngine` y los 10 subpath exports durante v1.0.0 LTS para no romper compatibilidad SemVer 1.x con integraciones existentes, reconociendo la delegación interna como deuda técnica tolerable y difiriendo formalmente cualquier cambio estructural destructivo a la versión mayor `v2.0.0`.
+- **Relación con Decisiones Previas:** Continuación y estabilización de `ADR-EVO-02`.
+- **Decisión Normativa:**
+  1. Congelar la API pública de `StorageEngine` y los 10 subpath exports para v1.0.0 LTS.
+  2. Ratificar las extracciones ya completadas (`KnowledgeTMSSubsystem`, `WorkstreamTaskSubsystem`, `SessionRegistry`, `ADRGovernanceSubsystem`, `PersistenceEngine`, `PathSecurity`).
+  3. Diferir formalmente cualquier reducción destructiva de firmas públicas hacia la versión mayor `v2.0.0` (`DEFERRED_POST_V1`).
+- **Consecuencias:** Estabilidad absoluta para integraciones y plugins existentes, cero rupturas SemVer 1.x y delimitación formal de la deuda técnica aceptada.
+
+---
+
