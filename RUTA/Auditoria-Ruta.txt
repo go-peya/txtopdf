@@ -271,3 +271,891 @@ No modifiqué archivos del repositorio durante esta auditoría.
 
 ---
 
+Read , lines 1 to 120
+Completed with input: {
+  "path": "C:\\Users\\sant1\\AppData\\Roaming\\Code\\agentSessionData\\264242bc-4309-4ce6-ad57-0b14b116c836\\attachments\\6006212a-6787-445b-9a35-1c91314f0d16\\Pasted text #1.txt",
+  "view_range": [
+    1,
+    120
+  ]
+}
+
+Search for `^#|^##|AUDITOR|ENTREGABLE|FORMATO|NO debes|Debes`
+
+Voy a reconstruir el estado real desde el repositorio actual, manteniendo la auditoría estrictamente de solo lectura y contrastando implementación, pruebas, publicación y roadmap.
+
+Ran terminal command: Get-ChildItem -Force | Select-Object Mode,Length,LastWriteTime,Name; Write-Output '--- git status ---'; git status --short --branch; Write-Output '--- recent commits ---'; git --no-pager log -12 --oneline --decorate
+
+Find files matching `*`
+
+Search for `TODO|FIXME|roadmap|ROADMAP|supabase|firebase|prisma|drizzle|vite|next|react|v...`
+
+Read , lines 1 to 260
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\README.md",
+  "view_range": [
+    1,
+    260
+  ]
+}
+
+Read , lines 1 to 120
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\package.json",
+  "view_range": [
+    1,
+    120
+  ]
+}
+
+Read , lines 1 to 220
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\index.html",
+  "view_range": [
+    1,
+    220
+  ]
+}
+
+Read , lines 1 to 260
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\app.js",
+  "view_range": [
+    1,
+    260
+  ]
+}
+
+Read , lines 1 to 260
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\server.py",
+  "view_range": [
+    1,
+    260
+  ]
+}
+
+Read , lines 1 to 260
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\docs\\audits\\project-state-audit-2026-10-25.md",
+  "view_range": [
+    1,
+    260
+  ]
+}
+
+Read , lines 1 to 260
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\data\\opportunities.seed.json",
+  "view_range": [
+    1,
+    260
+  ]
+}
+
+Read , lines 1 to 220
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\collector\\sources.json",
+  "view_range": [
+    1,
+    220
+  ]
+}
+
+Read , lines 1 to 280
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\collector\\policy.py",
+  "view_range": [
+    1,
+    280
+  ]
+}
+
+Read , lines 1 to 320
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\collector\\ats_connectors.py",
+  "view_range": [
+    1,
+    320
+  ]
+}
+
+Read , lines 1 to 360
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\collector\\refresh_catalog.py",
+  "view_range": [
+    1,
+    360
+  ]
+}
+
+Read , lines 1 to 300
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\.github\\workflows\\refresh-catalog.yml",
+  "view_range": [
+    1,
+    300
+  ]
+}
+
+Read , lines 1 to 300
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\docs\\architecture\\r0-decisiones-y-alcance-2026-11-12.md",
+  "view_range": [
+    1,
+    300
+  ]
+}
+
+Read , lines 1 to 260
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\docs\\architecture\\r4-00-baseline-2026-11-12.md",
+  "view_range": [
+    1,
+    260
+  ]
+}
+
+La evidencia actual ya muestra una transición importante frente a la auditoría histórica: el catálogo y la publicación están cerrados de forma fail-closed, pero el MVP sigue bloqueado por ausencia de una ficha real aprobada. Ahora voy a verificar esa conclusión con pruebas ejecutables, contrato local y diferencias documentadas.
+
+Ran terminal command: python -m unittest discover -s tests -v
+
+Ran terminal command: python scripts/build_catalog.py --check; if ($?) { python scripts/validate_catalog.py }; if ($?) { python scripts/validate_candidates.py data/candidates/inbox.example.json }
+
+Ran terminal command: node --check app.js; if ($?) { node --check canvas.js }; if ($?) { node tests/catalog_ui.test.cjs }
+
+Ran terminal command: npm run test:e2e
+
+Ran terminal command: git --no-pager diff --stat; Write-Output '--- status ---'; git status --short; Write-Output '--- remote divergence ---'; git rev-list --left-right --count HEAD...origin/main; Write-Output '--- tracked files ---'; git ls-files | Measure-Object | Select-Object -ExpandProperty Count
+
+Read , lines 1 to 320
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\tests\\catalog_ui.test.cjs",
+  "view_range": [
+    1,
+    320
+  ]
+}
+
+Read , lines 1 to 360
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\tests\\e2e\\catalog.spec.cjs",
+  "view_range": [
+    1,
+    360
+  ]
+}
+
+Read , lines 1 to 160
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\playwright.config.cjs",
+  "view_range": [
+    1,
+    160
+  ]
+}
+
+Read , lines 1 to 360
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\scripts\\validate_catalog.py",
+  "view_range": [
+    1,
+    360
+  ]
+}
+
+Read , lines 1 to 420
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\scripts\\catalog_quality.py",
+  "view_range": [
+    1,
+    420
+  ]
+}
+
+Read , lines 1 to 260
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\scripts\\pages_artifact.py",
+  "view_range": [
+    1,
+    260
+  ]
+}
+
+Read , lines 1 to 300
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\docs\\adr\\ADR-001-catalogo-curado-publicacion-segura.md",
+  "view_range": [
+    1,
+    300
+  ]
+}
+
+Read , lines 1 to 300
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\docs\\product\\p5-evaluacion-profesional-y-validacion.md",
+  "view_range": [
+    1,
+    300
+  ]
+}
+
+Read , lines 1 to 260
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\collector\\README.md",
+  "view_range": [
+    1,
+    260
+  ]
+}
+
+Search for `TODO|FIXME|http://|cdn|tailwindcss/browser|Aurel|AurelDev|score|ranking|fetch...`
+
+Ran terminal command: $payload = Get-Content data\opportunities.json -Raw | ConvertFrom-Json; $seed = Get-Content data\opportunities.seed.json -Raw | ConvertFrom-Json; Write-Output ('snapshot_records=' + $payload.opportunities.Count); Write-Output ('snapshot_active=' + @($payload.opportunities | Where-Object { $_.publicationStatus -eq 'active' }).Count); Write-Output ('snapshot_real=' + @($payload.opportunities | Where-Object { $_.recordKind -ne 'demonstration' }).Count); Write-Output ('snapshot_generatedAt=' + $payload.generatedAt); Write-Output ('seed_schema=' + $seed.schemaVersion); Write-Output ('enabled_sources=' + @((Get-Content collector\sources.json -Raw | ConvertFrom-Json).sources | Where-Object { $_.enabled }).Count)
+
+Read , lines 240 to 390
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\server.py",
+  "view_range": [
+    240,
+    390
+  ]
+}
+
+Read , lines 1 to 260
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\docs\\sources\\p3-first-opportunity-2026-11-12.md",
+  "view_range": [
+    1,
+    260
+  ]
+}
+
+Read , lines 1 to 260
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\docs\\sources\\canonical-careers-2026-11-11.md",
+  "view_range": [
+    1,
+    260
+  ]
+}
+
+Ran terminal command: python -m collector.refresh_catalog; $code=$LASTEXITCODE; Write-Output ('collector_exit=' + $code); if ($code -eq 0) { python scripts/pages_artifact.py --output audit-dist; $artifactCode=$LASTEXITCODE; Write-Output ('artifact_exit=' + $artifactCode); if (Test-Path audit-dist) { Remove-Item -LiteralPath audit-dist -Recurse -Force } }; if (Test-Path test-results) { Remove-Item -LiteralPath test-results -Recurse -Force }; git diff --check; exit $code
+
+Ran terminal command: $payload = Get-Content data\opportunities.json -Raw | ConvertFrom-Json; $payload.opportunities | Select-Object id,recordKind,opportunityStatus,verificationStatus,publicationStatus,lastCheckedDate,deadline | Format-Table -AutoSize
+
+Las validaciones pasan y el artefacto de Pages también, mientras que el refresh confirma que no consulta fuentes ni altera el catálogo. Cierro la reconstrucción con el estado Git y una matriz de cumplimiento, sin escribir un informe dentro del repositorio ni modificar archivos.
+
+Ran terminal command: git status --short; Write-Output '--- branch ---'; git status --short --branch; Write-Output '--- diff check ---'; git diff --check; Write-Output '--- HEAD/origin ---'; git rev-parse --short HEAD; git rev-parse --short origin/main; git rev-list --left-right --count HEAD...origin/main
+
+Search for `function currentStates|async function loadCatalog|function getVisibleJobs|fun...`
+
+Search for `Estado real|Estado de continuidad|La siguiente acción|npm run test:e2e|workfl...`
+
+# Auditoría técnica integral — Ruta Sistemas
+
+**Fecha:** 2026-11-12  
+**Alcance:** inspección de solo lectura. No se modificó código ni documentación.
+
+## Veredicto ejecutivo
+
+Ruta Sistemas es actualmente un **piloto técnico/editorial**, no un MVP terminado.
+
+- Catálogo: **5 fichas demostrativas**.
+- Oportunidades reales: **0**.
+- Oportunidades activas: **0**.
+- Fuentes habilitadas: **0**.
+- Automatización: deshabilitada y fail-closed.
+- El bloqueo principal continúa siendo autorización externa y verificación de una primera oportunidad real.
+
+La conclusión coincide con el contrato consolidado en `R0` y el estado operativo descrito en `README.md`.
+
+## Estado funcional
+
+| Área | Estado |
+|---|---|
+| Búsqueda y filtros | Implementados en cliente |
+| Detalle de oportunidad | Implementado |
+| Comparación de hasta dos fichas | Implementada, sin score ni ganador |
+| Estados de vigencia/verificación/publicación | Implementados y separados |
+| Evidencia por campo | Modelada y validada |
+| Catálogo real publicable | Pendiente |
+| Backend público | No existe |
+| SQLite | Solo prototipo local, desconectado del frontend |
+| Usuarios, cuentas, CV, alertas | Fuera de alcance |
+| Scoring, ranking, IA, rutas profesionales | No implementados deliberadamente |
+
+La lógica relevante está en `app.js:119`, `app.js:248` y `app.js:412`.
+
+## Datos y publicación
+
+El catálogo actual está correctamente degradado:
+
+- `OP-001`: vencida, histórica y stale.
+- `OP-002`–`OP-004`: demostrativas, no confirmadas y stale.
+- `QA-001`: cerrada, histórica y stale.
+
+La semilla y el snapshot usan schema 2 y coinciden. El generador no convierte `generatedAt` en evidencia de vigencia. Las reglas de validación rechazan fechas vencidas, evidencia atrasada, hosts no permitidos y publicaciones activas sin aprobación editorial.
+
+Fuentes verificadas:
+
+- `data/opportunities.seed.json`
+- `scripts/catalog_quality.py:79`
+- `scripts/catalog_quality.py:340`
+
+## Fuentes e ingesta
+
+Todas las fuentes permanecen deshabilitadas en `collector/sources.json`.
+
+La ejecución de `python -m collector.refresh_catalog` terminó correctamente con:
+
+> No hay fuentes activadas; no se consultó ningún portal ni se modificó el catálogo.
+
+Esto es correcto y consistente con `collector/refresh_catalog.py:18` y `collector/README.md`.
+
+La principal candidata, Canonical Careers, permanece bloqueada por falta de autorización para consulta automatizada, retención y republicación: `canonical-careers-2026-11-11.md`.
+
+## CI/CD y operación
+
+El workflow:
+
+- Ejecuta pruebas y validaciones antes de publicar.
+- Compila CSS localmente.
+- Genera un artefacto Pages exacto.
+- No usa CDN runtime.
+- No tiene permisos de escritura al repositorio.
+- No ejecuta scraping programado.
+
+El artefacto Pages se preparó y validó correctamente mediante `scripts/pages_artifact.py`.
+
+No se verificó el despliegue remoto ni la URL pública; solo el artefacto local.
+
+## Pruebas ejecutadas
+
+Todas pasaron:
+
+- `python -m unittest discover -s tests -v` — **57 pruebas OK**.
+- `python scripts/build_catalog.py --check` — **OK**.
+- `python scripts/validate_catalog.py` — **OK**, con advertencias esperadas.
+- `python scripts/validate_candidates.py data/candidates/inbox.example.json` — **OK**.
+- `node --check app.js` — **OK**.
+- `node --check canvas.js` — **OK**.
+- `node tests/catalog_ui.test.cjs` — **OK**.
+- `npm run test:e2e` — **8 pruebas OK**, escritorio y móvil.
+- Artefacto Pages — **OK**.
+- `git diff --check` — **OK**.
+
+Los flujos E2E cubren carga, estado vacío, filtros, detalle, comparación y viewport móvil en `tests/e2e/catalog.spec.cjs`.
+
+## Hallazgos importantes
+
+### P0 — El producto todavía no puede declararse MVP
+
+No existe ninguna oportunidad real aprobada, vigente y verificable. Esto bloquea la promesa central del producto: ayudar a comparar oportunidades laborales reales.
+
+### P1 — Inconsistencia documental de estado
+
+`R0` declara al inicio que “R1 aún no ha iniciado”, pero posteriormente afirma que R1 está implementada y validada. Además, una sección menciona 56 pruebas, mientras la ejecución actual confirma 57.
+
+Debe consolidarse una única versión del estado de R1 antes de usar el documento como fuente ejecutiva.
+
+### P1 — El servidor local no usa el TTL configurable
+
+El frontend y el contrato permiten `verificationTtlDays`, pero `server.py` llama a `effective_states` usando `DEFAULT_TTL_DAYS`. Actualmente ambos valores son 7, por lo que no hay fallo visible, pero cambiar el TTL de la semilla produciría divergencia entre servidor local y frontend.
+
+### P1 — Árbol de trabajo no consolidado
+
+El repositorio está:
+
+- En `main`.
+- Cinco commits detrás de `origin/main`.
+- Con 19 archivos rastreados modificados.
+- Con varios archivos nuevos sin seguimiento, incluidos `canvas.js`, `playwright.config.cjs`, documentación R0/R2 y pruebas E2E.
+
+El estado funcional es verificable, pero todavía no representa una revisión integrada y reproducible del historial remoto.
+
+### P2 — Riesgo operativo de dependencias de Actions
+
+El workflow usa acciones referenciadas por tags mayores (`@v4`, `@v5`) en lugar de SHA inmutables. No bloquea el piloto, pero reduce reproducibilidad y control de la cadena de suministro.
+
+## Reconstrucción final
+
+### Completado
+
+- Frontend estático funcional.
+- Catálogo schema 2.
+- Estados conservadores.
+- Validación de fechas, hosts y evidencia.
+- Comparador sin ranking.
+- CSS compilado localmente.
+- Publicación Pages validada.
+- Pruebas unitarias, contractuales y E2E.
+- Política fail-closed de fuentes.
+
+### Parcial
+
+- Catálogo de oportunidades: solo fixtures demostrativos.
+- Backend SQLite: prototipo local aislado.
+- Evaluación profesional: señales explicables, sin datos reales.
+- Validación de producto: técnica, no validación con usuarios reales.
+
+### Pendiente
+
+1. Obtener autorización escrita de una fuente concreta.
+2. Verificar manualmente una oportunidad real.
+3. Crear una ficha editorial con evidencia por campo.
+4. Aprobarla humanamente.
+5. Publicarla como primera oportunidad real.
+6. Ejecutar validación con usuarios sobre datos reales.
+7. Consolidar los cambios locales y resolver divergencia con `origin/main`.
+
+**Conclusión:** la base técnica está razonablemente estabilizada y las salvaguardas actuales son coherentes. El cuello de botella no es de implementación: es editorial, legal y de disponibilidad de datos reales autorizados.
+
+---
+
+# R0 — Decisiones estratégicas y alcance consolidado
+
+- **Fecha:** 2026-11-12
+- **Estado:** cerrada documentalmente; R1 aún no iniciada
+- **Alcance:** decisiones, criterios y roadmap. No implementa funcionalidades.
+- **Fuente de verdad:** este documento consolida R0; el código y ADR-001 siguen siendo la autoridad para los contratos ya implementados.
+
+## 1. Decisión ejecutiva
+
+Ruta Sistemas construirá primero un **catálogo estático, curado y verificable de oportunidades reales para perfiles iniciales y junior de Sistemas en Perú**, incluyendo oportunidades remotas solo cuando la elegibilidad desde Perú esté explícita. El MVP permite encontrar, entender y comparar oportunidades; no promete empleo, continuidad ni calidad universal del empleador.
+
+La arquitectura vigente se conserva: `data/opportunities.seed.json` como fuente canónica, snapshot generado, frontend estático, validación fail-closed y publicación portable. No se incorpora backend multiusuario, CMS, IA, scraping general ni nueva infraestructura antes de demostrar una necesidad concreta.
+
+**Regla de cierre del MVP:** mientras no exista al menos una ficha real que cumpla el contrato editorial y pueda consultarse correctamente, el producto es un piloto técnico/editorial, no un MVP terminado.
+
+## 2. Inventario documental consolidado
+
+| Documento | Estado | Decisión/propósito | Acción |
+|---|---|---|---|
+| [README.md](../../README.md) | Vigente | Operación, estados, validaciones y límites actuales | Mantener; enlazar este cierre R0 |
+| [ADR-001](../adr/ADR-001-catalogo-curado-publicacion-segura.md) | Vigente | Fuente canónica, estados, evidencia, publicación y límites | Mantener como contrato arquitectónico |
+| [P3 — primer caso real](../sources/p3-first-opportunity-2026-11-12.md) | Vigente como bloqueo | Ninguna fuente tiene autorización suficiente | Mantener; no activar fuentes |
+| [P4 — OSS](p4-oss-automation-evaluation-2026-11-13.md) | Propuesto/condicionado | Evalúa automatización futura; operación bloqueada | Mantener como propuesta; no instalar OSS |
+| [P5 — evaluación profesional](../product/p5-evaluacion-profesional-y-validacion.md) | Vigente como evolución | Señales explicables sin score ni ranking | Mantener; no confundir con requisito completo del MVP |
+| [Seguimiento de autorización](../sources/seguimiento-autorizacion-fuentes.md) | Vigente como trabajo externo | Preguntas y criterios para fuentes | Mantener; requiere respuesta humana |
+| [Canonical Careers](../sources/canonical-careers-2026-11-11.md) | Propuesto | Candidata privada, `pending_review`, presupuesto cero | Mantener; no consultar ni publicar |
+| [Auditoría 2026-10-25](../audits/project-state-audit-2026-10-25.md) | Histórico | Diagnóstico anterior y decisiones ya implementadas | No usar como estado actual |
+| [Diseño/roadmap](../../Diseno-modelo-datos-arquitectura-piloto-2026-10-03.md) | Histórico acumulativo + roadmap vigente | Antecedentes y secciones P1–P5 | Conservar; esta sección R0 prevalece para alcance actual |
+| `Informe-investigacion-mercado-fuentes-2026-10-03.md` | Histórico | Investigación de mercado y fuentes | No tratar como autorización |
+| `outputs/pilot-datos-2026-10-03/Protocolo_Piloto_Oportunidades.xlsx` | Histórico | Protocolo del piloto inicial | Conservar como antecedente |
+
+### Contradicciones resueltas
+
+1. La visión de largo plazo incluye evaluación profesional y trayectorias; P5 no las elimina, solo las deja como evolución basada en evidencia.
+2. Los documentos antiguos describen colectores activos, CDN o escritura automática; ADR-001 y el código actual los sustituyen por snapshot estático, CSS compilado y colector fail-closed.
+3. La evaluación OSS fechada **2026-11-13** es posterior a la fecha de R0 (**2026-11-12**): se considera propuesta futura ya redactada, no decisión aprobada ni evidencia de ejecución.
+4. `Aurel`/`AurelDev` aparece en contenido local reciente, pero no es una decisión de marca aprobada. La marca de producto para R0 sigue siendo Ruta Sistemas.
+
+## 3. Alcance definitivo
+
+### A. MVP — obligatorio
+
+1. Catálogo con al menos una oportunidad real no demostrativa.
+2. Filtros por tipo, perfil/nivel, modalidad, ubicación y familia/sector cuando esos datos estén publicados.
+3. Detalle con requisitos, condiciones disponibles, fuente, publisher, fecha de observación y canal oficial de postulación.
+4. Estados comprensibles y conservadores: oportunidad, verificación y publicación separados.
+5. Exclusión por defecto de demostraciones, históricas, vencidas y no confirmadas.
+6. Comparación local de oportunidades sin score ni ganador universal.
+7. Evidencia y trazabilidad suficientes para explicar cada dato publicado.
+8. Publicación estática reproducible y validada antes de Pages.
+
+### B. Evolución, no MVP
+
+- señales explicables de aprendizaje, experiencia técnica, crecimiento y continuidad;
+- evaluación separada del empleador y de la oportunidad;
+- preferencias efímeras, oportunidades guardadas y alertas;
+- orientación de trayectorias basada en requisitos y transiciones observadas;
+- automatización de fuentes autorizadas en staging;
+- persistencia multiusuario solo si la curación concurrente lo demuestra necesaria.
+
+La evolución requiere datos reales longitudinales, criterios transparentes, pruebas con usuarios y separación explícita entre hecho, señal, incertidumbre y ausencia de información. No se autoriza score universal, ranking definitivo ni recomendación automática por ahora.
+
+### C. Fuera de alcance o descartado
+
+- red social, comunidad, chat usuario-empresa;
+- sistema propio de postulación;
+- almacenamiento de CV o datos de postulantes;
+- backend multiusuario prematuro;
+- scraping indiscriminado o activación por disponibilidad técnica;
+- IA/recomendaciones sin dataset suficiente y evidencia;
+- ranking universal de empleadores u oportunidades;
+- infraestructura distribuida o base especializada sin volumen/operación demostrados.
+
+## 4. Cambios sin commit: matriz de decisión
+
+El estado revisado contiene **15 archivos rastreados modificados**, **un `canvas.js` no rastreado** y **cuatro documentos nuevos no rastreados**; el diff rastreado suma **1.536 adiciones y 117 eliminaciones**. Se preserva todo el trabajo; esta matriz no autoriza revertirlo.
+
+| Grupo | Aporte | Riesgo/coste | Evidencia actual | Decisión R0 |
+|---|---|---|---|---|
+| Marca/identidad | Jerarquía y nueva presentación | `Aurel`/`AurelDev` contradice Ruta Sistemas | `index.html`, DOM local | Conservar con ajuste de marca en R1 |
+| Navegación/estructura | Hero, catálogo, metodología, fuentes | Más superficie antes de tener datos reales | inspección de UI | Conservar; validar tarea principal |
+| Filtros/catálogo | Texto, ubicación, modalidad, categorías y opt-ins | Cobertura E2E incompleta | tests Node + navegador | Conservar |
+| Detalle | Evidencia, estados, señales y postulación deshabilitada | Puede repetir interpretación editorial | `renderDialog`, contratos schema 2 | Conservar con pruebas |
+| Comparador | Hasta dos fichas, sin puntuación | No verificado end-to-end | lógica Node; falta browser flow | Conservar con validación |
+| Evaluación/evidencia | Distingue hechos y límites | No debe parecer recomendador | P5 y `evaluationSignals` | Conservar como evolución útil |
+| Hero WebGL | Identidad visual y animación | Compatibilidad, rendimiento, accesibilidad; no resuelve catálogo vacío | `canvas.js`; `prefers-reduced-motion` no detiene WebGL | Pendiente de validación; no ampliar |
+| Estilos/responsive | CSS compilado local, sin CDN runtime | Cambios amplios y posible divergencia visual | build CSS y artefacto Pages pasan | Conservar; revisar viewport |
+| Pruebas/docs | Contratos de carga, errores y datos | Falta E2E local/canvas/modales | 56 tests pasan | Conservar; ampliar en R1 |
+
+### Defectos verificables que R1 debe resolver
+
+- `index.html` carga `canvas.js`, pero `server.py` no lo expone: el servidor local devuelve 404/MIME JSON.
+- El título y marca visible no están alineados con Ruta Sistemas.
+- El bucle WebGL debe medirse o desactivarse/reducirse bajo `prefers-reduced-motion`; la regla CSS por sí sola no prueba ahorro de ejecución.
+- No afirmar que Pages y servidor local son equivalentes hasta probar ambos contratos.
+
+## 5. Contrato editorial vigente
+
+No se crea un esquema paralelo. El contrato se apoya en schema 2, `catalog_quality.py`, `build_catalog.py`, `validate_candidates.py` y ADR-001.
+
+### Campos mínimos
+
+- **Identidad:** `id`, `title`, `employer`, `publisher`, `kind`, `family`, `level`, `sector`.
+- **Condiciones:** `mode`, `location`, `eligibility`, `salary`/`salaryNote`, `duration`, `benefits`, `publishedAt`, `deadline` cuando existan.
+- **Postulación:** `sourceUrl`, `applyUrl`, `allowedHosts`, `sourceKind`.
+- **Evidencia:** `fieldEvidence` para cada campo afirmado, URL HTTPS permitida y `observedAt` con zona; `verificationEvidence` con método, resultado y relación con el empleador.
+- **Decisión:** `editorialDecision.status`, revisor, motivo y `decidedAt`.
+- **Estados:** `opportunityStatus`, `verificationStatus`, `publicationStatus`, `recordKind`, `lastVerifiedAt`/`lastCheckedDate`.
+
+### Condición para `publicationStatus: active`
+
+Debe cumplirse todo lo siguiente:
+
+1. `recordKind` no es `demonstration`.
+2. `opportunityStatus: open`.
+3. `verificationStatus: verified` y la verificación está dentro del TTL configurado.
+4. El deadline no existe o no está vencido.
+5. Revisión humana aprobada con revisor, fecha y motivo.
+6. El canal de postulación fue observado abierto manualmente, con `publisherRelation: employer_confirmed`, `result: application_open`, timestamp válido y hosts HTTPS permitidos.
+7. `sourceUrl`, `applyUrl` y la evidencia son permitidas.
+8. Cada campo no nulo afirmado tiene `fieldEvidence` reciente.
+
+Si falta cualquier condición, la ficha permanece `unconfirmed`, `historical`, `expired`, `stale`, `pending` o fuera del snapshot publicable según corresponda. `generatedAt` nunca renueva evidencia. Ausencia de dato no se transforma en condición negativa.
+
+### Flujo mínimo
+
+`captura → validación → deduplicación → verificación → revisión humana → aprobación → generación → publicación → seguimiento`
+
+| Paso | Estado actual |
+|---|---|
+| Captura | Manual; automatización bloqueada |
+| Validación | Implementada para candidatos, semilla y snapshot |
+| Deduplicación | Parcial; requiere revisión de colisiones |
+| Verificación | Manual y documentada; no existe ficha real aprobada |
+| Revisión/aprobación | Manual, modelada en schema, sin panel |
+| Generación/publicación | Implementada y fail-closed |
+| Seguimiento/retirada | Política documentada; ejecución manual |
+
+## 6. Criterios de aceptación congelados
+
+### MVP
+
+- [ ] Existe al menos una oportunidad real, no demostrativa, consultable y aprobada.
+- [ ] Una persona puede filtrar, abrir el detalle, distinguir empleador/publisher y llegar al canal oficial.
+- [ ] Una ficha vencida, stale o sin evidencia no aparece como activa por defecto.
+- [ ] La comparación no produce score, ganador ni valores inventados.
+
+### Datos y publicación
+
+- [ ] `build_catalog.py --check`, `validate_catalog.py` y `validate_candidates.py` pasan.
+- [ ] Cada dato afirmado tiene evidencia HTTPS y fecha válida; los desconocidos permanecen ausentes/null.
+- [ ] La publicación falla si el esquema, host, fecha, estado o artefacto son inválidos.
+- [ ] El artefacto contiene exactamente los archivos permitidos y no depende de CDN runtime.
+
+### Experiencia e integridad técnica
+
+- [ ] Prueba de navegador cubre carga, filtros, estado vacío/error, detalle, comparación y enlaces relativos bajo Pages.
+- [ ] Prueba local cubre `canvas.js` o documenta su exclusión; no hay 404/MIME incorrecto.
+- [ ] Se revisan teclado, diálogo, viewport móvil y `prefers-reduced-motion`.
+- [ ] No se declara éxito remoto sin observar el artefacto y la URL desplegados.
+
+### Evolución
+
+- [ ] No se inicia scoring, alertas, trayectorias o personalización sin datos y protocolo de medición documentados.
+- [ ] Una fuente nueva tiene autorización escrita separada para consulta, retención, atribución, retirada y republicación antes de cualquier solicitud.
+- [ ] La automatización produce staging/candidatos y nunca promociona directamente a seed, snapshot o Pages.
+
+## 7. Roadmap maestro posterior a R0
+
+El roadmap existente permanece en la sección 21 y sus bloques posteriores del [documento de diseño](../../Diseno-modelo-datos-arquitectura-piloto-2026-10-03.md). R0 lo reordena así, sin duplicar tareas:
+
+| Fase | Objetivo | Entrada | Salida/criterio | Estado |
+|---|---|---|---|---|
+| R0 | Cerrar alcance, contrato, criterios y decisiones | Auditoría + docs actuales | Este documento, sin contradicciones críticas sin registrar | **Cerrada documentalmente** |
+| R1 | Estabilizar versión actual | R0 | `canvas.js` local resuelto, marca unificada, diff revisado, E2E base | **Implementada; validación final pendiente** |
+| R2 | Obtener primera oportunidad real | R1 + autorización externa | Una ficha real aprobada en staging y luego seed/snapshot | **Parcial; bloqueada por autorización y aprobación humana** |
+| R3 | Validar utilidad del MVP | R2 | Pruebas con usuarios y medición de comprensión/comparación | **Validación técnica parcial; valor real bloqueado por R2** |
+| R4 | Automatizar fuente autorizada | R2/R3 + permiso técnico | Adaptador acotado, candidatos offline, sin promoción automática | **Bloqueada; no existe fuente autorizada** |
+| R5 | Evaluación profesional explicable | Datos reales suficientes + R3 | Señales auditables sin score obligatorio | Aplazada |
+| R6 | Preferencias, guardados y alertas | R3 + necesidad demostrada | Diseño de privacidad y persistencia justificado | Aplazada |
+| R7 | Trayectorias profesionales | Dataset longitudinal y evidencia | Orientación no determinista, validada | Aplazada |
+| R8 | Consolidación operativa | Flujos anteriores estables | backups, monitorización, retirada y plan de hosting | Aplazada |
+
+### Siguiente bloque: R1-01
+
+- **Objetivo:** estabilizar y consolidar la versión actual sin cambiar el alcance.
+- **Archivos probables:** `server.py`, `index.html`, `canvas.js`, `app.js`, pruebas UI y documentación de release.
+- **Dependencias:** ninguna técnica; requiere conservar el árbol de trabajo y revisión del propietario para decidir mantener o simplificar el hero.
+- **Aceptación:** servidor local sin 404/MIME para recursos declarados; marca unificada; smoke E2E de carga/filtros/detalle/comparador; decisión explícita sobre WebGL y reduced motion.
+- **Validaciones:** suite existente, `node --check`, artefacto Pages, navegador local y viewport móvil.
+- **Riesgo:** tocar el lote acumulado puede mezclar cambios de etapas; revisar diff antes de seleccionar cualquier integración.
+- **Esfuerzo relativo:** medio.
+
+### Evidencia de ejecución R1
+
+- `server.py` expone `/canvas.js` como JavaScript; la comprobación HTTP local devolvió `200` y MIME correcto para `/`, `/app.js`, `/styles.css`, `/canvas.js` y `/data/opportunities.json`.
+- `index.html` usa `Ruta Sistemas` en título y marca visible, sin residuo activo `Aurel`.
+- `canvas.js` registra fallback sin bloqueo para WebGL2 ausente, atiende `prefers-reduced-motion` y cancela el frame en `pagehide`.
+- `app.js` conserva el mensaje seguro para la persona y registra la causa técnica del fallo de catálogo en consola.
+- `python -m unittest discover -s tests -v`: 57 pruebas pasan. `node --check app.js` y `node --check canvas.js` pasan.
+- Smoke de navegador local: carga inicial vacía, activación de ejemplos demostrativos y apertura/cierre del detalle verificados. No se añadió un runner E2E al proyecto.
+
+## 8. Decisiones pendientes de aprobación
+
+1. Mantener el hero WebGL, simplificarlo o retirarlo tras la validación R1.
+2. Confirmar la marca final `Ruta Sistemas` y corregir cualquier residuo `Aurel`.
+3. Autorizar contacto con Canonical/SERVIR/FISI o seleccionar otra fuente; ninguna está aprobada actualmente.
+4. Autorizar la integración/publicación del lote sin commit tras revisión completa del diff.
+5. Definir, después del piloto, si el volumen justifica CMS/backend; no se presume ahora.
+
+## 9. Cierre R0
+
+R0 queda **cerrada documentalmente**. R1 queda **implementada y validada en servidor local, suite y smoke de navegador**, con la salvedad de que no se incorporó un runner E2E permanente. No se activaron fuentes ni se cambió el alcance. El bloqueo material para el MVP sigue siendo la autorización y verificación de una primera oportunidad real.
+
+---
+
+# Ruta Sistemas
+
+Catálogo piloto de oportunidades laborales para estudiantes y profesionales de Sistemas, con foco en Perú y puestos remotos elegibles desde Perú. El objetivo es hacer comparables las condiciones y la evidencia que ayudan a decidir una trayectoria; la plataforma no garantiza empleo, continuidad ni ascensos.
+
+## Estado real
+
+La interfaz estática permite buscar y filtrar un catálogo JSON. El conjunto actual conserva cinco fichas **demostrativas** y ninguna está habilitada para postular: una convocatoria vencida, una cerrada/histórica y tres con vigencia desconocida, todas sin verificación vigente. No hay fuentes automáticas aprobadas ni ofertas reales activas actualmente. La fecha de generación del catálogo no significa que las fichas se hayan vuelto a comprobar.
+
+Las fichas demostrativas no aparecen en la búsqueda normal: se muestran solo al activar **“Incluir ejemplos demostrativos”** y están identificadas como ejemplos. Los contadores de oportunidades reales excluyen esas fichas. Cuando no hay oportunidades reales verificadas, la página lo indica y explica que cada publicación se incorpora tras revisar su origen y canal de postulación.
+
+## Fuente de datos y estados
+
+- `data/opportunities.seed.json` es la única fuente editable y versionada. Contiene las fichas, su procedencia, fechas y estados.
+- `data/opportunities.json` es un artefacto generado para el frontend. No editarlo directamente: el validador detecta cualquier diferencia con la fuente; para reemplazarlo deliberadamente se usa `--write`.
+- Todas las fechas civiles usan `YYYY-MM-DD`; timestamps de evidencia usan ISO 8601 con zona. Fechas civiles se evalúan en `America/Lima` (UTC-05:00). Una fecha incompleta o ausente permanece desconocida.
+- `opportunityStatus` describe abierta/cerrada/vencida/desconocida; `verificationStatus` describe verificada/pendiente/atrasada/no verificada; `publicationStatus` determina activa/no confirmada/histórica. No son equivalentes.
+- La configuración del TTL piloto está en `verificationTtlDays` de la semilla. El valor inicial es **7 días calendario** por la rotación rápida de vacantes; debe revisarse con evidencia del piloto. Deadline vencido siempre anula publicación activa. Sin deadline, la verificación reciente y la evidencia siguen siendo obligatorias.
+- Para publicar una ficha activa se exige revisión manual reciente del canal de postulación confirmado por el empleador y observado abierto, timestamp con zona, evidencia enlazada, enlaces HTTPS en hosts explícitamente permitidos, estatus abierto, fecha límite no vencida si existe y registro no demostrativo. Un ATS que devuelve un anuncio o una ejecución de generación no satisface por sí sola estos requisitos.
+- El contrato editorial para nuevas fichas activas separa `employer` (quien contrata) de `publisher` (quien difunde); `sourceUrl` identifica la ficha informativa y `applyUrl` el canal de postulación. `fieldEvidence` registra URL HTTPS y `observedAt` por cada dato publicado, y `editorialDecision` conserva aprobación humana, revisor, fecha y motivo. Cada dato no publicado permanece `null`/ausente; el validador exige evidencia para toda condición que sí se afirme.
+- La interfaz identifica empleador, difusor, ficha y canal de postulación por separado; detalla los enlaces de evidencia por campo. Muestras demostrativas se etiquetan como tales, y el enlace de postulación no se habilita por defecto ni se infiere desde la fuente informativa.
+- Talento Perú/SERVIR y una alternativa institucional (portal FISI-UNMSM) fueron evaluados el 2026-10-26 y quedaron `pending_review`. El directorio oficial de SERVIR lista una aplicación web pública de consulta, pero no API/feed documentado ni autorización de automatización/reutilización. Ambas fuentes están deshabilitadas con presupuesto de solicitudes cero; no hubo extracción. Los borradores de seguimiento están preparados, no enviados. Los conectores Greenhouse/Lever también continúan desactivados.
+
+## Ejecutar y validar
+
+Requisitos locales: Python 3.12+ y Node.js 22 para compilar CSS y comprobar JavaScript. El build usa Tailwind CSS CLI 4.3.3 fijado en `package-lock.json`; el sitio publicado sirve CSS estático compilado y no carga Tailwind ni dependencias de terceros en runtime. La dirección visual prioriza jerarquía editorial, contraste, densidad útil del catálogo y estados verificables; la referencia de Sequence se utilizó solo para principios generales, no para copiar marca o composición.
+
+```powershell
+npm ci
+npm run build:css
+# Durante desarrollo, recompila al cambiar index.html, app.js o src/site.css
+npm run watch:css
+```
+
+`src/input.css` y `src/site.css` son las fuentes del estilo; `styles.css` es la salida compilada versionada que consume Pages. GitHub Actions compila CSS antes de validar el candidato y antes de preparar el artefacto público.
+
+```powershell
+# Comprobar pruebas y fuente/snapshot sin escribir
+python -m unittest discover -s tests -v
+python scripts/build_catalog.py --check
+python scripts/validate_catalog.py
+python scripts/validate_candidates.py data/candidates/inbox.example.json
+node --check app.js
+node tests/catalog_ui.test.cjs
+npm run test:e2e
+
+# Después de editar deliberadamente la semilla, regenerar el JSON
+python scripts/build_catalog.py --write
+python scripts/build_catalog.py --check
+
+# Servidor local de demostración
+python server.py
+```
+
+`npm run test:e2e` inicia el servidor local de forma temporal y ejecuta los flujos principales con Playwright en Chromium de escritorio y viewport móvil. En un entorno nuevo, el navegador se instala con `npx playwright install chromium`; GitHub Actions instala el navegador durante la validación. Los tests activan explícitamente las fichas demostrativas y no cambian el catálogo.
+
+La captura editorial manual permanece separada del catálogo: revisa [data/candidates/README.md](data/candidates/README.md). La bandeja real `inbox.local.json` es local e ignorada por Git; no hay importación automática a la semilla.
+
+La generación automática usa hora actual para `generatedAt`, pero ese campo no se usa como evidencia de vigencia. Para una reconstrucción reproducible se puede fijar el timestamp:
+
+```powershell
+python scripts/build_catalog.py --write --generated-at 2026-10-26T12:00:00Z
+```
+
+El TTL y el `--as-of YYYY-MM-DD` del validador permiten ejecutar la misma regla para una fecha de referencia. El modo de catálogo vacío solo se admite si se pide explícitamente en el validador para una prueba; la publicación no acepta catálogo vacío por defecto.
+
+## Publicación, seguridad y autonomía
+
+El workflow `.github/workflows/refresh-catalog.yml` primero ejecuta pruebas, validación y `node --check`, y solo entonces prepara el artefacto con cinco archivos: `index.html`, `app.js`, `canvas.js`, `styles.css` y `data/opportunities.json`. Todos los recursos runtime son locales; no se usan fuentes web ni CDN. No programa scraping, no escribe commits ni tiene permiso `contents: write`. Un error bloquea la publicación. Cada cambio queda reversible con Git.
+
+**GitHub Pages y GitHub Actions son servicios alojados, no software OSS ni operación autoalojada.** Se conservan en este piloto por simplicidad y costo monetario directo cero bajo las condiciones aplicables a la cuenta/repositorio, no como garantía de disponibilidad ni autonomía plena. El pipeline y catálogo son reproducibles desde el repositorio, sin datos ocultos ni APIs pagadas. Camino de salida: servir el artefacto estático en infraestructura propia con Caddy o Nginx OSS y ejecutar validaciones localmente o con un runner propio. Antes de migrar se debe disponer de máquina/conectividad, dominio/TLS, monitorización, respaldos y procedimiento de restauración; eso implica costos eléctricos y de operación aunque el software sea gratuito.
+
+`server.py` conserva un prototipo local Python/SQLite de lectura, ligado a loopback y no utilizado por Pages. No es backend público ni fuente canónica. No se sincroniza con JSON/semilla. Se reconsiderará solo si aparece una necesidad validada de curación concurrente o historial transaccional.
+
+El servidor local expone los recursos declarados por la interfaz, incluido `canvas.js`, con MIME JavaScript. El hero WebGL se oculta sin bloquear la página cuando WebGL2 no está disponible, y reduce su trabajo a un único render cuando el navegador solicita movimiento reducido; el catálogo y sus controles siguen funcionando.
+
+## Documentos vigentes e históricos
+
+- [ADR-001 — catálogo curado y publicación segura](docs/adr/ADR-001-catalogo-curado-publicacion-segura.md): decisiones vigentes de este bloque.
+- [R0 — decisiones estratégicas y alcance consolidado](docs/architecture/r0-decisiones-y-alcance-2026-11-12.md): fuente rectora para MVP, evolución, contrato editorial, criterios de aceptación y roadmap posterior.
+- [Seguimiento de autorización](docs/sources/seguimiento-autorizacion-fuentes.md): borradores oficiales no enviados y criterios de decisión.
+- [Diseño y roadmap](Diseno-modelo-datos-arquitectura-piloto-2026-10-03.md): sección 21 para decisiones base y secciones 37–40 para continuidad y rediseño; las secciones anteriores se conservan como historia.
+- [Auditoría fechada 2026-10-25](docs/audits/project-state-audit-2026-10-25.md): snapshot previo a este bloque, no descripción del código actual.
+- [Investigación de mercado/fuentes](Informe-investigacion-mercado-fuentes-2026-10-03.md): investigación histórica; ninguna fuente queda autorizada por aparecer allí.
+
+Estado de continuidad: R0 está cerrada; R1 está implementada y validada; R2
+está bloqueada por autorización y ausencia de una oportunidad real aprobada; R3
+está validada técnicamente con fixtures demostrativos, pero no con usuarios ni
+oportunidades reales; R4 mantiene las fuentes deshabilitadas y la automatización
+condicionada a autorización; R5 permanece aplazada. La siguiente acción única es
+obtener una respuesta escrita de una fuente concreta sobre consulta,
+automatización, conservación de metadatos, atribución, retirada, republicación,
+límites de uso y elegibilidad desde Perú. Los borradores están en
+[seguimiento de autorización](docs/sources/seguimiento-autorizacion-fuentes.md)
+y la candidata prioritaria está en
+[Canonical Careers](docs/sources/canonical-careers-2026-11-11.md). No añadir
+scoring, IA, rutas profesionales, Firecrawl ni crawling general hasta que la
+calidad de datos lo justifique.
+
+---
+
+# Ingesta de fuentes — estado y límites
+
+## Estado vigente
+
+No se ejecuta ingesta automática. Talento Perú/SERVIR, FISI-UNMSM y Canonical Careers están en `pending_review`, deshabilitadas y con presupuesto de consultas cero. No hay evidencia suficiente de un mecanismo/licencia para automatización y reutilización. Consulta los expedientes de [SERVIR/FISI](../docs/sources/talento-peru-servir-2026-10-26.md) y [Canonical](../docs/sources/canonical-careers-2026-11-11.md). `python -m collector.refresh_catalog` solo confirma el no-op. Si una entrada se habilita, el comando termina antes de realizar solicitudes o modificar datos: el adaptador histórico aún no está migrado al schema 2 ni al flujo curatorial vigente.
+
+SERVIR sí incluye en su directorio institucional una [aplicación pública de consulta](https://app.servir.gob.pe/DifusionOfertasExterno/faces/consultas/ofertas_laborales.xhtml). Es un mecanismo de consulta oficial; no se encontró API/feed documentado ni permiso para automatizar o reutilizar. La solicitud de aclaración está preparada, no enviada. Para gestionar información manualmente sin tocar el catálogo, usa la [bandeja editorial local](../data/candidates/README.md) y sus borradores de autorización en [seguimiento de fuentes](../docs/sources/seguimiento-autorizacion-fuentes.md).
+
+La política de `authorize_fetch()` ahora requiere explícitamente `decision: approved`, `automatedAccessStatus: approved`, términos y derechos aprobados, fuente habilitada, conector implementado y host permitido. La falta de cualquier campo de decisión también deniega el acceso.
+
+No activar Talento Perú, FISI-UNMSM, Canonical Careers, Greenhouse, Lever, OSITRAN ni agregadores sin una revisión específica de acceso técnico, términos, uso permitido, atribución, frecuencia, retención y evidencia. Una API pública facilita la lectura técnica, pero no constituye licencia de republicación ni confirma que una vacante siga abierta.
+
+## Próxima evolución
+
+La fuente canónica editable es `data/opportunities.seed.json`; los datos que se deseen proponer desde un futuro conector deberán revisarse y copiarse/aceptarse explícitamente ahí antes de generar `data/opportunities.json`. El resultado automático nunca debe declarar vigencia por la sola presencia de un anuncio. La fase de piloto debe capturar una muestra acotada para medir completitud y exactitud, sin publicar directamente.
+
+Los conectores HTTP existentes en `ats_connectors.py` y políticas en `policy.py` son material de referencia, no un pipeline actualmente operativo. Mantienen límites de respuesta y rechazan redirecciones. No se sigue un redirect automáticamente: debe revisarse el nuevo host y permitirse de forma explícita. No se usa Scrapy hasta que la complejidad de fuentes HTML autorizadas lo justifique; no se incorpora Firecrawl ni API alojada de Freehire. Talento Perú y FISI-UNMSM no tienen condiciones suficientes documentadas. Canonical tiene un portal relevante, pero sus términos visibles no prueban autorización para automatizar o republicar; las tres fuentes siguen apagadas y no hubo piloto ni scraping.
+
+`data/candidates/inbox.local.json` es una bandeja de notas que no se versiona ni se sirve en Pages; copiar desde `data/candidates/inbox.example.json` y validar con `python scripts/validate_candidates.py`. El validador es offline y de solo lectura. No equivale a autorización de conservar/publicar contenido y no promociona candidatos: una decisión editorial aprobada requiere que la fuente tenga autorización manual y de reutilización pública; luego el revisor debe transferir los datos manualmente a la semilla y superar el validador del catálogo.
+
+## Comandos
+
+```powershell
+python -m collector.refresh_catalog
+python -m unittest discover -s tests -v
+python scripts/validate_catalog.py
+```
+
+El workflow de publicación no tiene cron, no llama a colectores y no escribe commits en `main`. GitHub Actions/Pages siguen siendo servicios alojados; ver la decisión vigente en `docs/adr/ADR-001-catalogo-curado-publicacion-segura.md` y el roadmap en la sección 21 de `Diseno-modelo-datos-arquitectura-piloto-2026-10-03.md`.
+
+---
+
+# Evaluación de fuente: Canonical Careers
+
+- **Fecha de consulta:** 2026-11-11
+- **ID local propuesto:** `canonical-careers`
+- **Empleador:** Canonical Group Limited / Canonical
+- **Dominio corporativo:** `canonical.com`
+- **Decisión:** `pending_review`
+- **Automatización:** deshabilitada; presupuesto de solicitudes `0`
+
+## Evidencia oficial consultada
+
+1. [Canonical Careers](https://canonical.com/careers) identifica el portal corporativo y muestra departamentos de ingeniería, soporte, producto y otros.
+2. [Open roles](https://canonical.com/careers/all) muestra el buscador y filtros por departamento y región. La consulta de esta fecha no demostró una vacante concreta elegible para Perú; no se ejecutaron endpoints de búsqueda ni automatización.
+3. [Remote work](https://canonical.com/careers/company-culture/remote-work) declara que Canonical es una organización distribuida y describe su política de trabajo remoto. Esto demuestra relevancia potencial para trabajo remoto, no elegibilidad automática desde Perú para cada puesto.
+4. [Website terms and conditions](https://canonical.com/legal/terms) indica que el contenido del sitio es de Canonical o de sus proveedores y que la descarga/impresión se permite para uso personal, educativo y no comercial, conservando avisos. Esta cláusula no autoriza a Ruta Sistemas a extraer, conservar o republicar anuncios en un catálogo público; requiere confirmación específica.
+5. [Data privacy](https://canonical.com/legal/data-privacy) enlaza una [privacy notice de recruitment](https://canonical.com/legal/data-privacy/recruitment). La política trata datos de postulantes y no concede licencia para reutilizar anuncios ni autoriza a Ruta Sistemas a conservar datos personales. Ruta Sistemas no debe capturar CV, nombres, correos ni formularios.
+
+## Evaluación por dimensión
+
+| Dimensión | Estado | Evidencia / límite |
+|---|---|---|
+| Consulta manual | Compatible con restricciones | El portal corporativo es públicamente identificable; se debe revisar cada ficha sin asumir disponibilidad futura. |
+| Automatización | Pendiente de confirmación | No se identificó un API/feed oficial ni permiso explícito para automatización de terceros. No se consultaron endpoints ATS. |
+| Conservación | Pendiente de confirmación | Los términos no definen un conjunto de metadatos de vacantes que Ruta Sistemas pueda almacenar. No conservar contenido completo ni datos personales. |
+| Reutilización pública | No demostrada | La autorización de uso personal/educativo/no comercial de la web no equivale a permiso para republicación pública en Ruta Sistemas. |
+| Atribución | Pendiente | Como mínimo sería necesario enlazar la ficha corporativa original y mantener avisos; debe confirmarlo Canonical. |
+| Canal de postulación | Identificable por ficha, por verificar | La postulación debe permanecer en la URL corporativa original; no se debe sustituir por un formulario de Ruta Sistemas. |
+| Cobertura | Potencialmente relevante | Ingeniería y soporte son pertinentes para Sistemas; la elegibilidad territorial debe comprobarse por puesto. |
+| Viabilidad operativa | No medida | No se ejecutó scraping, API, prueba de carga ni seguimiento de cambios. |
+| Incertidumbre | Alta | Faltan autorización, retención, frecuencia, corrección, retirada y reglas para puestos remotos desde Perú. |
+
+## Propuesta condicionada de incorporación
+
+- **Hosts a evaluar, no autorizados:** `canonical.com` y el host exacto de la ficha corporativa que Canonical confirme. No añadir hosts ATS por conjetura.
+- **Mecanismo:** revisión manual inicial. Solo diseñar un adaptador pequeño si Canonical confirma un mecanismo oficial y sus límites.
+- **Campos mínimos candidatos:** empleador, publisher, título, ubicación/país elegible, modalidad, fecha observada, URL informativa y URL original de postulación.
+- **No almacenar:** descripción completa, requisitos extensos, imágenes, CV, datos de postulantes, cookies, tokens ni contenido sujeto a acceso autenticado.
+- **Atribución:** Canonical como empleador, enlace a la ficha original y cualquier texto de atribución que confirme la empresa.
+- **Presupuesto inicial:** cero hasta respuesta escrita. Si se autoriza automatización, proponer un límite explícito y reversible antes de activar.
+- **Vigencia:** comprobar individualmente que la ficha sigue abierta y que acepta postulantes desde Perú; no inferirlo por la etiqueta “remote”.
+- **Retirada:** retirar o marcar histórica ante cierre, solicitud del empleador, redirección no autorizada o evidencia fuera del TTL.
+
+## Consulta humana preparada, no enviada
+
+Canal sugerido: `legal@canonical.com` aparece en los términos del sitio. La consulta debe pedir confirmación separada sobre:
+
+1. consulta manual y uso de enlaces;
+2. automatización, API/feed o exportación autorizada;
+3. metadatos mínimos que pueden conservarse y plazo;
+4. republicación pública en Ruta Sistemas y límites de contenido;
+5. atribución obligatoria;
+6. frecuencia, identificación y límites técnicos;
+7. corrección, retirada y eliminación;
+8. URL canónica de postulación y criterio de elegibilidad para Perú;
+9. canal responsable de confirmar permisos de cada vacante.
+
+No se envió correo ni formulario en este bloque.
+
+## Decisión
+
+Canonical es la **candidata privada principal para continuar la resolución humana**, porque tiene un portal corporativo oficial, roles técnicos y una política remota explícita. No es una fuente compatible todavía: los términos visibles restringen el uso del contenido y no hay autorización de automatización o republicación. Permanece deshabilitada, sin presupuesto y fuera del flujo de consulta.
+
+## Evaluación R4 y contrato condicionado
+
+La revisión R4 del 2026-11-12 mantiene la decisión `pending_review`. La
+existencia del portal, sus filtros o cualquier endpoint técnicamente accesible no
+demuestra permiso para consultar automáticamente, conservar metadatos o
+republicarlos en Ruta Sistemas. Por esa razón no se consultó ninguna vacante
+individual, no se almacenó ninguna respuesta y no se implementó un adaptador
+operativo.
+
+Si Canonical autoriza expresamente un piloto, el contrato mínimo propuesto sería:
+
+- **Consulta:** revisión manual de una ficha corporativa; automatización solo
+  mediante el mecanismo, host, frecuencia e identificación que la respuesta
+  escrita autorice.
+- **Campos candidatos:** `employer`, `publisher`, `title`, `location`, `mode`,
+  `eligibility`, `publishedAt`, `deadline` cuando aparezcan, `sourceUrl` y
+  `applyUrl` canónicas. Los campos ausentes permanecen `null`/ausentes.
+- **Evidencia:** cada valor publicado requiere URL HTTPS de la ficha original y
+  `observedAt` con zona horaria; el canal debe comprobarse como abierto y
+  correspondiente a la convocatoria concreta.
+- **Retención y atribución:** solo metadatos mínimos autorizados, enlace a la
+  ficha original, atribución indicada por Canonical y procedimiento de
+  corrección/retirada.
+- **Salida:** candidato local con `captureMethod: manual` o el método realmente
+  autorizado y `editorialReview.status: pending_review`. Nunca promoción
+  automática a seed, snapshot o Pages.
+- **Límites:** máximo inicial de una convocatoria, presupuesto explícito,
+  sin descripción completa, CV, datos personales, cookies, tokens ni contenido
+  sujeto a autenticación.
+
+La configuración actual conserva `enabled: false`, `decision: pending_review`,
+`automatedAccessStatus: pending_review`, `publicReuseStatus: pending_review`,
+`maxRequestsPerRun: 0` y `rightsReview: pending`. El bloqueo se considera
+resuelto únicamente con autorización escrita suficiente y aprobación humana
+separada de la ficha individual.
+
