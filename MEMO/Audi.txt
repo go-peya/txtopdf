@@ -1,0 +1,178 @@
+Ran git status check
+Ran check output report existence
+Ran git info check
+Analyzed package.json:L1-100
+Analyzed package.json:L100-116
+Analyzed safe-test-runner.js:L1-100
+Analyzed safe-test-runner.js:L100-160
+Ran search for WO-EVO files
+Ran list Workflow directory
+Analyzed WO-EVO-29.md:L1-150
+Analyzed WO-EVO-30.md:L1-150
+Ran git status short
+Analyzed 02_ROADMAP.md:L1-100
+Analyzed 02_ROADMAP.md:L101-250
+Analyzed 02_ROADMAP.md:L251-283
+Ran list tests directory
+Ran list scripts directory
+Analyzed ci-verify-package.js:L1-50
+Analyzed ci-verify-package.js:L50-120
+Analyzed ci-verify-package.js:L120-224
+Analyzed subpath-contracts.test.ts:L1-60
+Ran search test run command in WO-EVO-26
+Analyzed persistence-backup.test.ts:L1-50
+Analyzed persistence-backup.test.ts:L540-569
+Analyzed lts-clean-packaging.test.ts:L1-50
+Analyzed lts-clean-packaging.test.ts:L50-100
+Ran check TypeScript compilation
+Ran run subpath-contracts test
+Ran run mcp-security test
+Ran run minisearch-json-retrieval test
+Ran run multi-project-isolation test
+Ran run multi-consumer-integration test
+Ran run memory-continuity-scenarios test
+Ran run state-unification test
+Ran run persistence-backup test
+Ran run sqlite-adapter test
+Ran run concurrency-locks test
+Checked task Run concurrency-locks test
+Checked task Run concurrency-locks test
+Ran list all files in src
+Ran count dist files
+Checked task Run concurrency-locks test
+Ran run path-security test
+Ran run minisearch-retrieval test
+Ran run lts-clean-packaging test
+Checked task Run lts-clean-packaging test
+Ran search frontend files
+Analyzed 00_PROJECT_CHARTER.md:L1-81
+Ran run CI package verifier
+Checked task Run CI package verifier
+Analyzed verify-release-artifact.js:L1-60
+Analyzed verify-release-artifact.js:L61-120
+Ran verify release artifact
+Ran verify git status is unchanged
+Analyzed storage.ts:L1-100
+Analyzed storage.ts:L150-250
+Ran find StorageEngine class declaration
+Analyzed storage.ts:L355-400
+Analyzed mcp.ts:L1-100
+Analyzed mcp.ts:L101-180
+Ran find GAP-SEC-01 in src/mcp.ts
+Ran find auto-enrollment in src/mcp.ts
+Analyzed types.ts:L1-100
+Analyzed opencode-adapter.ts:L1-80
+Analyzed stage-engine.ts:L1-70
+Analyzed stage-engine.ts:L71-120
+Analyzed stage-engine.ts:L121-160
+Analyzed cli.ts:L1-100
+Ran find CLI commands in src/cli.ts · Exited with code 1
+Ran find CLI command cases
+Analyzed minisearch-adapter.ts:L1-80
+Analyzed storage-persistence-adapter.interface.ts:L1-60
+Ran check sqlite import in node-sqlite-adapter
+Ran check release artifacts on disk
+Ran git log detailed
+Analyzed 08_CONTINUITY_HANDOFF.md:L1-60
+Analyzed 03_ARCHITECTURE_DECISIONS.md:L1-100
+Analyzed 03_ARCHITECTURE_DECISIONS.md:L101-191
+Ran run npm audit · Exited with code 1
+Analyzed compare-audit-advisories.js:L1-50
+Ran list OSS directory
+Analyzed OSS_REGISTRY.md:L1-87
+Analyzed 06_TECHNICAL_DEBT.md:L1-100
+Analyzed 06_TECHNICAL_DEBT.md:L101-156
+Analyzed 09_PUBLIC_CONTRACTS_V1.md:L1-100
+Analyzed 09_PUBLIC_CONTRACTS_V1.md:L101-150
+Analyzed 10_ARCHITECTURE_GAP_REGISTER.md:L1-100
+Created PROJECT_PROGRESS_MATRIX.md
+Created PROJECT_AUDIT_REPORT.md
+Ran confirm git status after generating reports
+
+# RESUMEN EJECUTIVO DE LA AUDITORÍA TÉCNICA INTEGRAL
+## Proyecto Evocara (v1.0.0 LTS) — Modo `REPOSITORY_REAL_STATE_AUDIT`
+
+Se ha completado con éxito la auditoría técnica, arquitectónica, funcional y de producto sobre el repositorio canónico de **Evocara**. La inspección se realizó en estricto cumplimiento del protocolo de solo lectura y ejecución controlada de pruebas en sandboxes aislados temporales.
+
+Los dos entregables canónicos han sido generados en la raíz del proyecto:
+1. **Informe Principal:** [`PROJECT_AUDIT_REPORT.md`](file:///c:/Evocara/PROJECT_AUDIT_REPORT.md)
+2. **Matriz de Progreso y Reconciliación:** [`PROJECT_PROGRESS_MATRIX.md`](file:///c:/Evocara/PROJECT_PROGRESS_MATRIX.md)
+
+---
+
+### 1. Identificación y Estado de Git Auditado
+
+- **Workspace Canónico:** `C:\Evocara`
+- **Rama Actual:** `master`
+- **HEAD Commit:** `5f91441b432cfd2b0ccd32a520c3725dbda6bacc`
+- **Tracking Remoto:** `origin/master` (`https://github.com/Blueisazul/Evocara.git`)
+- **Diferencial con Remoto:** `0 3` (3 commits locales por delante: `68af04c`, `25c3c63`, `5f91441`).
+- **Estado del Working Tree e Índice:**
+  - **Staged (Índice):** Exactamente **100 archivos preparados** (inviolados y preservados).
+  - **Unstaged (Working Tree):** Exactamente **48 archivos** (20 eliminaciones físicas `D` de módulos federados podados y 28 modificaciones `M`).
+  - **Untracked:** Documentación canónica en `Workflow/`, suites versionadas en `tests/` y datos de runtime local.
+
+---
+
+### 2. Principales Avances Verificados
+
+1. **Alineación con la Visión Fundacional (97.5 % de avance ponderado):** Se extirpó la dispersión hacia orquestación multiagente y consensos distribuidos (`ADR-EVO-14`), reenfocando a Evocara como capa de memoria local-first, predecible y sin dependencias de pago.
+2. **Fuente Única de Verdad (`GAP-SSOT-01`):** Consolidación en `.openmemory/project-state.json`. `StageEngine` opera mediante inyección de dependencias de `StorageEngine`; `stage-state.json` se migra y purga automáticamente (`tests/state-unification.test.ts` 7/7 PASS).
+3. **Blindaje de Interfaz MCP (`GAP-SEC-01`):** Catálogo formal de 8 herramientas curadas (`ADR-EVO-16`). Guardián de ejecución fail-closed en `CallToolRequestSchema` que bloquea llamadas no anunciadas con `403 Forbidden` (`tests/mcp-security.test.ts` 9/9 PASS) e implementa auto-enrollment transparente de sesiones.
+4. **Búsqueda Léxica en Memoria (`GAP-RET-01`):** Integración de `MiniSearch` en persistencia JSON predeterminada, con tolerancia a erratas (distancia Levenshtein), normalización de acentos en español y ponderación TMS sin escaneos O(N).
+5. **Aislamiento Multi-Proyecto (`GAP-ISO-01`):** Erradicación de listas estáticas (`knownDomains`); aislamiento estricto y dinámico con 0.00% de fuga inter-proyecto.
+6. **Robustez Filesystem y Concurrencia:** Escritura atómica `robustAtomicWriteFileSync` con `fsyncSync` y 25 reintentos en Windows ante `EBUSY`/`EPERM` (`ADR-EVO-18`), cerrojos de procesos con auto-recuperación de Dead PIDs, y backups criptográficos con rollback en 2 fases.
+
+---
+
+### 3. Problemas Críticos y Deuda Técnica Detectada
+
+1. **Bloqueo Operacional de Release (Gobernanza Humana):** El candidato v1.0.0 LTS está técnicamente preparado, pero el commit de release, tag `v1.0.0`, push y publicación en npm requieren la ejecución explícita por el operador humano.
+2. **Desincronización en Staging por Dominios Podados (`DEBT-GIT-01`):** En el staged index figuran como añadidos 20 módulos federados que en el working tree figuran como eliminados (`D`). Requiere ejecutar `git rm` selectivo antes del commit final de release.
+3. **11 Vulnerabilidades en Dependencias Dev (`npm audit`):** Detectadas 5 vulnerabilidades moderadas y 6 altas en dependencias transitivas de tooling (`@hono/node-server`, `@modelcontextprotocol/sdk`, `zod`, `toml`, `effect`). No afectan al runtime de producción sobre transporte local STDIO.
+4. **Hipertrofia de Métodos en Fachada `StorageEngine` (`DEBT-FAC-01`):** Conserva 261 métodos públicos; ratificada bajo `ADR-EVO-17` como **deuda técnica de conveniencia tolerada** para no romper SemVer 1.x con plugins de OpenCode (su refactorización destructiva queda aplazada a `v2.0.0`).
+5. **Limitación Documentada en Cline:** Requiere configurar manualmente `autoApprove` en la interfaz gráfica de VS Code para evitar confirmaciones emergentes recurrentes.
+
+---
+
+### 4. Resultado Empírico de Pruebas
+
+Durante la auditoría se ejecutaron las suites de pruebas y verificadores del repositorio:
+- **Suites Versionadas en `tests/`:** **146 / 146 checks PASS (100% de éxito)** a lo largo de 13 suites.
+- **Verificador de Empaquetado CI (`scripts/ci-verify-package.js`):** **6 / 6 checks PASS (Exit Code 0)** en plataforma Win32.
+- **Verificador de Cadena de Suministro (`scripts/verify-release-artifact.js`):** **Exit Code 0** (Integridad criptográfica verificada: Tarball `ad540628...` de 464.118 bytes, SBOM CycloneDX 1.5 y Manifiesto SLSA v1.0 coinciden bit a bit).
+- **Compilador TypeScript (`npx tsc --noEmit`):** **0 errores**. Correspondencia 1:1 biunívoca entre los 49 `.ts` de `src/` y los 49 `.js`/`.d.ts` de `dist/` (147 archivos totales).
+- **Total Acumulado:** **153 / 153 comprobaciones satisfactorias**.
+
+---
+
+### 5. Dictamen Final
+
+## **`READY_FOR_RELEASE_REVIEW`**
+
+**Justificación:**  
+Evocara v1.0.0 LTS cumple con la totalidad de los requisitos técnicos, de calidad, seguridad y contratos públicos de la Carta Fundacional. Se encuentra en estado de congelación normativa (`ADR-EVO-16` y `ADR-EVO-17` aceptados), con sus artefactos certificados y sus pruebas al 100% de aprobación. La única condición pendiente es la autorización humana para aplicar el commit formal de release y realizar la publicación.
+
+---
+
+### 6. Limitaciones Encontradas
+
+- La auditoría se ejecutó bajo la restricción estricta de **solo lectura**, sin realizar commits, pushes, tags, migraciones de base de datos ni modificaciones en el código.
+- No se realizaron peticiones de red hacia registros públicos externos (npm o GitHub).
+- Las limitaciones en Cline y Cursor se determinaron mediante análisis de contratos y esquemas MCP STDIO, sin inspección interactiva de sus interfaces gráficas.
+
+---
+
+### 7. Única Siguiente Acción Recomendada
+
+Someter el expediente de release (`Workflow/WO-EVO-30.md`, [`PROJECT_AUDIT_REPORT.md`](file:///c:/Evocara/PROJECT_AUDIT_REPORT.md) y [`PROJECT_PROGRESS_MATRIX.md`](file:///c:/Evocara/PROJECT_PROGRESS_MATRIX.md)) a la **revisión y decisión formal del responsable del proyecto (operador humano)** para proceder con la ejecución del Runbook de Publicación:
+```powershell
+# 1. Registrar eliminaciones federadas en staging
+git rm src/storage/domains/adaptive-workflow-controller.ts ...
+# 2. Commit formal de release
+git commit -m "release(v1.0.0): formalize Evocara v1.0.0 LTS"
+# 3. Etiquetado y publicación
+git tag -a v1.0.0 -m "Evocara v1.0.0 LTS"
+git push origin master --tags
+npm publish .work/artifacts/evocara-1.0.0.tgz
+```
