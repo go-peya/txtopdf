@@ -1,0 +1,62 @@
+## A. Veredicto
+
+**R1-02B: COMPLETADA como análisis; pendiente de aprobación para aplicar.**
+
+No se modificaron ni reemplazaron los tres archivos en conflicto. No se integró `origin/main`.
+
+## B. Resolución propuesta
+
+| Archivo | Hallazgo | Decisión |
+|---|---|---|
+| `index.html` | La versión local conserva el comparador y sus IDs; la remota los omite y reintroduce Google Fonts/Tailwind CDN. | Conservar versión local. |
+| `styles.css` | La versión local corresponde al pipeline Tailwind local; la remota difiere ampliamente. | Conservar salida local generada desde `src/input.css` y `src/site.css`. |
+| `canvas.js` | La versión local añade fallback WebGL2, reduced motion, cancelación de frames y limpieza en `pagehide`; la remota lanza excepciones y mantiene un bucle permanente. | Conservar versión local. |
+
+## C. Reproducibilidad CSS
+
+Build ejecutado dos veces en una copia completa aislada:
+
+- Antes: `AB0088064235C30BDF1D6DC1E79DC230CFFA89703DFB75FE61F2E4DCB0C121FA`
+- Después 1: mismo hash.
+- Después 2: mismo hash.
+- Resultado: **reproducible e idéntico**.
+
+La discrepancia anterior provenía de una copia incompleta que alteraba los archivos escaneados por Tailwind.
+
+## D. Compatibilidad conjunta
+
+- HTML y `app.js`: contratos de filtros, detalle y comparador preservados.
+- HTML y WebGL: `canvas#canvas` y `anchor-0` a `anchor-2` coinciden.
+- Fallback WebGL2: no bloquea el catálogo si WebGL2 no está disponible.
+- Responsive/accesibilidad: flujos de escritorio y móvil aprobados.
+- Pages: las rutas relativas locales son compatibles; la versión remota agrega dependencias externas no permitidas por la arquitectura actual.
+
+## E. Pruebas
+
+- `python -m unittest tests.test_static_contract tests.test_pages_artifact -v`: **16 aprobadas**.
+- `node --check app.js`: aprobado.
+- `node --check canvas.js`: aprobado.
+- `npm run test:e2e`: **8/8 aprobadas**.
+- `git diff --check`: aprobado.
+
+## F. Archivos modificados
+
+No se modificaron código, CSS ni WebGL durante este bloque. Solo se actualizó documentación.
+
+## G. Documentación
+
+Se añadió la subsección R1-02B en `Diseno-modelo-datos-arquitectura-piloto-2026-10-03.md`, incluyendo comparación, hashes, riesgos, pruebas y procedimiento de integración.
+
+## H. Decisiones pendientes
+
+**Técnicamente resuelto:** conservar las versiones locales.
+
+**Requiere aprobación humana:**
+
+- Confirmar la dirección visual local frente a la remota.
+- Autorizar aplicar la selección local en una futura integración.
+- Autorizar posteriormente commit, push y publicación.
+
+## I. Próximo paso
+
+Preservar una rama o copia de trabajo, aplicar la selección local, ejecutar la suite completa y revisar el artefacto Pages. R1-02 permanece abierta hasta aprobar y verificar esa integración.
