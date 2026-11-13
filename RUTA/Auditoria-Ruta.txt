@@ -1,0 +1,273 @@
+Read , lines 1 to 120
+Completed with input: {
+  "path": "C:\\Users\\sant1\\AppData\\Roaming\\Code\\agentSessionData\\45524acd-8f91-46fa-8ad6-740e7b961344\\attachments\\3c1308d1-3d69-48a3-b187-599aaaaf4dab\\Pasted text #1.txt",
+  "view_range": [
+    1,
+    120
+  ]
+}
+
+Voy a contrastar el contexto histórico con el estado real del repositorio, sin modificar archivos, y verificar implementación, validación y pendientes.
+
+Find files matching `**/*`
+
+Search for `TODO|FIXME|INCOMPLETE|pending|roadmap|audit|Ruta Sistemas|ruta sistemas`
+
+Ran terminal command: git status --short; git --no-pager log -10 --oneline --decorate
+
+Read , lines 1 to 220
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\README.md",
+  "view_range": [
+    1,
+    220
+  ]
+}
+
+Read , lines 1 to 160
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\package.json",
+  "view_range": [
+    1,
+    160
+  ]
+}
+
+Read , lines 1 to 280
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\app.js",
+  "view_range": [
+    1,
+    280
+  ]
+}
+
+Read , lines 1 to 260
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\index.html",
+  "view_range": [
+    1,
+    260
+  ]
+}
+
+Read , lines 1 to 260
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\data\\opportunities.json",
+  "view_range": [
+    1,
+    260
+  ]
+}
+
+Read , lines 1 to 220
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\collector\\sources.json",
+  "view_range": [
+    1,
+    220
+  ]
+}
+
+Read , lines 1 to 220
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\.github\\workflows\\refresh-catalog.yml",
+  "view_range": [
+    1,
+    220
+  ]
+}
+
+Read , lines 1 to 260
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\docs\\architecture\\r0-decisiones-y-alcance-2026-11-12.md",
+  "view_range": [
+    1,
+    260
+  ]
+}
+
+Read , lines 1 to 280
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\server.py",
+  "view_range": [
+    1,
+    280
+  ]
+}
+
+Read , lines 1 to 280
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\canvas.js",
+  "view_range": [
+    1,
+    280
+  ]
+}
+
+Read , lines 1 to 200
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\playwright.config.cjs",
+  "view_range": [
+    1,
+    200
+  ]
+}
+
+Read , lines 1 to 320
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\tests\\e2e\\catalog.spec.cjs",
+  "view_range": [
+    1,
+    320
+  ]
+}
+
+Read , lines 1 to 260
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\scripts\\pages_artifact.py",
+  "view_range": [
+    1,
+    260
+  ]
+}
+
+Read , lines 1 to 240
+Completed with input: {
+  "path": "C:\\Users\\sant1\\Downloads\\EmpleoWeb\\docs\\product\\p5-evaluacion-profesional-y-validacion.md",
+  "view_range": [
+    1,
+    240
+  ]
+}
+
+Ran terminal command: git diff --stat; git diff --check; git ls-files | Measure-Object | Select-Object -ExpandProperty Count
+
+Ran terminal command: python -m unittest discover -s tests -v; if ($LASTEXITCODE -eq 0) { python scripts/build_catalog.py --check; python scripts/validate_catalog.py; python scripts/validate_candidates.py data/candidates/inbox.example.json }; if ($LASTEXITCODE -eq 0) { node --check app.js; node --check canvas.js; node tests/catalog_ui.test.cjs }
+
+La evidencia local confirma 57 pruebas Python y los contratos de catálogo/artefacto. Ahora verificaré el flujo de navegador, el artefacto exacto y la diferencia entre servidor local y Pages; también separaré defectos verificables de documentación histórica.
+
+Ran terminal command: npm run test:e2e
+
+Ran terminal command: $out = Join-Path $env:TEMP ('ruta-sistemas-pages-audit-' + [guid]::NewGuid().ToString()); python scripts/pages_artifact.py --output $out; $code = $LASTEXITCODE; if (Test-Path $out) { Remove-Item -LiteralPath $out -Recurse -Force }; exit $code
+
+Ran terminal command: $urls = @('https://blueisazul.github.io/WebRutaSistemas/','https://blueisazul.github.io/WebRutaSistemas/app.js','https://blueisazul.github.io/WebRutaSistemas/canvas.js','https://blueisazul.github.io/WebRutaSistemas/data/opportunities.json'); foreach ($url in $urls) { try { $r = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 30; '{0} {1} {2}' -f $r.StatusCode, $r.Headers['Content-Type'], $url } catch { 'ERROR {0}: {1}' -f $url, $_.Exception.Message } }
+
+Ran terminal command: git diff --name-only; git status --short; Get-ChildItem -Force -Name | Sort-Object
+
+Ran terminal command: $html = (Invoke-WebRequest -Uri 'https://blueisazul.github.io/WebRutaSistemas/' -UseBasicParsing).Content; $html | Select-String -Pattern 'canvas.js|Ruta Sistemas|Aurel|app.js' -AllMatches | ForEach-Object { $_.Line }; $js = (Invoke-WebRequest -Uri 'https://blueisazul.github.io/WebRutaSistemas/app.js' -UseBasicParsing).Content; 'REMOTE_APP_HAS_CANVAS=' + ($js -match 'canvas.js'); 'REMOTE_HTML_HAS_CANVAS=' + ($html -match 'canvas.js');
+
+Search for `PUBLIC_FILES|canvas.js|fetch\(|currentStates|compareIds|loadCatalog|addEventL...`
+
+Ran terminal command: @'
+import json
+from pathlib import Path
+for p in ['data/opportunities.seed.json','data/opportunities.json']:
+    x=json.loads(Path(p).read_text(encoding='utf-8'))
+    print(p, 'schema=',x.get('schemaVersion'), 'records=',len(x.get('opportunities',[])), 'kinds=',sorted({o.get('recordKind') for o in x.get('opportunities',[])}), 'active=',sum(o.get('publicationStatus')=='active' for o in x.get('opportunities',[])))
+'@ | python -
+
+Ran terminal command: git diff --numstat; git ls-files --others --exclude-standard
+
+El flujo local pasa en 8 escenarios (desktop/móvil), pero la URL pública no corresponde al árbol de trabajo: Pages aún sirve una versión anterior y devuelve 404 para `canvas.js`. Haré una última limpieza/verificación para no dejar artefactos de la auditoría y cerraré con estado por capas.
+
+Ran terminal command: if (Test-Path -LiteralPath 'test-results') { Remove-Item -LiteralPath 'test-results' -Recurse -Force }; git status --short; git --no-pager diff --check; $remote = (Invoke-WebRequest -Uri 'https://blueisazul.github.io/WebRutaSistemas/data/opportunities.json' -UseBasicParsing).Content | ConvertFrom-Json; 'REMOTE_SCHEMA=' + $remote.schemaVersion; 'REMOTE_RECORDS=' + $remote.opportunities.Count; 'REMOTE_GENERATED=' + $remote.generatedAt; 'REMOTE_ACTIVE=' + (($remote.opportunities | Where-Object { $_.publicationStatus -eq 'active' }).Count)
+
+# Auditoría técnica — Ruta Sistemas  
+**Fecha:** 12/11/2026  
+**Alcance:** inspección sin modificar código.
+
+## Veredicto ejecutivo
+
+**Estado: piloto técnico funcional, MVP aún no terminado.**
+
+La versión local implementa correctamente el catálogo estático, filtros, detalle, comparación, validación editorial, publicación fail-closed y pruebas automatizadas. Sin embargo:
+
+1. El catálogo contiene **5 fichas demostrativas y 0 oportunidades reales activas**.
+2. Las fuentes permanecen deshabilitadas y sin autorización de automatización.
+3. El sitio público de GitHub Pages está desactualizado respecto al árbol de trabajo.
+4. El valor de producto todavía no está validado con usuarios ni oportunidades reales.
+
+## Estado funcional local
+
+Implementado y verificado:
+
+- Catálogo JSON schema 2.
+- Búsqueda y filtros por modalidad, nivel, ubicación, sector, familia, salario y riesgo.
+- Exclusión por defecto de demostraciones e información no confirmada.
+- Vista detallada con empleador, publisher, evidencias, fechas y restricciones.
+- Comparación de hasta dos fichas, sin score ni ranking.
+- Validación de HTTPS, hosts permitidos, fechas, TTL y evidencia.
+- Generación de artefacto exacto para GitHub Pages.
+- Fallback ante WebGL2 no disponible.
+- Responsive desktop/mobile.
+
+Referencias: `README.md`, `app.js`, `server.py`, `R0`.
+
+## Datos reales
+
+| Métrica | Resultado |
+|---|---:|
+| Registros totales | 5 |
+| Registros demostrativos | 5 |
+| Oportunidades reales activas | 0 |
+| Fuentes habilitadas | 0 |
+| Fuentes con autorización confirmada | 0 |
+
+La fuente canónica y el snapshot coinciden: `data/opportunities.seed.json` y `data/opportunities.json`.
+
+## Validación ejecutada
+
+- **57 pruebas Python:** aprobadas.
+- Validación de semilla y snapshot: aprobada.
+- Validación de candidatos: aprobada.
+- Sintaxis de `app.js` y `canvas.js`: aprobada.
+- Prueba UI Node: aprobada.
+- Artefacto Pages exacto: aprobado.
+- **8 pruebas E2E:** aprobadas en Chromium desktop y móvil.
+- `git diff --check`: aprobado; solo advertencias normales de conversión LF/CRLF.
+
+Pruebas E2E: `tests/e2e/catalog.spec.cjs`.
+
+## Hallazgo crítico: divergencia de producción
+
+La URL pública:
+
+- Devuelve `200` para HTML, `app.js` y el catálogo.
+- Devuelve **404 para `canvas.js`**.
+- Sirve una versión anterior del HTML sin WebGL y con estructura distinta a la versión local.
+- El catálogo público sigue generado el **26/10/2026**.
+
+El árbol local sí declara y valida `canvas.js` en `index.html`, `server.py` y `.github/workflows/refresh-catalog.yml`.
+
+**Conclusión:** los cambios actuales están sin integrar/publicar. El repositorio tiene 19 archivos rastreados modificados y varios archivos nuevos sin seguimiento; `HEAD` continúa en `eb68ef6`.
+
+## Problemas pendientes
+
+### Bloqueadores del MVP
+
+- Conseguir autorización escrita de al menos una fuente.
+- Incorporar y aprobar manualmente la primera oportunidad real.
+- Verificarla con evidencia reciente y canal oficial de postulación.
+- Publicar una versión coherente en Pages.
+- Validar utilidad con usuarios reales.
+
+### Riesgos técnicos
+
+- Producción y árbol local están desalineados.
+- El lote de cambios es amplio y permanece sin commit.
+- El servidor local, Pages y artefacto generado deben validarse como una única versión.
+- El comportamiento de rendimiento de WebGL con `prefers-reduced-motion` aún requiere medición real.
+
+## Siguiente acción recomendada
+
+1. Revisar y consolidar el lote actual.
+2. Ejecutar validación completa en CI.
+3. Integrar/publicar la versión que incluye `canvas.js`.
+4. Confirmar remotamente que HTML, JavaScript, CSS, canvas y JSON corresponden al mismo release.
+5. Obtener autorización de una fuente concreta y crear la primera ficha real aprobada.
+
+No modifiqué archivos del repositorio durante esta auditoría.
+
+---
+
